@@ -1,0 +1,21 @@
+{
+  "badge": "HOW IT WORKS",
+  "title": "Three simple steps.",
+  "steps": [
+    {
+      "step": "01",
+      "title": "Enter Your Trip",
+      "description": "Tell us your pickup location, passengers and luggage, then choose your vehicle."
+    },
+    {
+      "step": "02",
+      "title": "Add Your Details",
+      "description": "Set your date and time, enter your destination, and add any extras you need."
+    },
+    {
+      "step": "03",
+      "title": "Review & Pay",
+      "description": "Review your vehicle, trip details, and final price before you pay."
+    }
+  ]
+}

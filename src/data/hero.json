@@ -1,0 +1,31 @@
+{
+  "badge": "SINGAPORE'S PREMIUM MAXI CAB SERVICE",
+  "title": "Comfortable Rides.\nFixed Fares.",
+  "subtitle": "From airport transfers to point-to-point journeys, travel comfortably in a vehicle that fits your needs.",
+  "tags": [
+    "FIXED FARES",
+    "MAXI CABS & MINIBUSES",
+    "PROFESSIONAL SERVICE",
+    "EASY BOOKING"
+  ],
+  "primaryCta": {
+    "label": "Explore our Fleet",
+    "href": "#fleet"
+  },
+  "secondaryCta": {
+    "label": "Book Via Whatsapp",
+    "href": "https://wa.me/6588006006"
+  },
+  "bookingForm": {
+    "eyebrow": "Quick & Easy Booking",
+    "title": "Where are you travelling from?",
+    "pickupPlaceholder": "e.g. Singapore Changi Airport (T1–T4)",
+    "dropoffPlaceholder": "e.g. Marina Bay Sands Hotel",
+    "meetAndGreetLabel": "Include Meet & Greet service",
+    "recommendedFleet": "Mercedes Vito / Toyota Hiace 9S",
+    "defaultFare": "$70",
+    "disclaimer": "Singapore trips only — cross-border rides to Malaysia not available.",
+    "viewPricesLabel": "View all prices",
+    "whatsappLabel": "Book via WhatsApp"
+  }
+}

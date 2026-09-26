@@ -1,0 +1,43 @@
+{
+  "badge": "OUR SERVICES",
+  "title": "Rides for Every Need",
+  "subtitle": "Airport pickups, hourly bookings, corporate transfers, and event transport - all with clear, fixed pricing and no hidden fees.",
+  "services": [
+    {
+      "id": "airport",
+      "title": "Airport Transfers",
+      "description": "All Changi terminals, Jewel & Seletar",
+      "icon": "Plane"
+    },
+    {
+      "id": "corporate",
+      "title": "Corporate & Business Transport",
+      "description": "Executive cars with easy monthly billing",
+      "icon": "Briefcase"
+    },
+    {
+      "id": "weddings",
+      "title": "Weddings & Special Occasions",
+      "description": "Mercedes S-Class with bridal decorations",
+      "icon": "Sparkles"
+    },
+    {
+      "id": "group",
+      "title": "Group & Event Shuttles",
+      "description": "Conference and large group transfers",
+      "icon": "Users"
+    },
+    {
+      "id": "hourly",
+      "title": "Hourly Booking & Standby",
+      "description": "Book a dedicated driver for 3-12 hours",
+      "icon": "Clock"
+    },
+    {
+      "id": "wheelchair",
+      "title": "Wheelchair Accessible Maxi Cab",
+      "description": "Wheelchair ramp & secure safety straps",
+      "icon": "HeartHandshake"
+    }
+  ]
+}

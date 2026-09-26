@@ -1,0 +1,24 @@
+{
+  "brand": {
+    "name": "SINGAPORE MAXICABS",
+    "sub": "Logo",
+    "phone": "(+65) 8800 6006",
+    "whatsapp": "+6588006006",
+    "email": "booking@singaporemaxicabs.com.sg"
+  },
+  "navLinks": [
+    { "label": "About us", "href": "#about" },
+    { "label": "FLEETs", "href": "#fleet" },
+    { "label": "Services", "href": "#services" },
+    { "label": "Prices", "href": "#prices" },
+    { "label": "CORPORATE & VIP", "href": "#corporate" }
+  ],
+  "whatsappButton": {
+    "label": "WhatsApp Booking",
+    "href": "https://wa.me/6588006006"
+  },
+  "bookButton": {
+    "label": "Book Now",
+    "href": "#booking"
+  }
+}

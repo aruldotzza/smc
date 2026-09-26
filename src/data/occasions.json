@@ -1,0 +1,27 @@
+{
+  "badge": "WHAT WE OFFER",
+  "title": "Premium Rides for Every\nImportant Occasion",
+  "subtitle": "More than just airport pickups - we handle embassy visits, corporate travel, hospital trips, and large events with reliable, on-time service.",
+  "cards": [
+    {
+      "id": "business",
+      "title": "BUSINESS ACCOUNTS",
+      "description": "Simple monthly billing, a dedicated dispatcher, and coordination for multi-car bookings."
+    },
+    {
+      "id": "healthcare",
+      "title": "HEALTHCARE RIDES",
+      "description": "Wheelchair-accessible vehicles, hospital drop-offs, and comfortable transfers to major hospitals."
+    },
+    {
+      "id": "events",
+      "title": "EVENTS & CELEBRATIONS",
+      "description": "Elegant black luxury vehicles with optional floral styling, perfect for weddings, galas, and VIP guests."
+    },
+    {
+      "id": "flight-tracking",
+      "title": "FLIGHT TRACKING",
+      "description": "We monitor your flight in real time so your driver is always there - even if your flight is delayed or the gate changes."
+    }
+  ]
+}

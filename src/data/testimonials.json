@@ -1,0 +1,78 @@
+{
+  "badge": "WHAT CUSTOMERS SAY",
+  "title": "Trusted by Thousands of Riders",
+  "subtitle": "Real reviews from real passengers. We track every flight and never add hidden charges.",
+  "rating": "4.9 / 5.0",
+  "ratingStars": "★★★★★",
+  "verifiedCount": "based on 60+ verified reviews",
+  "categories": [
+    "All Reviews (63)",
+    "Airport Transfers (28)",
+    "Wheelchair Mobility (14)",
+    "Corporate Limousine (21)"
+  ],
+  "reviews": [
+    {
+      "id": "1",
+      "author": "Jennifer Tan",
+      "role": "Family of 5 • Changi T3 to Sentosa",
+      "badge": "✈️ Flight Delayed 40min - Driver Waited",
+      "vehicle": "7-Seater Maxi Cab • 100% On-Time",
+      "perk": "$0 waiting fee absorbed",
+      "rating": 5,
+      "category": "Airport Transfers (28)",
+      "comment": "Our driver was already waiting at arrivals with a name board - even though our flight was 40 minutes late. He tracked it automatically. Four bags loaded in seconds. Best airport pickup experience for a family."
+    },
+    {
+      "id": "2",
+      "author": "Michael Hartmann",
+      "role": "Regional Director • Financial District",
+      "badge": "MERCEDES V-CLASS",
+      "vehicle": "Executive Corporate Van",
+      "rating": 5,
+      "category": "Corporate Limousine (21)",
+      "comment": "We've used them for three years and they've never been late. Not once. The best option for picking up corporate guests."
+    },
+    {
+      "id": "3",
+      "author": "Sharina Aziz",
+      "role": "Solo Traveler • Changi T1 Midnight Arrival",
+      "badge": "NO EXTRA MIDNIGHT CHARGES",
+      "vehicle": "Premium Sedan",
+      "rating": 5,
+      "category": "Airport Transfers (28)",
+      "comment": "Landing alone at midnight, I felt completely safe. My driver was punctual, polite, and professional - no awkward small talk."
+    },
+    {
+      "id": "4",
+      "author": "Rahman & Family",
+      "role": "Family Vacation • Changi T2",
+      "badge": "Toyota Hiace 9S",
+      "vehicle": "9-Seater Maxi Cab",
+      "rating": 5,
+      "category": "Airport Transfers (28)",
+      "comment": "8 large bags fit easily - no stress even with kids. The driver folded the rear seats right away when he saw all our luggage."
+    },
+    {
+      "id": "5",
+      "author": "Karen Tan",
+      "role": "Medical Transport • SGH to Home",
+      "badge": "Wheelchair Access",
+      "vehicle": "Hydraulic Ramp Cab",
+      "rating": 5,
+      "category": "Wheelchair Mobility (14)",
+      "comment": "The wheelchair ramp made leaving the hospital so smooth and safe. The driver was gentle and caring with my elderly mum."
+    },
+    {
+      "id": "6",
+      "author": "Marcus Bergmann",
+      "role": "Conference Lead • Marina Bay Sands",
+      "badge": "Group Minibus",
+      "vehicle": "13-Seater Minibus",
+      "rating": 5,
+      "category": "Corporate Limousine (21)",
+      "comment": "Organized transport for 23 people across a 3-day conference. Everything ran on schedule with clear billing and a dedicated coordinator."
+    }
+  ],
+  "footerNote": "100% genuine reviews directly collected from verified passengers • Read all 63 + Google reviews →"
+}

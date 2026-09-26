@@ -1,0 +1,40 @@
+{
+  "company": {
+    "name": "SINGAPORE MAXICABS",
+    "description": "Airport transfers, corporate transport, and comfortable rides across Singapore.",
+    "phone": "(+65) 8800 6006",
+    "email": "booking@singaporemaxicabs.com.sg",
+    "address": "45A Campbell Lane Singapore 209917"
+  },
+  "columns": [
+    {
+      "title": "FLEET",
+      "links": [
+        { "label": "6-Seater Maxi Cab", "href": "#fleet" },
+        { "label": "9-Seater Maxi Cab", "href": "#fleet" },
+        { "label": "13-Seater Minibus", "href": "#fleet" },
+        { "label": "Wheelchair Cab", "href": "#fleet" }
+      ]
+    },
+    {
+      "title": "SERVICES",
+      "links": [
+        { "label": "Airport Transfers", "href": "#services" },
+        { "label": "Corporate Fleet", "href": "#services" },
+        { "label": "Hourly Charter", "href": "#services" },
+        { "label": "Special Occasions", "href": "#services" }
+      ]
+    },
+    {
+      "title": "QUICK LINKS",
+      "links": [
+        { "label": "About Us", "href": "#about" },
+        { "label": "How It Works", "href": "#how-it-works" },
+        { "label": "Verified Reviews", "href": "#reviews" },
+        { "label": "Prices", "href": "#prices" }
+      ]
+    }
+  ],
+  "language": "English ▾",
+  "copyright": "© 2026 Singapore Maxicabs. All rights reserved."
+}
