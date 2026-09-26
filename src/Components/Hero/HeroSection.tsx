@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import Image from "next/image";
 import heroData from "@/data/hero.json";
 import BookingCard from "./BookingCard";
 import Link from "next/link";
@@ -7,19 +10,30 @@ import { ArrowRight, MessageCircle } from "lucide-react";
 export default function HeroSection() {
   return (
     <section className="relative w-full bg-[#0B2A4A] overflow-hidden py-16 sm:py-24 px-6 sm:px-12 lg:px-24">
-      {/* Background Gradients from design.html */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(16,24,39,0.80)] via-[rgba(16,24,39,0.56)] to-[rgba(16,24,39,0.32)] pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[rgba(16,24,39,0.40)] via-transparent to-[rgba(16,24,39,0.20)] pointer-events-none" />
+      {/* Background Image from Figma */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/Home/Hero_tab.png"
+          alt="Singapore Maxi Cab Chauffeur Service"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center opacity-75"
+        />
+        {/* Gradients from design.html */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(16,24,39,0.88)] via-[rgba(16,24,39,0.65)] to-[rgba(16,24,39,0.40)] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[rgba(16,24,39,0.60)] via-[rgba(16,24,39,0.30)] to-[rgba(16,24,39,0.45)] pointer-events-none" />
+      </div>
 
-      <div className="relative max-w-[1440px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
+      <div className="relative z-10 max-w-[1440px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
         {/* Left Column Content */}
         <div className="flex-1 flex flex-col items-start gap-8 max-w-2xl">
           {/* Eyebrow and Headline */}
           <div className="flex flex-col gap-2">
-            <span className="text-base sm:text-lg font-bold tracking-[0.5px] text-[#C6A45A] uppercase">
+            <span className="text-base sm:text-lg font-bold tracking-[0.5px] text-[#C6A45A] uppercase font-manrope">
               {heroData.badge}
             </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-bold text-white leading-[1.14] tracking-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-bold text-white leading-[1.14] tracking-tight font-manrope">
               Comfortable Rides.
               <br />
               Fixed Fares.
@@ -27,7 +41,7 @@ export default function HeroSection() {
           </div>
 
           {/* Subtitle */}
-          <p className="text-base sm:text-lg font-medium text-white max-w-[500px] leading-relaxed">
+          <p className="text-base sm:text-lg font-medium text-white max-w-[500px] leading-relaxed font-manrope">
             {heroData.subtitle}
           </p>
 
@@ -36,7 +50,7 @@ export default function HeroSection() {
             {heroData.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-2.5 py-1 rounded-lg bg-white/20 backdrop-blur-[6px] text-white text-xs font-normal tracking-wide uppercase"
+                className="px-3 py-1.5 rounded-lg bg-white/20 backdrop-blur-[6px] text-white text-xs font-semibold tracking-wide uppercase border border-white/10"
               >
                 {tag}
               </span>
@@ -47,22 +61,22 @@ export default function HeroSection() {
           <div className="flex flex-wrap items-center gap-5 pt-2">
             {/* Primary Gold CTA */}
             <Link
-              href={heroData.primaryCta.href}
-              className="px-8 py-3 rounded-lg bg-[#C6A45A] hover:bg-[#b59247] text-white text-base font-semibold flex items-center gap-3 transition-all shadow-md hover:shadow-lg"
+              href="/fleets"
+              className="px-8 py-3.5 rounded-lg bg-[#C6A45A] hover:bg-[#B58E45] text-white text-base font-semibold flex items-center gap-3 transition-all shadow-md hover:shadow-lg"
             >
-              <span>{heroData.primaryCta.label}</span>
+              <span>Explore our Fleet</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
             </Link>
 
             {/* Secondary WhatsApp CTA */}
             <a
-              href={heroData.secondaryCta.href}
+              href="https://wa.me/6588006006"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-3 rounded-lg border border-[#C6A45A] hover:bg-[#C6A45A]/10 text-[#C6A45A] text-base font-semibold flex items-center gap-3 transition-all"
+              className="px-8 py-3.5 rounded-lg border border-[#C6A45A] hover:bg-[#C6A45A]/10 text-[#C6A45A] text-base font-semibold flex items-center gap-3 transition-all"
             >
               <MessageCircle className="w-4 h-4 fill-current" />
-              <span>{heroData.secondaryCta.label}</span>
+              <span>Book via WhatsApp</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
             </a>
           </div>

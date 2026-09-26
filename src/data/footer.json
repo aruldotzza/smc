@@ -10,31 +10,36 @@
     {
       "title": "FLEET",
       "links": [
-        { "label": "6-Seater Maxi Cab", "href": "#fleet" },
-        { "label": "9-Seater Maxi Cab", "href": "#fleet" },
-        { "label": "13-Seater Minibus", "href": "#fleet" },
-        { "label": "Wheelchair Cab", "href": "#fleet" }
+        { "label": "6-Seater Maxi Cab", "href": "/fleets/6-seater" },
+        { "label": "7-Seater Maxi Cab", "href": "/fleets/7-seater" },
+        { "label": "9-Seater Maxi Cab", "href": "/fleets/9-seater" },
+        { "label": "13-Seater Minibus", "href": "/fleets/13-seater" },
+        { "label": "Wheelchair Cab", "href": "/fleets/wheelchair-cab" },
+        { "label": "VIP Lounge", "href": "/fleets/vip-lounge" }
       ]
     },
     {
       "title": "SERVICES",
       "links": [
-        { "label": "Airport Transfers", "href": "#services" },
-        { "label": "Corporate Fleet", "href": "#services" },
-        { "label": "Hourly Charter", "href": "#services" },
-        { "label": "Special Occasions", "href": "#services" }
+        { "label": "Airport Transfers", "href": "/services/airport-transfers" },
+        { "label": "Corporate Transport", "href": "/services/corporate-business" },
+        { "label": "City Tour / Island Tour", "href": "/services/groups-event-shuttles" },
+        { "label": "Hourly Booking", "href": "/services/hourly-booking-standby" },
+        { "label": "Weddings", "href": "/services/weddings-special-occasions" },
+        { "label": "Wheelchair Transport", "href": "/services/wheelchair-transport" }
       ]
     },
     {
-      "title": "QUICK LINKS",
+      "title": "COMPANY",
       "links": [
-        { "label": "About Us", "href": "#about" },
-        { "label": "How It Works", "href": "#how-it-works" },
-        { "label": "Verified Reviews", "href": "#reviews" },
-        { "label": "Prices", "href": "#prices" }
+        { "label": "About Us", "href": "/#about" },
+        { "label": "Pricing Matrix", "href": "/pricing" },
+        { "label": "All Vehicles", "href": "/fleets" },
+        { "label": "All Services", "href": "/services" },
+        { "label": "Corporate Accounts", "href": "/services/corporate-business" }
       ]
     }
   ],
   "language": "English ▾",
-  "copyright": "© 2026 Singapore Maxicabs. All rights reserved."
+  "copyright": "© 2026 Singapore Maxicabs • All rights reserved."
 }

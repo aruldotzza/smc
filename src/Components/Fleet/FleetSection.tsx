@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import fleetData from "@/data/fleet.json";
 import FleetCard, { Vehicle } from "./FleetCard";
@@ -10,10 +12,10 @@ export default function FleetSection() {
       <div className="max-w-[1360px] mx-auto flex flex-col items-center gap-14">
         {/* Section Header */}
         <div className="text-center flex flex-col items-center gap-3 max-w-3xl">
-          <span className="text-xs font-bold text-[#C6A45A] uppercase tracking-[1px]">
+          <span className="text-xs font-bold text-[#C6A45A] uppercase tracking-[1px] font-manrope">
             {fleetData.badge}
           </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#071E3B] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#071E3B] tracking-tight font-manrope">
             {fleetData.title}
           </h2>
           <p className="text-base sm:text-lg text-[#667085] leading-relaxed">
@@ -51,7 +53,7 @@ export default function FleetSection() {
           </div>
 
           <Link
-            href="#booking"
+            href="/fleets"
             className="px-8 py-3 rounded-lg bg-[#071E3B] hover:bg-[#0B2A4A] text-white text-sm font-semibold flex items-center gap-3 transition-all shrink-0"
           >
             <span>{fleetData.bottomBanner.buttonText}</span>

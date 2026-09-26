@@ -1,43 +1,258 @@
 {
-  "badge": "OUR SERVICES",
+  "badge": "WHAT WE OFFER",
   "title": "Rides for Every Need",
-  "subtitle": "Airport pickups, hourly bookings, corporate transfers, and event transport - all with clear, fixed pricing and no hidden fees.",
+  "subtitle": "Airport pickups, hourly bookings, corporate transfers, and event transport — all with clear, fixed pricing and no hidden fees.",
   "services": [
     {
-      "id": "airport",
+      "id": "airport-transfers",
+      "slug": "airport-transfers",
       "title": "Airport Transfers",
-      "description": "All Changi terminals, Jewel & Seletar",
-      "icon": "Plane"
+      "subtitle": "All Changi Terminals, Jewel & Seletar Airport",
+      "shortDescription": "Meet & Greet at all Changi terminals, Seletar, and Jewel. Flight tracking included — your driver waits even if your flight is delayed.",
+      "heroDescription": "Professional airport pickup and drop-off with real-time flight tracking. Your driver will be waiting at arrivals with a name board — even if your flight is delayed.",
+      "icon": "Plane",
+      "tags": ["All Terminals", "Flight Tracking", "Meet & Greet"],
+      "inclusions": [
+        "Real-time flight tracking — driver adjusts to delays automatically",
+        "Meet & Greet with name board at arrivals hall",
+        "All Changi terminals: T1, T2, T3, T4, and Jewel",
+        "Seletar Airport pickups available",
+        "Help with baggage loading",
+        "Fixed flat fare — no waiting charges",
+        "24/7 availability including midnight and early morning flights",
+        "WhatsApp your driver directly"
+      ],
+      "pricing": [
+        { "vehicle": "6-Seater Maxi Cab", "rate": "$65 SGD" },
+        { "vehicle": "7-Seater Maxi Cab", "rate": "$70 SGD" },
+        { "vehicle": "9-Seater Maxi Cab", "rate": "$75 SGD" },
+        { "vehicle": "13-Seater Minibus", "rate": "$80 SGD" },
+        { "vehicle": "Meet & Greet Add-on", "rate": "+$10 SGD" },
+        { "vehicle": "VIP Lounge 7-Seater", "rate": "$90 SGD" }
+      ],
+      "faqs": [
+        {
+          "question": "What if my flight is delayed?",
+          "answer": "We track your flight in real time. Your driver will adjust their arrival time automatically and wait at no extra cost."
+        },
+        {
+          "question": "Where does the driver meet me?",
+          "answer": "The driver meets you at the arrivals hall with a name board. For T1–T4 and Jewel, we specify the exact meeting point in your booking confirmation."
+        },
+        {
+          "question": "How far in advance should I book?",
+          "answer": "We recommend booking at least 2 hours before your pickup, though same-day bookings are often available. WhatsApp us to check availability."
+        }
+      ]
     },
     {
-      "id": "corporate",
+      "id": "corporate-business",
+      "slug": "corporate-business",
       "title": "Corporate & Business Transport",
-      "description": "Executive cars with easy monthly billing",
-      "icon": "Briefcase"
+      "subtitle": "Seamless Executive Travel & Dedicated Account Management",
+      "shortDescription": "Executive cars with monthly billing, dedicated dispatchers, and priority booking for corporate accounts.",
+      "heroDescription": "Reliable, punctual corporate ground transportation tailored for business meetings, client hospitality, executive delegations, and roadshows across Singapore's central business district.",
+      "icon": "Briefcase",
+      "tags": ["Monthly Billing", "Priority Booking", "Multi-car"],
+      "inclusions": [
+        "Consolidated monthly invoicing & GST tax receipts",
+        "Dedicated corporate account dispatcher",
+        "Immaculate Mercedes & Alphard VIP fleet",
+        "Professional chauffeurs with corporate dress code",
+        "Priority dispatch during peak business hours",
+        "Multi-vehicle convoy coordination for delegations",
+        "Complimentary onboard Wi-Fi and device chargers",
+        "Direct billing portal and expense reporting"
+      ],
+      "pricing": [
+        { "vehicle": "6-Seater Maxi Cab", "rate": "$65 SGD" },
+        { "vehicle": "7-Seater Maxi Cab", "rate": "$70 SGD" },
+        { "vehicle": "9-Seater Maxi Cab", "rate": "$80 SGD" },
+        { "vehicle": "13-Seater Minibus", "rate": "$90 SGD" },
+        { "vehicle": "VIP Lounge 7-Seater", "rate": "$90 SGD" },
+        { "vehicle": "Hourly Standby (3h min)", "rate": "$55/hr SGD" }
+      ],
+      "faqs": [
+        {
+          "question": "Can our company open a monthly billing account?",
+          "answer": "Yes! We offer 30-day corporate credit terms and itemized monthly statements for registered companies in Singapore."
+        },
+        {
+          "question": "Can you handle multiple executive pickups simultaneously?",
+          "answer": "Absolutely. Our fleet coordination team manages multi-vehicle simultaneous arrivals and point-to-point transfers seamlessly."
+        },
+        {
+          "question": "Do drivers speak fluent English and follow corporate etiquette?",
+          "answer": "Yes, all our corporate chauffeurs are fluent in English, discreet, professional, and knowledgeable about Singapore's business venues."
+        }
+      ]
     },
     {
-      "id": "weddings",
+      "id": "weddings-special-occasions",
+      "slug": "weddings-special-occasions",
       "title": "Weddings & Special Occasions",
-      "description": "Mercedes S-Class with bridal decorations",
-      "icon": "Sparkles"
+      "subtitle": "Bridal Fleet & Guest Logistics with Elegance",
+      "shortDescription": "Let us take care of getting your guests to and from the ceremony, photoshoot locations, reception, and after-party seamlessly.",
+      "heroDescription": "Make your special day effortless and memorable. From luxury bridal cars decorated with custom floral ribbons to fleet shuttles for wedding guests and family members.",
+      "icon": "Sparkles",
+      "tags": ["Bridal Convoy", "Floral Ribbons", "Guest Shuttles"],
+      "inclusions": [
+        "Pristine bridal vehicle decoration available on request",
+        "Multiple pickup points for bridesmaids & groomsmen",
+        "Flexible route scheduling for wedding photography stops",
+        "Experienced chauffeurs familiar with hotel banquet logistics",
+        "Coordinated 13-seater guest shuttles between churches and banquet halls",
+        "Red carpet & umbrella escort during inclement weather",
+        "Fixed package pricing with zero unexpected overtime spikes",
+        "Dedicated wedding logistics coordinator"
+      ],
+      "pricing": [
+        { "vehicle": "6-Seater Maxi Cab", "rate": "$65 SGD" },
+        { "vehicle": "7-Seater Maxi Cab", "rate": "$70 SGD" },
+        { "vehicle": "13-Seater Minibus (Guest Convoy)", "rate": "$90 SGD" },
+        { "vehicle": "VIP Lounge 7-Seater (Bridal)", "rate": "$100 SGD" },
+        { "vehicle": "4-Hour Wedding Package", "rate": "$280 SGD" },
+        { "vehicle": "8-Hour Full Day Wedding", "rate": "$520 SGD" }
+      ],
+      "faqs": [
+        {
+          "question": "Can we decorate the bridal car beforehand?",
+          "answer": "Yes, we can arrive early at your florist or location to have the vehicle beautifully dressed before the bride's departure."
+        },
+        {
+          "question": "Can the driver make multiple stops for photoshoots?",
+          "answer": "With our hourly wedding packages, you have unlimited stops across Singapore (e.g. Marina Bay, Botanic Gardens, hotel)."
+        },
+        {
+          "question": "How do we coordinate guest shuttle buses after the banquet?",
+          "answer": "We provide dedicated dispatch coordination to run multiple return trips ensuring all your guests reach home comfortably."
+        }
+      ]
     },
     {
-      "id": "group",
-      "title": "Group & Event Shuttles",
-      "description": "Conference and large group transfers",
-      "icon": "Users"
+      "id": "groups-event-shuttles",
+      "slug": "groups-event-shuttles",
+      "title": "Groups & Event Shuttles",
+      "subtitle": "Conferences, Concerts & Island-Wide Events",
+      "shortDescription": "Continuous loop shuttles, point-to-point drops for big events, and large group transfers with coordinated dispatching.",
+      "heroDescription": "High-volume passenger logistics for conventions at Marina Bay Sands, Singapore Expo, concerts at the National Stadium, and company social gatherings.",
+      "icon": "Users",
+      "tags": ["Circuit Loops", "MBS & Expo", "Large Delegations"],
+      "inclusions": [
+        "Continuous circular shuttle routing for events",
+        "Fleet of 13-seater minibuses & 9-seater maxi cabs",
+        "On-site marshalling and coordination assist",
+        "Designated pickup and dropoff bay management",
+        "Bulk baggage and equipment transport capacity",
+        "Real-time vehicle tracking for event planners",
+        "Fixed group charter pricing without surge premiums",
+        "Full day & multi-day event logistics packages"
+      ],
+      "pricing": [
+        { "vehicle": "9-Seater Maxi Cab", "rate": "$80 SGD" },
+        { "vehicle": "13-Seater Minibus", "rate": "$90 SGD" },
+        { "vehicle": "Dual 13-Seater Minibus Convoy", "rate": "$170 SGD" },
+        { "vehicle": "Half-Day Event Shuttle (4h)", "rate": "$320 SGD" },
+        { "vehicle": "Full-Day Event Shuttle (8h)", "rate": "$600 SGD" },
+        { "vehicle": "Continuous Loop Transfer", "rate": "Custom Quote" }
+      ],
+      "faqs": [
+        {
+          "question": "Can you handle hundreds of attendees for a corporate conference?",
+          "answer": "Yes, we deploy synchronized fleets of 13-seater minibuses and 7/9-seater maxi cabs to move large delegations efficiently."
+        },
+        {
+          "question": "Can we place event signage on the vehicles?",
+          "answer": "Yes! Custom windshield signboards and event logos can be placed so your attendees easily spot their designated shuttle."
+        },
+        {
+          "question": "What if our concert or convention finishes later than planned?",
+          "answer": "Our event dispatch team monitors schedule changes and keeps vehicles on standby to absorb event overtime smoothly."
+        }
+      ]
     },
     {
-      "id": "hourly",
+      "id": "hourly-booking-standby",
+      "slug": "hourly-booking-standby",
       "title": "Hourly Booking & Standby",
-      "description": "Book a dedicated driver for 3-12 hours",
-      "icon": "Clock"
+      "subtitle": "Flexible As-Directed Chauffeur Service",
+      "shortDescription": "Dedicated driver at your disposal for 3 to 12 hours. Unlimited stops, flexible itinerary, city tours, shopping, and business travel.",
+      "heroDescription": "Experience complete freedom and flexibility with an on-demand personal chauffeur waiting at every destination. Perfect for VIP shopping, medical appointments, and bespoke city tours.",
+      "icon": "Clock",
+      "tags": ["3h Minimum", "Unlimited Stops", "On-Standby"],
+      "inclusions": [
+        "Dedicated chauffeur on standby right at your doorstep",
+        "Unlimited point-to-point stops and itinerary changes",
+        "ERP gantries, parking fees & fuel included in fixed hourly rate",
+        "Baggage & shopping bags safely stored in vehicle while you explore",
+        "Flexible hourly extensions on request",
+        "Local Singapore insights & route optimization",
+        "Air-conditioned luxury cabin waiting between stops",
+        "WhatsApp driver direct communication"
+      ],
+      "pricing": [
+        { "vehicle": "6-Seater Maxi Cab (3h min)", "rate": "$180 SGD ($60/h)" },
+        { "vehicle": "7-Seater Maxi Cab (3h min)", "rate": "$195 SGD ($65/h)" },
+        { "vehicle": "9-Seater Maxi Cab (3h min)", "rate": "$210 SGD ($70/h)" },
+        { "vehicle": "13-Seater Minibus (3h min)", "rate": "$240 SGD ($80/h)" },
+        { "vehicle": "VIP Lounge 7-Seater (3h min)", "rate": "$255 SGD ($85/h)" },
+        { "vehicle": "8-Hour Full Day Charter", "rate": "From $480 SGD" }
+      ],
+      "faqs": [
+        {
+          "question": "Are ERP tolls and parking charges included in the hourly rate?",
+          "answer": "Yes! Our transparent hourly rates cover ERP tolls, fuel, and standard waiting periods with no hidden surcharges."
+        },
+        {
+          "question": "Can I leave my personal belongings in the cab while shopping?",
+          "answer": "Yes, your driver remains on standby with the vehicle locked and secured throughout your entire booking."
+        },
+        {
+          "question": "Can we extend the booking during the trip?",
+          "answer": "Yes, you can simply notify your driver or WhatsApp dispatch to extend your hours as you go."
+        }
+      ]
     },
     {
-      "id": "wheelchair",
-      "title": "Wheelchair Accessible Maxi Cab",
-      "description": "Wheelchair ramp & secure safety straps",
-      "icon": "HeartHandshake"
+      "id": "wheelchair-transport",
+      "slug": "wheelchair-transport",
+      "title": "Wheelchair Accessible Transport",
+      "subtitle": "Safe, Dignified Hospital & Home Mobility",
+      "shortDescription": "Purpose-built accessible vehicles with hydraulic ramps, 4-point safety harness, and courteous assistance for wheelchair users.",
+      "heroDescription": "Dignified, comfortable, and LTA-certified wheelchair accessible transport for hospital visits, dialysis appointments, family outings, and airport transfers.",
+      "icon": "HeartHandshake",
+      "tags": ["Hospital Transfers", "Hydraulic Ramp", "4-Point Harness"],
+      "inclusions": [
+        "Certified heavy-duty hydraulic ramp & low-incline entry",
+        "4-point Q'Straint floor locking safety harness",
+        "Complimentary ramp boarding & alighting assistance",
+        "Capacity for 1–2 wheelchairs plus 4–7 accompanying family members",
+        "Door-to-door hospital, polyclinic, and nursing home pickups",
+        "Hospital return pickup coordination (driver waits or returns at discharge)",
+        "Spacious, climate-controlled cabin",
+        "Direct WhatsApp line for medical dispatch"
+      ],
+      "pricing": [
+        { "vehicle": "One-Way Wheelchair Transfer", "rate": "$75+ SGD" },
+        { "vehicle": "Two-Way Hospital Return Trip", "rate": "$140+ SGD" },
+        { "vehicle": "Changi Airport Wheelchair Transfer", "rate": "$85+ SGD" },
+        { "vehicle": "3-Hour Medical / Outing Standby", "rate": "$210+ SGD" },
+        { "vehicle": "8-Hour Full Day Accessible Tour", "rate": "$560+ SGD" }
+      ],
+      "faqs": [
+        {
+          "question": "Can the driver assist with moving the wheelchair user down the ramp?",
+          "answer": "Yes, our drivers are patient, courteous, and trained to assist with boarding, securing the 4-point harness, and smooth alighting."
+        },
+        {
+          "question": "Can family members ride along in the same vehicle?",
+          "answer": "Yes! Our wheelchair vans accommodate up to 2 wheelchair users PLUS 4 to 7 family members in comfortable regular seats."
+        },
+        {
+          "question": "How do hospital discharge return pickups work?",
+          "answer": "You can book a 2-way trip with flexible return timing. Just message us 30 minutes before discharge, and your driver will be waiting."
+        }
+      ]
     }
   ]
 }

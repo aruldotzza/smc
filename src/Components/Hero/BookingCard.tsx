@@ -1,21 +1,29 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import heroData from "@/data/hero.json";
+import fleetData from "@/data/fleet.json";
 import { MapPin, ArrowRight, Check, ChevronDown, MessageCircle } from "lucide-react";
 import Link from "next/link";
+import { useBookingModal } from "@/context/BookingContext";
 
 export default function BookingCard() {
-  const [pickup, setPickup] = useState("");
-  const [dropoff, setDropoff] = useState("");
-  const [passengers, setPassengers] = useState(1);
-  const [luggage, setLuggage] = useState(0);
-  const [meetAndGreet, setMeetAndGreet] = useState(true);
-  const [selectedFleet, setSelectedFleet] = useState(heroData.bookingForm.recommendedFleet);
+  const { bookingData, updateBookingData, openModal } = useBookingModal();
+
+  const handleFleetChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selected = fleetData.vehicles.find((v) => v.id === e.target.value);
+    if (selected) {
+      updateBookingData({
+        selectedFleet: selected.name,
+        selectedFleetSlug: selected.slug,
+        baseFare: parseInt(selected.price.replace(/[^0-9]/g, "")) || 70,
+      });
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert(`Booking initiated for ${passengers} passenger(s) in ${selectedFleet}. Connecting to dispatcher...`);
+    openModal({ initialStep: 2 });
   };
 
   return (
@@ -25,7 +33,7 @@ export default function BookingCard() {
         <span className="text-[11px] font-semibold uppercase tracking-[1.5px] text-white/90 block mb-1">
           {heroData.bookingForm.eyebrow}
         </span>
-        <h3 className="text-xl font-semibold text-white">
+        <h3 className="text-xl font-bold text-white font-manrope">
           {heroData.bookingForm.title}
         </h3>
       </div>
@@ -38,8 +46,8 @@ export default function BookingCard() {
             <input
               type="text"
               placeholder={heroData.bookingForm.pickupPlaceholder}
-              value={pickup}
-              onChange={(e) => setPickup(e.target.value)}
+              value={bookingData.pickup}
+              onChange={(e) => updateBookingData({ pickup: e.target.value })}
               required
               className="w-full text-[13px] text-slate-900 placeholder:text-[#667085] outline-none bg-transparent"
             />
@@ -54,8 +62,8 @@ export default function BookingCard() {
             <input
               type="text"
               placeholder={heroData.bookingForm.dropoffPlaceholder}
-              value={dropoff}
-              onChange={(e) => setDropoff(e.target.value)}
+              value={bookingData.dropoff}
+              onChange={(e) => updateBookingData({ dropoff: e.target.value })}
               required
               className="w-full text-[13px] text-slate-900 placeholder:text-[#667085] outline-none bg-transparent"
             />
@@ -73,17 +81,25 @@ export default function BookingCard() {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => setPassengers(Math.max(1, passengers - 1))}
+                onClick={() =>
+                  updateBookingData({
+                    passengers: Math.max(1, bookingData.passengers - 1),
+                  })
+                }
                 className="w-6 h-6 rounded bg-[#F2F3F1] hover:bg-slate-200 text-[#071E3B] font-bold text-sm flex items-center justify-center transition-colors"
               >
                 −
               </button>
               <span className="w-5 text-center text-[13px] font-medium text-[#071E3B]">
-                {passengers}
+                {bookingData.passengers}
               </span>
               <button
                 type="button"
-                onClick={() => setPassengers(passengers + 1)}
+                onClick={() =>
+                  updateBookingData({
+                    passengers: Math.min(13, bookingData.passengers + 1),
+                  })
+                }
                 className="w-6 h-6 rounded bg-[#F2F3F1] hover:bg-slate-200 text-[#071E3B] font-bold text-sm flex items-center justify-center transition-colors"
               >
                 +
@@ -99,17 +115,25 @@ export default function BookingCard() {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => setLuggage(Math.max(0, luggage - 1))}
+                onClick={() =>
+                  updateBookingData({
+                    luggage: Math.max(0, bookingData.luggage - 1),
+                  })
+                }
                 className="w-6 h-6 rounded bg-[#F2F3F1] hover:bg-slate-200 text-[#071E3B] font-bold text-sm flex items-center justify-center transition-colors"
               >
                 −
               </button>
               <span className="w-5 text-center text-[13px] font-medium text-[#071E3B]">
-                {luggage}
+                {bookingData.luggage}
               </span>
               <button
                 type="button"
-                onClick={() => setLuggage(luggage + 1)}
+                onClick={() =>
+                  updateBookingData({
+                    luggage: Math.min(15, bookingData.luggage + 1),
+                  })
+                }
                 className="w-6 h-6 rounded bg-[#F2F3F1] hover:bg-slate-200 text-[#071E3B] font-bold text-sm flex items-center justify-center transition-colors"
               >
                 +
@@ -122,16 +146,20 @@ export default function BookingCard() {
         <label className="flex items-center gap-2.5 cursor-pointer select-none py-1">
           <input
             type="checkbox"
-            checked={meetAndGreet}
-            onChange={(e) => setMeetAndGreet(e.target.checked)}
+            checked={bookingData.meetAndGreet}
+            onChange={(e) =>
+              updateBookingData({ meetAndGreet: e.target.checked })
+            }
             className="sr-only"
           />
           <div
             className={`w-[18px] h-[18px] rounded flex items-center justify-center transition-colors ${
-              meetAndGreet ? "bg-[#C6A45A]" : "bg-white/40 border border-white"
+              bookingData.meetAndGreet ? "bg-[#C6A45A]" : "bg-white/40 border border-white"
             }`}
           >
-            {meetAndGreet && <Check className="w-3.5 h-3.5 text-white stroke-[3]" />}
+            {bookingData.meetAndGreet && (
+              <Check className="w-3.5 h-3.5 text-white stroke-[3]" />
+            )}
           </div>
           <span className="text-[13px] text-white">
             {heroData.bookingForm.meetAndGreetLabel}
@@ -143,17 +171,22 @@ export default function BookingCard() {
           <label className="text-sm font-normal text-white">
             Recommended fleet for your trip
           </label>
-          <div className="flex items-center justify-between bg-white rounded-lg px-4 py-3 shadow-sm">
-            <span className="text-[13px] text-slate-800 font-medium">
-              {selectedFleet}
-            </span>
-            <div className="flex items-center gap-3">
-              <div className="text-right">
-                <span className="block text-[11px] text-[#667085]">Fixed fare</span>
-                <span className="text-lg font-semibold text-[#071E3B] leading-none">
-                  {heroData.bookingForm.defaultFare}
-                </span>
-              </div>
+          <div className="relative">
+            <select
+              value={bookingData.selectedFleetSlug}
+              onChange={handleFleetChange}
+              className="w-full appearance-none bg-white rounded-lg px-4 py-3 pr-20 text-[13px] text-slate-800 font-medium shadow-sm outline-none cursor-pointer"
+            >
+              {fleetData.vehicles.map((v) => (
+                <option key={v.id} value={v.id}>
+                  {v.name} ({v.model}) — {v.price} {v.currency}
+                </option>
+              ))}
+            </select>
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none flex items-center gap-2">
+              <span className="text-sm font-bold text-[#071E3B]">
+                ${bookingData.baseFare}
+              </span>
               <ChevronDown className="w-4 h-4 text-[#667085]" />
             </div>
           </div>
@@ -167,7 +200,7 @@ export default function BookingCard() {
         {/* Book Now Button */}
         <button
           type="submit"
-          className="w-full py-3.5 px-6 rounded-lg bg-[#071E3B] hover:bg-[#0B2A4A] text-white text-[15px] font-semibold flex items-center justify-center gap-2.5 transition-all shadow-md cursor-pointer"
+          className="w-full py-3.5 px-6 rounded-lg bg-[#071E3B] hover:bg-[#0B2A4A] text-white text-[15px] font-semibold flex items-center justify-center gap-2.5 transition-all shadow-md cursor-pointer hover:shadow-lg"
         >
           <span>Book Now</span>
           <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -176,8 +209,8 @@ export default function BookingCard() {
         {/* Footer Sub-links */}
         <div className="flex items-center justify-between pt-1 text-[13px]">
           <Link
-            href="#prices"
-            className="text-white/70 hover:text-white flex items-center gap-1 transition-colors"
+            href="/pricing"
+            className="text-white/80 hover:text-white flex items-center gap-1 transition-colors"
           >
             <span>{heroData.bookingForm.viewPricesLabel}</span>
             <ChevronDown className="w-3.5 h-3.5 -rotate-90" />
@@ -186,7 +219,7 @@ export default function BookingCard() {
             href="https://wa.me/6588006006"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white/90 hover:text-white font-bold flex items-center gap-1.5 transition-colors"
+            className="text-white hover:text-[#F4EAD1] font-bold flex items-center gap-1.5 transition-colors"
           >
             <MessageCircle className="w-3.5 h-3.5 fill-current text-[#60D669]" />
             <span>{heroData.bookingForm.whatsappLabel}</span>

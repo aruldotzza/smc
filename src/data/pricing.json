@@ -1,0 +1,104 @@
+{
+  "badge": "TRANSPARENT PRICING",
+  "title": "Fixed Fares, No Surprises.",
+  "subtitle": "All our prices are flat rates. No midnight surcharges, no waiting time fees, no hidden charges. What you see is what you pay.",
+  "guarantees": [
+    {
+      "icon": "ban",
+      "title": "$0 Hidden Fees",
+      "description": "Fixed fare from booking to destination. Zero toll or ERP add-on surprises."
+    },
+    {
+      "icon": "clock",
+      "title": "No Midnight Rates",
+      "description": "Same price at 2am as at 2pm. Flat-rate standard round the clock."
+    },
+    {
+      "icon": "hourglass",
+      "title": "No Waiting Fee",
+      "description": "We track your flight in real time and absorb flight delay waiting time."
+    }
+  ],
+  "matrix": [
+    {
+      "id": "6-seater",
+      "slug": "6-seater",
+      "name": "6 Seater Maxi Cab",
+      "model": "Toyota Vellfire / Alphard",
+      "pax": "6 Pax",
+      "paxCount": 6,
+      "pointToPoint": "$65",
+      "meetAndGreet": "$75",
+      "charter3h": "$180",
+      "charter8h": "$480"
+    },
+    {
+      "id": "7-seater",
+      "slug": "7-seater",
+      "name": "7 Seater Maxi Cab",
+      "model": "Toyota Vellfire / Alphard",
+      "pax": "7 Pax",
+      "paxCount": 7,
+      "pointToPoint": "$70",
+      "meetAndGreet": "$80",
+      "charter3h": "$195",
+      "charter8h": "$520"
+    },
+    {
+      "id": "9-seater",
+      "slug": "9-seater",
+      "name": "9 Seater Maxi Cab",
+      "model": "Mercedes Vito / Toyota Hiace",
+      "pax": "9 Pax",
+      "paxCount": 9,
+      "pointToPoint": "$80",
+      "meetAndGreet": "$90",
+      "charter3h": "$210",
+      "charter8h": "$560"
+    },
+    {
+      "id": "13-seater",
+      "slug": "13-seater",
+      "name": "13 Seater Minibus",
+      "model": "Toyota Hiace Commuter",
+      "pax": "13 Pax",
+      "paxCount": 13,
+      "pointToPoint": "$90",
+      "meetAndGreet": "$100",
+      "charter3h": "$240",
+      "charter8h": "$640"
+    },
+    {
+      "id": "vip-lounge",
+      "slug": "vip-lounge",
+      "name": "VIP Lounge 7-Seater",
+      "model": "Mercedes-Benz V-Class / Luxury Vellfire",
+      "pax": "7 Pax",
+      "paxCount": 7,
+      "pointToPoint": "$90",
+      "meetAndGreet": "$100",
+      "charter3h": "$255",
+      "charter8h": "$680"
+    },
+    {
+      "id": "wheelchair-cab",
+      "slug": "wheelchair-cab",
+      "name": "Wheelchair Maxi Cab",
+      "model": "Hydraulic Ramp Mobility Van",
+      "pax": "1-2 W/C + 7",
+      "paxCount": "1-2 W/C + 7",
+      "pointToPoint": "$75+",
+      "meetAndGreet": "$85+",
+      "charter3h": "$210+",
+      "charter8h": "$560+"
+    }
+  ],
+  "pricingNotes": [
+    "All rates are in Singapore Dollars (SGD) and are inclusive of GST.",
+    "Point-to-Point fares apply for trips within Singapore mainland (extra stop $10–$20 depending on route).",
+    "Airport Meet & Greet includes name board in arrival hall and 60 minutes free waiting after flight touchdown.",
+    "Children safety booster seats are available on request at $20/trip.",
+    "Wheelchair accessible cabs include driver assistance and safety harness docking system.",
+    "For bespoke routing, multiple vehicles or full day event logistics, please contact us for a customized quote."
+  ]
+}
