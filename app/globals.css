@@ -3,6 +3,7 @@
 @theme {
   --font-manrope: var(--font-manrope), 'Manrope', system-ui, sans-serif;
   --font-inter: var(--font-inter), 'Inter', system-ui, sans-serif;
+  --font-playfair: var(--font-playfair), 'Playfair Display', Georgia, serif;
 
   /* Primary Deep & Dark Blues */
   --color-primary-deep: #071E3B;
@@ -123,3 +124,24 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #B58E45;
 }
+
+/* Infinite Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+

@@ -1,30 +1,61 @@
+"use client";
+
 import React from "react";
-import statsData from "@/data/stats.json";
 import { Star } from "lucide-react";
 
 export default function StatsSection() {
+  const statsList = [
+    { value: "$0", label: "HIDDEN FEES" },
+    { value: "6.5k+", label: "Happy Customers" },
+    { value: "4.9", label: "GOOGLE RATING", hasStar: true },
+    { value: "24/7", label: "AVAILABLE ANYTIME" },
+    { value: "10+", label: "Drivers" },
+    { value: "$0", label: "HIDDEN FEES" },
+    { value: "6.5k+", label: "Happy Customers" },
+    { value: "4.9", label: "GOOGLE RATING", hasStar: true },
+    { value: "24/7", label: "ROUND-THE-CLOCK" },
+    { value: "10+", label: "Drivers" },
+  ];
+
+  // Duplicated for continuous seamless infinite loop
+  const infiniteStats = [...statsList, ...statsList];
+
   return (
-    <section className="w-full py-8 sm:py-10 px-6 sm:px-12 bg-white border-y border-slate-100">
-      <div className="max-w-[1376px] mx-auto grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
-        {statsData.map((stat, i) => (
-          <div
-            key={i}
-            className="flex flex-col items-center justify-center p-4 rounded-xl gap-1"
-          >
-            <div className="flex items-center justify-center gap-1.5">
-              <span className="text-3xl sm:text-4xl font-extrabold text-[#071E3B] tracking-[1.5px]">
-                {stat.value}
-              </span>
-              {stat.hasStar && (
-                <Star className="w-6 h-6 fill-[#F59E0B] text-[#F59E0B]" />
-              )}
+    <div className="self-stretch px-6 sm:px-16 py-8 flex flex-col justify-center items-center bg-white overflow-hidden">
+      <div className="w-full flex overflow-hidden">
+        <div className="animate-marquee flex items-center gap-6 shrink-0">
+          {infiniteStats.map((stat, idx) => (
+            <div
+              key={idx}
+              className="w-64 p-4 rounded-xl inline-flex flex-col justify-start items-start gap-1 shrink-0"
+            >
+              <div className="self-stretch flex flex-col justify-start items-center">
+                {stat.hasStar ? (
+                  <div className="self-stretch inline-flex justify-center items-center gap-1.5">
+                    <div className="text-center justify-center text-[#071E3B] text-4xl font-extrabold font-manrope leading-[48px] tracking-widest">
+                      {stat.value}
+                    </div>
+                    <Star className="w-5 h-5 fill-amber-500 text-amber-500 -mt-1" />
+                  </div>
+                ) : (
+                  <div className="text-center justify-center text-[#071E3B] text-4xl font-extrabold font-manrope leading-[48px] tracking-widest">
+                    {stat.value}
+                  </div>
+                )}
+              </div>
+              <div className="self-stretch flex flex-col justify-start items-center">
+                <div className="text-center justify-center text-[#5F6B7A] text-sm font-bold font-manrope leading-5">
+                  {stat.label}
+                </div>
+              </div>
             </div>
-            <span className="text-xs sm:text-sm font-bold text-[#5F6B7A] uppercase tracking-wide">
-              {stat.label}
-            </span>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </section>
+    </div>
   );
 }
+
+
+
+

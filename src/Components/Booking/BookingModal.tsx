@@ -33,7 +33,11 @@ export default function BookingModal() {
       />
 
       {/* Modal Dialog Content */}
-      <div className="relative z-10 w-full max-w-2xl my-auto animate-in fade-in zoom-in-95 duration-200">
+      <div
+        className={`relative z-10 w-full ${
+          step === 0 ? "max-w-4xl" : "max-w-[562px]"
+        } my-auto animate-in fade-in zoom-in-95 duration-200 transition-all`}
+      >
         {step === 0 && <CommonServiceSelectionModal />}
         {step === 1 && <Step1Card isModal={true} />}
         {step === 2 && <Step2Card isModal={true} />}

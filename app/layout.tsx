@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { manrope, inter } from "@/fonts";
+import { manrope, inter, playfair } from "@/fonts";
 import "./globals.css";
 import { BookingModalProvider } from "@/context/BookingContext";
 import BookingModal from "@/Components/Booking/BookingModal";
@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${inter.variable} scroll-smooth antialiased`}
+      className={`${manrope.variable} ${inter.variable} ${playfair.variable} scroll-smooth antialiased`}
     >
       <body className="min-h-screen flex flex-col font-sans bg-white text-[#071E3B]">
         <BookingModalProvider>
