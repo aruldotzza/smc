@@ -153,49 +153,49 @@ export default function ServicesSection({ isPage = false }: ServicesSectionProps
   ];
 
   return (
-    <section id="services" className="self-stretch px-6 sm:px-12 lg:px-16 py-12 flex flex-col justify-start items-center gap-8 bg-white">
+    <section id="services" className="self-stretch px-4 sm:px-8 lg:px-16 py-10 sm:py-16 flex flex-col justify-start items-center gap-6 sm:gap-8 bg-white">
       {/* Header */}
-      <div className="self-stretch flex flex-col justify-start items-center gap-4">
-        <div className="w-full max-w-[760px] flex flex-col justify-start items-center gap-3">
+      <div className="self-stretch flex flex-col justify-start items-center gap-3 sm:gap-4">
+        <div className="w-full max-w-[760px] flex flex-col justify-start items-center gap-2 sm:gap-3">
           <div className="self-stretch flex flex-col justify-start items-center">
             <span className="self-stretch text-center justify-center text-[#C6A45A] text-xs font-bold font-manrope uppercase leading-4 tracking-wide">
               OUR SERVICES
             </span>
           </div>
           <div className="self-stretch flex flex-col justify-start items-center">
-            <h2 className="self-stretch text-center justify-center text-[#071E3B] text-4xl font-bold font-manrope leading-10">
+            <h2 className="self-stretch text-center justify-center text-[#071E3B] text-2xl sm:text-4xl font-bold font-manrope leading-tight">
               Rides for Every Need
             </h2>
           </div>
         </div>
         <div className="w-full max-w-[760px] flex flex-col justify-start items-center">
-          <p className="self-stretch text-center justify-center text-[#667085] text-lg font-normal font-manrope leading-7">
+          <p className="self-stretch text-center justify-center text-[#667085] text-sm sm:text-lg font-normal font-manrope leading-relaxed">
             Airport pickups, hourly bookings, corporate transfers, and event transport - all with clear, fixed pricing and no hidden fees.
           </p>
         </div>
       </div>
 
-      {/* 3 Columns with 2 Cards each matching design snippet */}
-      <div className="w-full max-w-[1312px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+      {/* 3 Columns with 2 Cards each */}
+      <div className="w-full max-w-[1312px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-start">
         {serviceColumns.map((column, colIdx) => (
-          <div key={colIdx} className="w-full flex flex-col justify-start items-start gap-6">
+          <div key={colIdx} className="w-full flex flex-col justify-start items-start gap-4 sm:gap-6">
             {column.map((item) => (
               <Link
                 key={item.id}
                 href={`/services/${item.slug}`}
-                className="self-stretch p-6 bg-gradient-to-br from-white to-slate-50 rounded-[20px] shadow-[0px_4px_16px_-4px_rgba(15,23,42,0.04)] shadow-[0px_1px_4px_0px_rgba(15,23,42,0.03)] border border-[#E9ECEF] flex flex-col justify-start items-start gap-4 hover:border-[#C6A45A] hover:shadow-lg transition-all duration-300 group"
+                className="self-stretch p-5 sm:p-6 bg-gradient-to-br from-white to-slate-50 rounded-2xl shadow-xs border border-[#E9ECEF] flex flex-col justify-start items-start gap-3.5 sm:gap-4 hover:border-[#C6A45A] hover:shadow-lg active:scale-98 transition-all duration-300 group cursor-pointer"
               >
                 {/* Icon */}
-                <div className="w-12 h-12 bg-[#EEF5FB] rounded-xl flex justify-center items-center shrink-0 group-hover:scale-105 transition-transform">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 bg-[#EEF5FB] rounded-xl flex justify-center items-center shrink-0 group-hover:scale-105 transition-transform">
                   {item.icon}
                 </div>
 
                 {/* Title & Subtitle */}
-                <div className="self-stretch flex flex-col justify-start items-start gap-2">
-                  <h3 className="self-stretch text-[#071E3B] text-lg font-semibold font-manrope leading-7 group-hover:text-[#C6A45A] transition-colors">
+                <div className="self-stretch flex flex-col justify-start items-start gap-1 sm:gap-2">
+                  <h3 className="self-stretch text-[#071E3B] text-base sm:text-lg font-bold font-manrope leading-snug group-hover:text-[#C6A45A] transition-colors">
                     {item.title}
                   </h3>
-                  <p className="self-stretch text-[#667085] text-sm font-normal font-manrope leading-5">
+                  <p className="self-stretch text-[#667085] text-xs sm:text-sm font-normal font-manrope leading-relaxed">
                     {item.subtitle}
                   </p>
                 </div>
@@ -214,6 +214,7 @@ export default function ServicesSection({ isPage = false }: ServicesSectionProps
     </section>
   );
 }
+
 
 
 

@@ -9,30 +9,30 @@ export default function CTASection() {
   const { openModal } = useBookingModal();
 
   return (
-    <section className="py-16 px-6 sm:px-12 lg:px-24 bg-[#071E3B] text-white text-center flex flex-col justify-center items-center gap-8">
+    <section className="py-12 sm:py-16 px-4 sm:px-12 lg:px-24 bg-[#071E3B] text-white text-center flex flex-col justify-center items-center gap-6 sm:gap-8">
       {/* Title */}
       <div className="flex flex-col items-center">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-manrope leading-[56px] text-white">
+        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold font-manrope leading-tight sm:leading-[56px] text-white">
           Ready to Book Your Ride?
         </h2>
       </div>
 
       {/* Subtitle */}
       <div className="flex flex-col items-center max-w-xl">
-        <p className="text-base font-normal font-manrope leading-6 text-white">
+        <p className="text-sm sm:text-base font-normal font-manrope leading-relaxed text-white/90">
           Call us at (+65) 8800 6006 or book online in just a few clicks —
           <br className="hidden sm:inline" />
-          it&apos;s quick and easy.
+          {" "}it&apos;s quick and easy.
         </p>
       </div>
 
       {/* Buttons */}
-      <div className="flex flex-wrap items-center justify-center gap-4">
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
         {/* Book Now Button */}
         <button
           type="button"
           onClick={() => openModal({ initialStep: 0 })}
-          className="px-8 py-3 bg-[#C6A45A] hover:bg-[#B58E45] text-white text-base font-semibold font-manrope rounded-lg transition-all shadow-md cursor-pointer"
+          className="w-full sm:w-auto px-8 py-3.5 bg-[#C6A45A] hover:bg-[#B58E45] active:scale-98 text-white text-base font-bold font-manrope rounded-xl transition-all shadow-md cursor-pointer"
         >
           Book Now
         </button>
@@ -40,7 +40,7 @@ export default function CTASection() {
         {/* Explore our Fleet Button */}
         <Link
           href="/fleets"
-          className="px-8 py-3 rounded-lg border border-[#C6A45A] hover:bg-[#C6A45A]/10 text-[#C6A45A] text-base font-semibold font-manrope flex items-center gap-4 transition-all"
+          className="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-[#C6A45A] hover:bg-[#C6A45A]/10 active:scale-98 text-[#C6A45A] text-base font-bold font-manrope flex items-center justify-center gap-3 transition-all"
         >
           <span>Explore our Fleet</span>
           <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -48,19 +48,20 @@ export default function CTASection() {
       </div>
 
       {/* Contact Details Ribbon */}
-      <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-normal font-manrope text-white pt-2 opacity-90">
-        <span>SINGAPORE MAXICABS</span>
+      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-xs font-normal font-manrope text-white/80 pt-2">
+        <span className="font-semibold">SINGAPORE MAXICABS</span>
         <span>•</span>
         <a
           href="mailto:booking@singaporemaxicabs.com.sg"
-          className="hover:underline"
+          className="hover:underline text-white/95"
         >
           booking@singaporemaxicabs.com.sg
         </a>
-        <span>•</span>
-        <span>45A Campbell Lane Singapore 209917</span>
+        <span className="hidden sm:inline">•</span>
+        <span className="w-full sm:w-auto text-center">45A Campbell Lane Singapore 209917</span>
       </div>
     </section>
   );
 }
+
 

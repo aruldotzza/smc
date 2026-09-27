@@ -104,12 +104,21 @@ body {
   font-family: var(--font-manrope), 'Manrope', system-ui, sans-serif;
   color: #071E3B;
   background-color: #FFFFFF;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Prevent unwanted zoom on mobile inputs in iOS Safari */
+@media (max-width: 640px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -144,4 +153,5 @@ body {
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
 

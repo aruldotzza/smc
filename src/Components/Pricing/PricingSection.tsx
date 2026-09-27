@@ -35,53 +35,53 @@ export default function PricingSection() {
   return (
     <div className="w-full flex flex-col bg-white">
       {/* 1. Hero Header */}
-      <section className="w-full bg-[#071E3B] text-white py-14 sm:py-20 px-6 sm:px-12 lg:px-24 relative overflow-hidden">
+      <section className="w-full bg-[#071E3B] text-white py-12 sm:py-20 px-4 sm:px-12 lg:px-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#071E3B] via-[#0B2A4A] to-[#071E3B] pointer-events-none opacity-90" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#C6A45A]/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-[1360px] mx-auto relative z-10 flex flex-col items-start gap-4">
-          <span className="text-base sm:text-lg font-bold text-[#C6A45A] uppercase tracking-[0.5px]">
+        <div className="max-w-[1360px] mx-auto relative z-10 flex flex-col items-start gap-3 sm:gap-4">
+          <span className="text-xs sm:text-sm font-bold text-[#C6A45A] uppercase tracking-[0.5px]">
             {pricingData.badge}
           </span>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.15]">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.15]">
             {pricingData.title}
           </h1>
-          <p className="text-base sm:text-lg text-white/90 leading-relaxed max-w-2xl font-normal">
+          <p className="text-sm sm:text-lg text-white/90 leading-relaxed max-w-2xl font-normal">
             {pricingData.subtitle}
           </p>
         </div>
       </section>
 
       {/* 2. Main Content Area */}
-      <section className="py-16 sm:py-20 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto w-full flex flex-col gap-16">
+      <section className="py-12 sm:py-20 px-4 sm:px-12 lg:px-24 max-w-[1360px] mx-auto w-full flex flex-col gap-12 sm:gap-16">
         {/* 3 Guarantees Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
           {pricingData.guarantees.map((item, idx) => (
             <div
               key={idx}
-              className="p-7 sm:p-8 rounded-2xl bg-[#F8F7F4] border border-[#E9ECEF] flex flex-col items-center text-center gap-3.5 shadow-2xs hover:shadow-md transition-shadow"
+              className="p-6 sm:p-8 rounded-2xl bg-[#F8F7F4] border border-[#E9ECEF] flex flex-col items-center text-center gap-3 shadow-2xs hover:shadow-md transition-shadow"
             >
-              <div className="w-14 h-14 rounded-2xl bg-white shadow-xs flex items-center justify-center mb-1">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white shadow-xs flex items-center justify-center mb-1">
                 {getGuaranteeIcon(item.icon)}
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-[#071E3B]">
+              <h3 className="text-base sm:text-xl font-bold text-[#071E3B]">
                 {item.title}
               </h3>
-              <p className="text-sm text-[#667085] leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#667085] leading-relaxed">
                 {item.description}
               </p>
             </div>
           ))}
         </div>
 
-        {/* Vehicle Pricing Table */}
+        {/* Vehicle Pricing Table & Mobile Cards */}
         <div className="flex flex-col gap-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <h2 className="text-2xl sm:text-3xl font-bold text-[#071E3B]">
                 Vehicle Pricing Matrix
               </h2>
-              <p className="text-sm text-[#667085] mt-1">
+              <p className="text-xs sm:text-sm text-[#667085] mt-1">
                 Transparent comparison of all vehicles and journey options in Singapore.
               </p>
             </div>
@@ -89,15 +89,77 @@ export default function PricingSection() {
             <button
               type="button"
               onClick={() => openModal({ initialStep: 0 })}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#071E3B] hover:bg-[#0B2A4A] text-white text-sm font-semibold transition-all shrink-0 cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 sm:py-2.5 rounded-lg bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-[0.98] text-white text-sm font-semibold transition-all shrink-0 cursor-pointer min-h-[44px]"
             >
               <span>Instant Booking</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
             </button>
           </div>
 
-          {/* Table Container */}
-          <div className="w-full rounded-2xl border border-[#E9ECEF] overflow-hidden shadow-sm">
+          {/* Mobile Pricing Cards (shown on < md) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden">
+            {pricingData.matrix.map((row) => (
+              <div
+                key={row.id}
+                className="bg-white rounded-2xl border border-[#E9ECEF] p-4.5 flex flex-col justify-between gap-4 shadow-sm hover:border-[#C6A45A]/40 transition-colors"
+              >
+                <div>
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <Link
+                        href={`/fleets/${row.slug}`}
+                        className="font-bold text-base text-[#071E3B] hover:text-[#C6A45A] transition-colors"
+                      >
+                        {row.name}
+                      </Link>
+                      <span className="block text-xs text-[#667085] mt-0.5">
+                        {row.model}
+                      </span>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-md bg-[#F7F5EF] text-[#071E3B] font-bold text-xs">
+                      {row.pax}
+                    </span>
+                  </div>
+
+                  {/* Rates Breakdown */}
+                  <div className="mt-4 grid grid-cols-3 gap-2 bg-[#F8F7F4] p-3 rounded-xl border border-slate-100 text-center">
+                    <div className="flex flex-col">
+                      <span className="text-[10px] text-[#667085] uppercase font-bold">Transfer</span>
+                      <span className="text-sm font-bold text-[#C6A45A]">{row.pointToPoint}</span>
+                    </div>
+                    <div className="flex flex-col border-x border-slate-200 px-1">
+                      <span className="text-[10px] text-[#667085] uppercase font-bold">Changi M&amp;G</span>
+                      <span className="text-sm font-bold text-[#071E3B]">{row.meetAndGreet}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[10px] text-[#667085] uppercase font-bold">3h Hourly</span>
+                      <span className="text-sm font-bold text-[#071E3B]">{row.charter3h}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
+                  <Link
+                    href={`/fleets/${row.slug}`}
+                    className="flex-1 py-2.5 text-center rounded-lg border border-[#E9ECEF] hover:bg-slate-50 text-xs font-bold text-[#071E3B] transition-colors min-h-[44px] flex items-center justify-center"
+                  >
+                    View Specs
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => handleBookVehicle(row.slug, row.name, row.pointToPoint)}
+                    className="flex-1 py-2.5 rounded-lg bg-[#C6A45A] hover:bg-[#B58E45] active:scale-[0.98] text-white text-xs font-bold transition-all shadow-xs cursor-pointer min-h-[44px] flex items-center justify-center gap-1.5"
+                  >
+                    <span>Book Ride</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Table Container (hidden on < md) */}
+          <div className="hidden md:block w-full rounded-2xl border border-[#E9ECEF] overflow-hidden shadow-sm">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse min-w-[700px]">
                 <thead>
@@ -167,16 +229,16 @@ export default function PricingSection() {
         </div>
 
         {/* Pricing Notes Card */}
-        <div className="p-6 sm:p-8 rounded-2xl bg-[#F7F5EF] border border-[#E9ECEF] flex flex-col gap-4">
+        <div className="p-5 sm:p-8 rounded-2xl bg-[#F7F5EF] border border-[#E9ECEF] flex flex-col gap-4">
           <div className="flex items-center gap-2 text-[#071E3B]">
-            <Info className="w-5 h-5 text-[#C6A45A]" />
-            <h3 className="text-lg font-bold">Important Pricing Notes</h3>
+            <Info className="w-5 h-5 text-[#C6A45A] shrink-0" />
+            <h3 className="text-base sm:text-lg font-bold">Important Pricing Notes</h3>
           </div>
 
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-[#5F6B7A]">
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm text-[#5F6B7A]">
             {pricingData.pricingNotes.map((note, nIdx) => (
               <li key={nIdx} className="flex items-start gap-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C6A45A] shrink-0 mt-2" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C6A45A] shrink-0 mt-1.5" />
                 <span className="leading-relaxed">{note}</span>
               </li>
             ))}
@@ -184,21 +246,21 @@ export default function PricingSection() {
         </div>
 
         {/* Ready to Book CTA Card */}
-        <div className="w-full rounded-3xl bg-[#071E3B] text-white p-8 sm:p-14 lg:p-16 text-center flex flex-col items-center gap-6 shadow-2xl relative overflow-hidden">
+        <div className="w-full rounded-3xl bg-[#071E3B] text-white p-6 sm:p-14 lg:p-16 text-center flex flex-col items-center gap-6 shadow-2xl relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-[#071E3B] via-[#0B2A4A] to-[#071E3B] pointer-events-none" />
           <div className="relative z-10 flex flex-col items-center gap-4 max-w-2xl">
-            <h3 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+            <h3 className="text-2xl sm:text-4xl font-bold tracking-tight text-white">
               Ready to Book Your Ride?
             </h3>
-            <p className="text-base text-white/90">
+            <p className="text-sm sm:text-base text-white/90 leading-relaxed">
               Call us at (+65) 8800 6006 or book online in just a few clicks — it&apos;s quick and easy.
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={() => openModal({ initialStep: 0 })}
-                className="px-8 py-3.5 rounded-lg bg-[#C6A45A] hover:bg-[#B58E45] text-white text-base font-semibold flex items-center gap-3 transition-all shadow-lg cursor-pointer"
+                className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-[#C6A45A] hover:bg-[#B58E45] active:scale-[0.98] text-white text-sm sm:text-base font-semibold flex items-center justify-center gap-3 transition-all shadow-lg cursor-pointer min-h-[48px]"
               >
                 <span>Book Now</span>
                 <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -208,18 +270,18 @@ export default function PricingSection() {
                 href="https://wa.me/6588006006"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-3.5 rounded-lg border border-[#C6A45A] hover:bg-[#C6A45A]/10 text-[#C6A45A] text-base font-semibold flex items-center gap-3 transition-all"
+                className="w-full sm:w-auto px-8 py-3.5 rounded-lg border border-[#C6A45A] hover:bg-[#C6A45A]/10 active:scale-[0.98] text-[#C6A45A] text-sm sm:text-base font-semibold flex items-center justify-center gap-3 transition-all min-h-[48px]"
               >
                 <MessageCircle className="w-4 h-4 fill-current" />
                 <span>WhatsApp Us</span>
               </a>
             </div>
 
-            <div className="pt-4 flex flex-wrap items-center justify-center gap-3 text-xs text-white/70 border-t border-white/10 w-full mt-4">
+            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-xs text-white/70 border-t border-white/10 w-full mt-4">
               <span>SINGAPORE MAXICABS</span>
-              <span>•</span>
+              <span className="hidden sm:inline">•</span>
               <span>booking@singaporemaxicabs.com.sg</span>
-              <span>•</span>
+              <span className="hidden sm:inline">•</span>
               <span>45A Campbell Lane Singapore 209917</span>
             </div>
           </div>

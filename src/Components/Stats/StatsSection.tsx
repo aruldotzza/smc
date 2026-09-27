@@ -21,30 +21,30 @@ export default function StatsSection() {
   const infiniteStats = [...statsList, ...statsList];
 
   return (
-    <div className="self-stretch px-6 sm:px-16 py-8 flex flex-col justify-center items-center bg-white overflow-hidden">
+    <div className="self-stretch px-4 sm:px-16 py-6 sm:py-8 flex flex-col justify-center items-center bg-white overflow-hidden border-y border-slate-100">
       <div className="w-full flex overflow-hidden">
-        <div className="animate-marquee flex items-center gap-6 shrink-0">
+        <div className="animate-marquee flex items-center gap-4 sm:gap-6 shrink-0">
           {infiniteStats.map((stat, idx) => (
             <div
               key={idx}
-              className="w-64 p-4 rounded-xl inline-flex flex-col justify-start items-start gap-1 shrink-0"
+              className="w-48 sm:w-64 p-3 sm:p-4 rounded-xl inline-flex flex-col justify-start items-center gap-1 shrink-0"
             >
               <div className="self-stretch flex flex-col justify-start items-center">
                 {stat.hasStar ? (
                   <div className="self-stretch inline-flex justify-center items-center gap-1.5">
-                    <div className="text-center justify-center text-[#071E3B] text-4xl font-extrabold font-manrope leading-[48px] tracking-widest">
+                    <div className="text-center justify-center text-[#071E3B] text-2xl sm:text-4xl font-extrabold font-manrope leading-tight sm:leading-[48px] tracking-wider">
                       {stat.value}
                     </div>
-                    <Star className="w-5 h-5 fill-amber-500 text-amber-500 -mt-1" />
+                    <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-amber-500 text-amber-500 -mt-1" />
                   </div>
                 ) : (
-                  <div className="text-center justify-center text-[#071E3B] text-4xl font-extrabold font-manrope leading-[48px] tracking-widest">
+                  <div className="text-center justify-center text-[#071E3B] text-2xl sm:text-4xl font-extrabold font-manrope leading-tight sm:leading-[48px] tracking-wider">
                     {stat.value}
                   </div>
                 )}
               </div>
               <div className="self-stretch flex flex-col justify-start items-center">
-                <div className="text-center justify-center text-[#5F6B7A] text-sm font-bold font-manrope leading-5">
+                <div className="text-center justify-center text-[#5F6B7A] text-xs sm:text-sm font-bold font-manrope leading-5 uppercase tracking-wide">
                   {stat.label}
                 </div>
               </div>
@@ -55,6 +55,7 @@ export default function StatsSection() {
     </div>
   );
 }
+
 
 
 
