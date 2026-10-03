@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Navbar from "@/Components/Header/Navbar";
 import Footer from "@/Components/Footer/Footer";
 import corporateData from "@/data/corporate.json";
@@ -47,7 +48,19 @@ export default function CorporatePage() {
 
       {/* 2. Hero Header */}
       <section className="w-full bg-[#071E3B] text-white py-12 sm:py-20 px-4 sm:px-12 lg:px-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#071E3B] via-[#0B2A4A] to-[#071E3B] pointer-events-none opacity-90" />
+        {/* Background Image & Overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/Home/what_we_offer.png"
+            alt={corporateData.title}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center opacity-40"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#071E3B] via-[#071E3B]/90 to-[#071E3B]/75 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#071E3B] via-transparent to-[#071E3B]/40 pointer-events-none" />
+        </div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#C6A45A]/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-[1360px] mx-auto relative z-10 flex flex-col items-start gap-4 sm:gap-6">
