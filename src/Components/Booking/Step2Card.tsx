@@ -61,7 +61,7 @@ export default function Step2Card({ isModal = true }: Step2CardProps) {
             <label className="text-[#071E3B] text-xs sm:text-sm font-medium font-inter leading-5">
               Pickup Date
             </label>
-            <div className="self-stretch p-3 sm:p-3.5 bg-white rounded-xl border border-[#7A8593] flex justify-between items-center overflow-hidden focus-within:border-[#C6A45A] focus-within:ring-1 focus-within:ring-[#C6A45A] transition-all">
+            <div className="self-stretch relative p-3 sm:p-3.5 bg-white rounded-xl border border-[#7A8593] flex justify-between items-center overflow-hidden focus-within:border-[#C6A45A] focus-within:ring-1 focus-within:ring-[#C6A45A] transition-all">
               <input
                 type="date"
                 value={bookingData.pickupDate}
@@ -88,7 +88,7 @@ export default function Step2Card({ isModal = true }: Step2CardProps) {
             <label className="text-[#071E3B] text-xs sm:text-sm font-medium font-inter leading-5">
               Pickup Time
             </label>
-            <div className="self-stretch p-3 sm:p-3.5 bg-white rounded-xl border border-[#7A8593] flex justify-between items-center overflow-hidden focus-within:border-[#C6A45A] focus-within:ring-1 focus-within:ring-[#C6A45A] transition-all">
+            <div className="self-stretch relative p-3 sm:p-3.5 bg-white rounded-xl border border-[#7A8593] flex justify-between items-center overflow-hidden focus-within:border-[#C6A45A] focus-within:ring-1 focus-within:ring-[#C6A45A] transition-all">
               <input
                 type="time"
                 value={bookingData.pickupTime}

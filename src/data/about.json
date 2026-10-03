@@ -1,0 +1,49 @@
+{
+  "badge": "Who We Are",
+  "title": "Singapore's Trusted Maxi Cab Service",
+  "subtitle": "Founded to provide reliable, fixed-fare transport for families, corporate clients, and travelers across Singapore.",
+  "story": {
+    "eyebrow": "Our Story",
+    "title": "Built on Trust, Punctuality & Transparency",
+    "paragraphs": [
+      "Singapore Maxicabs was established to solve a simple problem: group travelers couldn't find reliable, spacious, fixed-price transport. Standard taxis were too small. Ride-hailing apps surged in price during peak times.",
+      "We built a fleet of well-maintained Maxi Cabs — from 6-seaters to 13-seater minibuses — and committed to one rule: what you see is what you pay. No surcharges, no hidden fees, no late-night premiums.",
+      "Today, we serve thousands of families, corporate clients, and hospitals across Singapore every year."
+    ],
+    "image": "/images/aboutus.png"
+  },
+  "whyChooseUs": [
+    {
+      "icon": "clock",
+      "title": "Always On Time",
+      "description": "We track flights and traffic. We arrive on time, every time."
+    },
+    {
+      "icon": "badge-percent",
+      "title": "Fixed Fares",
+      "description": "No surge pricing. No hidden charges. The quote is what you pay."
+    },
+    {
+      "icon": "sparkles",
+      "title": "Clean Vehicles",
+      "description": "All vehicles are inspected and sanitized before every trip."
+    },
+    {
+      "icon": "headphones",
+      "title": "24/7 Support",
+      "description": "WhatsApp us anytime. Real people, real responses."
+    }
+  ],
+  "stats": [
+    { "value": "6.5k+", "label": "Happy Customers" },
+    { "value": "4.9★", "label": "Google Rating" },
+    { "value": "24/7", "label": "Available" },
+    { "value": "10+", "label": "Licensed Drivers" }
+  ],
+  "cta": {
+    "title": "Ready to Experience the Difference?",
+    "subtitle": "Book your first ride today or contact us to learn more.",
+    "bookBtn": "Book Now",
+    "contactBtn": "Contact Us"
+  }
+}

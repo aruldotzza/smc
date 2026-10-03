@@ -1,0 +1,50 @@
+{
+  "badge": "Premium Accounts",
+  "title": "Corporate & VIP Transport Accounts",
+  "subtitle": "A dedicated ground transport partner for businesses, embassies, hotels, and VIP clients across Singapore.",
+  "features": [
+    {
+      "icon": "receipt",
+      "title": "Monthly Consolidated Billing",
+      "description": "One invoice per month covering all trips, sorted by cost center or department."
+    },
+    {
+      "icon": "zap",
+      "title": "Priority Dispatch",
+      "description": "Corporate accounts get priority queuing with guaranteed vehicle availability."
+    },
+    {
+      "icon": "user-check",
+      "title": "Dedicated Account Manager",
+      "description": "A named point of contact for scheduling, queries, and last-minute changes."
+    },
+    {
+      "icon": "award",
+      "title": "Airport VIP Service",
+      "description": "Meet & Greet for your executives with name board service at Changi arrivals."
+    },
+    {
+      "icon": "map",
+      "title": "Real-Time Tracking",
+      "description": "Track all active bookings for your company in real time via WhatsApp updates."
+    },
+    {
+      "icon": "layers",
+      "title": "Multi-Car Coordination",
+      "description": "Delegate management for large groups, product launches, and roadshows."
+    }
+  ],
+  "vipLounge": {
+    "title": "VIP Lounge 7-Seater",
+    "description": "Our flagship vehicle for executive transport. Reclining captain chairs, ambient lighting, and a chauffeur dressed for the occasion.",
+    "price": "$90",
+    "currency": "Starting from (SGD)",
+    "slug": "vip-lounge"
+  },
+  "cta": {
+    "title": "Open a Corporate Account",
+    "subtitle": "Email us with your company name and estimated monthly bookings. We'll set up your account within 24 hours.",
+    "whatsappLabel": "WhatsApp Us",
+    "contactLabel": "Contact Us"
+  }
+}

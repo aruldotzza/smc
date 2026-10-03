@@ -47,10 +47,10 @@ export default function Footer() {
       {
         title: "COMPANY",
         links: [
-          { label: "About Us", href: "/#about" },
-          { label: "Contact", href: "/#contact" },
+          { label: "About Us", href: "/about" },
+          { label: "Contact", href: "/contact" },
           { label: "Pricing Matrix", href: "/pricing" },
-          { label: "Corporate Accounts", href: "/services/corporate-business" },
+          { label: "Corporate Accounts", href: "/corporate" },
           { label: "All Fleets", href: "/fleets" },
         ],
       },
@@ -129,10 +129,10 @@ export default function Footer() {
         <div className="pt-4 border-t border-[#E9ECEF] flex flex-col sm:flex-row items-center justify-between text-xs sm:text-sm text-[#667085] font-normal font-manrope gap-4 text-center sm:text-left">
           <p>© 2026 Singapore Maxi Cabs • All rights reserved.</p>
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-            <Link href="/#about" className="hover:text-[#071E3B] transition-colors py-1">
+            <Link href="/about" className="hover:text-[#071E3B] transition-colors py-1">
               About
             </Link>
-            <Link href="/#contact" className="hover:text-[#071E3B] transition-colors py-1">
+            <Link href="/contact" className="hover:text-[#071E3B] transition-colors py-1">
               Contact
             </Link>
             <Link href="/services" className="hover:text-[#071E3B] transition-colors py-1">

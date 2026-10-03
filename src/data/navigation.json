@@ -7,11 +7,11 @@
     "email": "booking@singaporemaxicabs.com.sg"
   },
   "navLinks": [
-    { "label": "About us", "href": "/#about" },
+    { "label": "About us", "href": "/about" },
     { "label": "FLEETs", "href": "/fleets" },
     { "label": "Services", "href": "/services" },
     { "label": "Prices", "href": "/pricing" },
-    { "label": "CORPORATE & VIP", "href": "/services/corporate-business" }
+    { "label": "CORPORATE & VIP", "href": "/corporate" }
   ],
   "whatsappButton": {
     "label": "WhatsApp Booking",
@@ -19,6 +19,6 @@
   },
   "bookButton": {
     "label": "Book Now",
-    "href": "#booking"
+    "href": "/book"
   }
 }

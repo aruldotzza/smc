@@ -146,7 +146,7 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
       {/* Confirmed Vehicle Class Hero Card */}
       <div className="self-stretch h-48 sm:h-64 relative rounded-xl flex flex-col justify-between p-3.5 sm:p-4 overflow-hidden bg-slate-900">
         <Image
-          src="/images/Home/Hero_tab.png"
+          src="/images/bookinpage3.png"
           alt={bookingData.selectedFleet || "Mercedes-Benz V-Class / Toyota Vellfire"}
           fill
           sizes="(max-width: 640px) 100vw, 520px"

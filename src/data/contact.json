@@ -1,0 +1,49 @@
+{
+  "badge": "Get In Touch",
+  "title": "Contact Us",
+  "subtitle": "Questions about booking? Need a custom quote? We're here 24/7 via WhatsApp, phone, or email.",
+  "directContacts": [
+    {
+      "icon": "whatsapp",
+      "label": "WhatsApp (Fastest)",
+      "value": "+65 8800 6006",
+      "href": "https://wa.me/6588006006",
+      "isLink": true
+    },
+    {
+      "icon": "phone",
+      "label": "Phone",
+      "value": "(+65) 8800 6006",
+      "href": "tel:+6588006006",
+      "isLink": true
+    },
+    {
+      "icon": "mail",
+      "label": "Email",
+      "value": "booking@singaporemaxicabs.com.sg",
+      "href": "mailto:booking@singaporemaxicabs.com.sg",
+      "isLink": true
+    },
+    {
+      "icon": "map-pin",
+      "label": "Address",
+      "value": "45A Campbell Lane, Singapore 209917",
+      "href": "https://maps.google.com/?q=45A+Campbell+Lane+Singapore+209917",
+      "isLink": true
+    }
+  ],
+  "operatingHours": [
+    {
+      "label": "Booking Office",
+      "time": "Mon–Sun, 8am–10pm"
+    },
+    {
+      "label": "Drivers Available",
+      "time": "24 hours, 7 days a week"
+    },
+    {
+      "label": "WhatsApp Support",
+      "time": "24/7"
+    }
+  ]
+}

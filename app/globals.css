@@ -134,6 +134,27 @@ body {
   background: #B58E45;
 }
 
+/* Hide native browser date & time picker black indicator icons so only custom yellow/gold icons are shown */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-clear-button,
+input[type="time"]::-webkit-inner-spin-button,
+input[type="time"]::-webkit-clear-button {
+  display: none;
+}
+
 /* Infinite Marquee Animation */
 @keyframes marquee {
   0% {
@@ -153,5 +174,6 @@ body {
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
 
 
