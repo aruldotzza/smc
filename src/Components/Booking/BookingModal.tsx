@@ -35,7 +35,7 @@ export default function BookingModal() {
       {/* Modal Dialog Content */}
       <div
         className={`relative z-10 w-full ${
-          step === 0 ? "max-w-4xl" : "max-w-[562px]"
+          step === 0 ? "max-w-4xl" : "max-w-[620px]"
         } my-auto animate-in fade-in zoom-in-95 duration-200 transition-all max-h-[96vh] flex flex-col`}
       >
         {step === 0 && <CommonServiceSelectionModal />}

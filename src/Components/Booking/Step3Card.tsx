@@ -22,20 +22,31 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
 
   const totalFare = calculateTotal();
 
+  const isHourly = bookingData.serviceType.toLowerCase().includes("hourly");
+  const isAirport =
+    bookingData.serviceType.toLowerCase().includes("airport") ||
+    bookingData.serviceType.toLowerCase().includes("arrival");
+  const hourlyRate =
+    bookingData.baseFare >= 50 && bookingData.baseFare <= 120
+      ? bookingData.baseFare
+      : 65;
+  const duration = bookingData.durationHours || 3;
+
   const handleProceed = () => {
     // Generate WhatsApp Booking Message
     const text =
       `*New Singapore Maxi Cab Booking Request*%0A` +
       `--------------------------------%0A` +
       `*Service:* ${bookingData.serviceType}%0A` +
+      (isHourly ? `*Duration:* ${duration} Hours%0A` : "") +
       `*Vehicle:* ${bookingData.selectedFleet}%0A` +
       `*Pickup:* ${bookingData.pickup}%0A` +
-      `*Dropoff:* ${bookingData.dropoff}%0A` +
-      `*Date:* ${bookingData.pickupDate || "24 Oct 2024"} at ${bookingData.pickupTime || "17:15"} SGT%0A` +
+      (!isHourly ? `*Dropoff:* ${bookingData.dropoff}%0A` : `*Dropoff / Scope:* ${bookingData.dropoff || "As-Directed City Tour"}%0A`) +
+      `*Date:* ${bookingData.pickupDate || "Today"} at ${bookingData.pickupTime || "17:15"} SGT%0A` +
       `*Passengers:* ${bookingData.passengers} Pax | *Luggage:* ${bookingData.luggage} Bags%0A` +
-      `*Meet & Greet:* ${bookingData.meetAndGreet ? "Yes (Included)" : "No"}%0A` +
+      (isAirport ? `*Meet & Greet:* ${bookingData.meetAndGreet ? "Yes (+$25 SGD)" : "No"}%0A` : "") +
       `*Baby Seat:* ${bookingData.babySeat ? "Yes (+$20 SGD)" : "No"}%0A` +
-      `*Special Notes / Flight:* ${bookingData.specialRequests || "None"}%0A` +
+      `*Special Notes / Request:* ${bookingData.specialRequests || "None"}%0A` +
       `--------------------------------%0A` +
       `*Passenger Name:* ${bookingData.name || "Alexander Wright"}%0A` +
       `*WhatsApp:* ${bookingData.countryCode} ${bookingData.phone || "88006006"}%0A` +
@@ -270,23 +281,45 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
           </div>
 
           <div className="self-stretch flex flex-col gap-2.5">
-            {/* Transfer Line Item */}
+            {/* Transfer / Charter Line Item */}
             <div className="self-stretch py-1 flex justify-between items-center text-xs sm:text-sm">
               <div className="flex flex-col">
                 <span className="text-slate-900 font-semibold font-manrope">
-                  {bookingData.selectedFleet || "7-Seater Maxi Cab"} Transfer
+                  {bookingData.selectedFleet || "Maxi Cab"} {isHourly ? `(${duration} Hours Charter)` : "Transfer"}
                 </span>
                 <span className="text-[#667085] text-xs font-normal">
-                  Includes meet &amp; greet, ERP toll systems, luggage assist
+                  {isHourly
+                    ? `${duration} hours dedicated chauffeur @ $${hourlyRate}/hr`
+                    : "Includes ERP toll systems, luggage assist"}
                 </span>
               </div>
               <div className="text-right shrink-0">
                 <span className="text-slate-900 font-bold font-manrope text-base sm:text-lg">
-                  ${bookingData.baseFare || 70}.00
+                  ${isHourly ? hourlyRate * duration : (bookingData.baseFare || 70)}.00
                 </span>
                 <span className="text-[#667085] text-[10px] block">SGD</span>
               </div>
             </div>
+
+            {/* Airport Meet & Greet Item if selected */}
+            {isAirport && bookingData.meetAndGreet && (
+              <div className="self-stretch py-1 flex justify-between items-center text-xs sm:text-sm border-t border-slate-200/60 pt-2">
+                <div className="flex flex-col">
+                  <span className="text-slate-900 font-semibold font-manrope">
+                    Airport Meet &amp; Greet
+                  </span>
+                  <span className="text-[#667085] text-xs font-normal">
+                    Arrival hall name board &amp; 60m flight tracking
+                  </span>
+                </div>
+                <div className="text-right shrink-0">
+                  <span className="text-slate-900 font-bold font-manrope text-sm sm:text-base">
+                    +$25.00
+                  </span>
+                  <span className="text-[#667085] text-[10px] block">SGD</span>
+                </div>
+              </div>
+            )}
 
             {/* Optional Baby Seat Item if added */}
             {bookingData.babySeat && (

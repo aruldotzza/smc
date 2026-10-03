@@ -9,6 +9,7 @@ export interface BookingData {
   passengers: number;
   luggage: number;
   meetAndGreet: boolean;
+  durationHours: number;
   selectedFleet: string;
   selectedFleetSlug: string;
   baseFare: number;
@@ -31,6 +32,7 @@ interface BookingModalOptions {
   baseFare?: number;
   pickup?: string;
   dropoff?: string;
+  durationHours?: number;
 }
 
 interface BookingContextType {
@@ -49,11 +51,12 @@ const defaultBookingData: BookingData = {
   serviceType: "Airport Transfer",
   pickup: "Singapore Changi Airport (SIN)",
   dropoff: "Marina Bay Sands Hotel",
-  passengers: 4,
-  luggage: 3,
+  passengers: 1,
+  luggage: 0,
   meetAndGreet: true,
-  selectedFleet: "Mercedes-Benz V-Class / Toyota Vellfire",
-  selectedFleetSlug: "7-seater",
+  durationHours: 3,
+  selectedFleet: "Mercedes-Benz Vito / Toyota Hiace 9S",
+  selectedFleetSlug: "9-seater",
   baseFare: 70,
   pickupDate: new Date().toISOString().split("T")[0],
   pickupTime: "17:15",
@@ -83,6 +86,7 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
         baseFare: options.baseFare ?? prev.baseFare,
         pickup: options.pickup ?? prev.pickup,
         dropoff: options.dropoff ?? prev.dropoff,
+        durationHours: options.durationHours ?? prev.durationHours,
       }));
       setStep(options.initialStep ?? 1);
     } else {
@@ -106,6 +110,17 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
 
   const calculateTotal = () => {
     let total = bookingData.baseFare;
+    const isHourly = bookingData.serviceType.toLowerCase().includes("hourly");
+    const isAirport = bookingData.serviceType.toLowerCase().includes("airport") || bookingData.serviceType.toLowerCase().includes("arrival");
+
+    if (isHourly) {
+      const hours = bookingData.durationHours || 3;
+      const ratePerHour = bookingData.baseFare >= 50 && bookingData.baseFare <= 120 ? bookingData.baseFare : 65;
+      total = ratePerHour * hours;
+    } else if (isAirport && bookingData.meetAndGreet) {
+      total += 25;
+    }
+
     if (bookingData.babySeat) total += 20;
     return total;
   };
@@ -136,3 +151,4 @@ export function useBookingModal() {
   }
   return context;
 }
+
