@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useBookingModal } from "@/context/BookingContext";
 import {
   ArrowLeft,
@@ -9,6 +10,11 @@ import {
   CheckCircle2,
   MessageCircle,
   X,
+  ShieldCheck,
+  Star,
+  Users,
+  Briefcase,
+  ChevronRight,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -19,6 +25,7 @@ interface Step3CardProps {
 export default function Step3Card({ isModal = true }: Step3CardProps) {
   const { bookingData, calculateTotal, setStep, closeModal } = useBookingModal();
   const [isSuccess, setIsSuccess] = useState(false);
+  const router = useRouter();
 
   const totalFare = calculateTotal();
 
@@ -33,24 +40,31 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
   const duration = bookingData.durationHours || 3;
 
   const handleProceed = () => {
-    // Generate WhatsApp Booking Message
+    if (isModal) {
+      if (closeModal) closeModal();
+      setStep(3);
+      router.push("/book");
+      return;
+    }
+
+    // On full booking page: Generate WhatsApp Booking Message & Show Confirmed State
     const text =
       `*New Singapore Maxi Cab Booking Request*%0A` +
       `--------------------------------%0A` +
       `*Service:* ${bookingData.serviceType}%0A` +
       (isHourly ? `*Duration:* ${duration} Hours%0A` : "") +
-      `*Vehicle:* ${bookingData.selectedFleet}%0A` +
-      `*Pickup:* ${bookingData.pickup}%0A` +
-      (!isHourly ? `*Dropoff:* ${bookingData.dropoff}%0A` : `*Dropoff / Scope:* ${bookingData.dropoff || "As-Directed City Tour"}%0A`) +
-      `*Date:* ${bookingData.pickupDate || "Today"} at ${bookingData.pickupTime || "17:15"} SGT%0A` +
-      `*Passengers:* ${bookingData.passengers} Pax | *Luggage:* ${bookingData.luggage} Bags%0A` +
-      (isAirport ? `*Meet & Greet:* ${bookingData.meetAndGreet ? "Yes (+$25 SGD)" : "No"}%0A` : "") +
-      `*Baby Seat:* ${bookingData.babySeat ? "Yes (+$20 SGD)" : "No"}%0A` +
-      `*Special Notes / Request:* ${bookingData.specialRequests || "None"}%0A` +
-      `--------------------------------%0A` +
+      `*Vehicle:* ${bookingData.selectedFleet || "7-Seater Maxi Cab"}%0A` +
+      `*Pickup:* ${bookingData.pickup || "Singapore Changi Airport (SIN)"}%0A` +
+      (!isHourly
+        ? `*Dropoff:* ${bookingData.dropoff || "Marina Bay Sands Hotel"}%0A`
+        : `*Dropoff / Scope:* ${bookingData.dropoff || "As-Directed City Tour"}%0A`) +
+      `*Date & Time:* ${bookingData.pickupDate || "24 Oct 2024"} at ${bookingData.pickupTime || "17:15"} SGT%0A` +
+      `*Passengers:* ${bookingData.passengers || 7} Pax | *Luggage:* ${bookingData.luggage || 5} Bags%0A` +
       `*Passenger Name:* ${bookingData.name || "Alexander Wright"}%0A` +
-      `*WhatsApp:* ${bookingData.countryCode} ${bookingData.phone || "88006006"}%0A` +
-      `*Email:* ${bookingData.email || "Sample@example.com"}%0A` +
+      `*Phone/WhatsApp:* ${bookingData.countryCode} ${bookingData.phone || "88006006"}%0A` +
+      `*Email:* ${bookingData.email || "booking@singaporemaxicabs.com.sg"}%0A` +
+      (bookingData.flightNumber ? `*Flight Number:* ${bookingData.flightNumber}%0A` : "") +
+      (bookingData.signboardName ? `*Signboard Name:* ${bookingData.signboardName}%0A` : "") +
       `*Final Tariff:* $${totalFare}.00 SGD NETT%0A` +
       `--------------------------------%0A` +
       `Please confirm driver dispatch availability. Thank you!`;
@@ -61,7 +75,7 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
 
   if (isSuccess) {
     return (
-      <div className="w-full max-w-[562px] mx-auto bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 text-center flex flex-col items-center gap-5 sm:gap-6 shadow-2xl relative max-h-[92vh] overflow-y-auto">
+      <div className="w-full max-w-[562px] mx-auto bg-white rounded-2xl border border-[#E9ECEF] p-6 sm:p-10 text-center flex flex-col items-center justify-center gap-6 shadow-2xl relative max-h-[92vh] overflow-y-auto selection:bg-[#C6A45A] selection:text-[#071E3B]">
         {isModal && closeModal && (
           <button
             type="button"
@@ -72,26 +86,31 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
             <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         )}
-        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0">
-          <CheckCircle2 className="w-8 h-8 sm:w-10 sm:h-10 stroke-[2]" />
+        
+        {/* Success Icon Circle */}
+        <div className="w-20 h-20 bg-[#E8F8EE] rounded-full flex items-center justify-center text-[#16803C] shrink-0 border border-[#22C55E]/30">
+          <CheckCircle2 className="w-10 h-10 stroke-[2.5]" />
         </div>
-        <div className="flex flex-col gap-1.5 sm:gap-2">
-          <h3 className="text-xl sm:text-2xl font-bold text-[#071E3B] font-manrope">
-            Booking Request Dispatched!
+
+        {/* Title & Description */}
+        <div className="flex flex-col items-center gap-2 max-w-sm">
+          <h3 className="text-2xl sm:text-3xl font-semibold text-[#071E3B] font-manrope">
+            Booking Confirmed!
           </h3>
-          <p className="text-xs sm:text-sm text-[#5F6B7A] max-w-md font-manrope leading-relaxed">
-            We have redirected your itinerary to our 24/7 WhatsApp dispatch team. Your driver details and flight buffer will be confirmed in 2–5 minutes.
+          <p className="text-sm sm:text-base text-[#5F6B7A] font-manrope leading-relaxed">
+            Thank you, <span className="font-semibold text-[#071E3B]">{bookingData.name || "Valued Customer"}</span>! Your booking request has been received. We&apos;ll confirm via WhatsApp within 15 minutes.
           </p>
         </div>
 
-        <div className="w-full p-4 rounded-xl bg-[#FBF7EC] border border-[#F4EAD1] text-left text-xs space-y-1.5 text-[#071E3B] font-manrope">
+        {/* Itinerary Quick Summary Pill */}
+        <div className="w-full max-w-sm p-4 rounded-xl bg-[#FBF7EC] border border-[#F4EAD1] text-left text-xs space-y-1.5 text-[#071E3B] font-manrope">
           <div className="flex justify-between font-semibold">
             <span className="text-[#5F6B7A]">Passenger:</span>
             <span>{bookingData.name || "Alexander Wright"}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-[#5F6B7A]">Vehicle:</span>
-            <span>{bookingData.selectedFleet || "Mercedes-Benz V-Class / Toyota Vellfire"}</span>
+            <span>{bookingData.selectedFleet || "7 Seater Maxi Cab"}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-[#5F6B7A]">Date &amp; Time:</span>
@@ -105,39 +124,41 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
+        {/* Action Buttons: WhatsApp Chat & Make Another Booking */}
+        <div className="flex flex-col gap-3 w-full max-w-sm">
+          <a
+            href={`https://wa.me/6588006006?text=${encodeURIComponent(`Hi, I just placed a booking for ${bookingData.name || "Alexander Wright"} (${bookingData.selectedFleet || "7 Seater Maxi Cab"}) on ${bookingData.pickupDate || "24 Oct 2024"} at ${bookingData.pickupTime || "17:15"} SGT. Total: $${totalFare}.00 SGD.`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-3.5 px-6 bg-[#E8F8EE] hover:bg-[#d5f4e0] border border-[#16803C] text-[#16803C] rounded-lg text-base font-semibold font-manrope transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+          >
+            <MessageCircle className="w-5 h-5 fill-current" />
+            <span>Chat with us on WhatsApp</span>
+          </a>
           <button
             type="button"
             onClick={() => {
               setIsSuccess(false);
+              setStep(1);
               if (closeModal) closeModal();
             }}
-            className="w-full sm:w-auto flex-1 px-6 py-3 rounded-xl bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-98 text-white text-sm font-bold font-manrope transition-all cursor-pointer"
+            className="w-full py-3.5 px-6 bg-[#071E3B] hover:bg-[#0B2A4A] text-white rounded-lg text-base font-semibold font-manrope transition-all cursor-pointer shadow-md"
           >
-            Done
+            Make Another Booking
           </button>
-          <a
-            href="https://wa.me/6588006006"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto flex-1 px-6 py-3 rounded-xl border border-[#C6A45A] hover:bg-[#C6A45A]/10 active:scale-98 text-[#8A5A00] text-sm font-bold font-manrope transition-all flex items-center justify-center gap-2"
-          >
-            <MessageCircle className="w-4 h-4 fill-current" />
-            <span>Open WhatsApp</span>
-          </a>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-[562px] mx-auto p-4 sm:p-5 bg-white rounded-2xl border border-slate-200 flex flex-col justify-start items-start gap-4 sm:gap-5 shadow-2xl relative max-h-[92vh] overflow-y-auto">
+    <div className="w-full max-w-[562px] mx-auto p-5 bg-white rounded-2xl border border-slate-200 flex flex-col justify-start items-start gap-5 shadow-2xl relative max-h-[92vh] overflow-y-auto selection:bg-[#C6A45A] selection:text-[#071E3B]">
       {/* Close button if in modal */}
       {isModal && closeModal && (
         <button
           type="button"
           onClick={closeModal}
-          className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 p-2 rounded-full text-[#667085] hover:text-[#071E3B] hover:bg-slate-100 active:scale-95 transition-all z-30 cursor-pointer"
+          className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 p-2 rounded-full text-[#667085] hover:text-[#071E3B] hover:bg-slate-100 active:scale-95 transition-all z-30 cursor-pointer"
           aria-label="Close modal"
         >
           <X className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -146,228 +167,246 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
 
       {/* Header */}
       <div className="flex flex-col justify-start items-start pr-8 sm:pr-0">
-        <div className="text-[#C6A45A] text-[11px] sm:text-xs font-bold font-manrope leading-4 uppercase tracking-wider">
+        <div className="text-[#C6A45A] text-xs font-semibold font-manrope leading-4 uppercase">
           QUICK &amp; EASY BOOKING
         </div>
-        <div className="text-[#071E3B] text-lg sm:text-xl font-bold font-manrope leading-6 sm:leading-7 pt-0.5">
+        <div className="text-[#071E3B] text-xl font-semibold font-manrope leading-7">
           Review Your Journey
         </div>
       </div>
 
-      {/* Confirmed Vehicle Class Hero Card */}
-      <div className="self-stretch h-48 sm:h-64 relative rounded-xl flex flex-col justify-between p-3.5 sm:p-4 overflow-hidden bg-slate-900">
+      {/* Confirmed Vehicle Class Hero Card - Exactly matching Figma Screenshot */}
+      <div className="w-full h-[288px] min-h-[288px] shrink-0 relative rounded-2xl flex flex-col justify-between p-4 sm:p-5 overflow-hidden bg-slate-900 shadow-md">
         <Image
           src="/images/bookinpage3.png"
-          alt={bookingData.selectedFleet || "Mercedes-Benz V-Class / Toyota Vellfire"}
+          alt={bookingData.selectedFleet || "7 Seater Maxi Cab"}
           fill
-          sizes="(max-width: 640px) 100vw, 520px"
-          className="object-cover object-center opacity-85"
+          sizes="(max-width: 640px) 100vw, 560px"
+          className="object-cover object-center"
+          priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent pointer-events-none" />
+        {/* Subtle Dark Gradient to make bottom text and badges crisp while keeping sky/skyline bright */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 via-55% to-transparent pointer-events-none" />
 
         {/* Top Badges */}
-        <div className="relative z-10 flex items-center gap-2 sm:gap-3 flex-wrap">
-          <div className="px-2 py-0.5 sm:py-1 bg-[rgba(7,30,59,0.7)] rounded-md outline outline-1 outline-white/20 backdrop-blur-md flex items-center gap-1">
-            <svg
-              className="w-3 h-3 text-[#C6A45A] fill-[#C6A45A]"
-              viewBox="0 0 12 12"
-            >
-              <polygon points="6,1 7.5,4.5 11,5 8.5,7.5 9,11 6,9.2 3,11 3.5,7.5 1,5 4.5,4.5" />
-            </svg>
-            <span className="text-white text-[10px] sm:text-xs font-bold font-manrope uppercase tracking-wider">
+        <div className="relative z-10 flex items-center gap-3 flex-wrap">
+          <div className="px-2.5 py-1 bg-[#071E3B]/80 rounded-md border border-white/20 backdrop-blur-md flex items-center gap-1.5 shadow-sm">
+            <div className="w-3.5 h-3.5 rounded-full bg-[#C6A45A] flex items-center justify-center shrink-0">
+              <Star className="w-2 h-2 text-[#071E3B] fill-[#071E3B]" />
+            </div>
+            <span className="text-white text-[11px] sm:text-xs font-bold font-manrope tracking-wider leading-none uppercase">
               VIP CHANGI CONCIERGE
             </span>
           </div>
-          <div className="px-2 py-0.5 sm:py-1 bg-[rgba(7,30,59,0.7)] rounded-md outline outline-1 outline-white/20 backdrop-blur-md">
-            <span className="text-white text-[10px] sm:text-xs font-bold font-manrope uppercase tracking-wider">
-              {bookingData.selectedFleet ? "7 SEATER MAXI CAB" : "7 SEATER MAXI CAB"}
+          <div className="px-2.5 py-1 bg-[#071E3B]/80 rounded-md border border-white/20 backdrop-blur-md flex items-center shadow-sm">
+            <span className="text-white text-[11px] sm:text-xs font-bold font-manrope tracking-wider leading-none uppercase">
+              {bookingData.selectedFleet ? bookingData.selectedFleet.toUpperCase() : "7 SEATER MAXI CAB"}
             </span>
           </div>
         </div>
 
         {/* Bottom Vehicle Info */}
-        <div className="relative z-10 flex flex-col justify-start items-start gap-1">
+        <div className="relative z-10 flex flex-col justify-start items-start gap-1.5">
           <div className="self-stretch flex items-center justify-between gap-2 flex-wrap">
-            <span className="text-[#C6A45A] text-xs font-bold font-manrope uppercase tracking-wider">
+            <span className="text-[#C6A45A] text-xs sm:text-sm font-bold font-manrope tracking-wider uppercase">
               CONFIRMED VEHICLE CLASS
             </span>
-            <div className="px-2 py-0.5 bg-white/20 rounded-md backdrop-blur-md flex items-center gap-1.5 text-white text-[11px] sm:text-xs font-semibold font-manrope">
-              <span>Max {bookingData.passengers || 7} Pax</span>
-              <span>•</span>
-              <span>{bookingData.luggage || 5} Bags</span>
+            <div className="px-2.5 py-1 bg-[#071E3B]/80 rounded-md border border-white/20 backdrop-blur-md flex items-center gap-1.5 text-white text-[11px] sm:text-xs font-semibold font-manrope shadow-sm">
+              <Users className="w-3.5 h-3.5 text-[#C6A45A]" />
+              <span>Max {bookingData.passengers || 7} Passengers</span>
+              <span className="text-white/60 font-normal">•</span>
+              <Briefcase className="w-3.5 h-3.5 text-[#C6A45A]" />
+              <span>{bookingData.luggage || 5} Luggage&apos;s</span>
             </div>
           </div>
-          <div className="text-white text-lg sm:text-2xl font-bold font-manrope leading-tight">
-            {bookingData.selectedFleet || "Mercedes-Benz V-Class / Toyota Vellfire"}
+          <div className="text-white text-xl sm:text-2xl font-bold font-manrope leading-tight tracking-tight drop-shadow-sm">
+            {bookingData.selectedFleet === "6 Seater Maxi Cab"
+              ? "Toyota Vellfire / Toyota Alphard"
+              : bookingData.selectedFleet === "9 Seater Maxi Cab"
+              ? "Toyota HiAce / Mercedes Vito"
+              : bookingData.selectedFleet === "13 Seater Minibus"
+              ? "Toyota HiAce Commuter Minibus"
+              : bookingData.selectedFleet === "VIP Lounge 7-Seater"
+              ? "Mercedes V-Class / Luxury MPV"
+              : bookingData.selectedFleet === "Wheelchair Maxi Cab"
+              ? "Modified Toyota HiAce Accessible"
+              : "Mercedes-Benz V-Class / Toyota Vellfire"}
           </div>
         </div>
       </div>
 
       {/* Journey & Booking Details Flow */}
-      <div className="self-stretch flex flex-col justify-start items-start gap-5 sm:gap-6">
+      <div className="self-stretch flex flex-col justify-start items-start gap-8">
         {/* Row 1: Pick Up & Destination */}
-        <div className="self-stretch grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 items-start bg-[#F8F7F4] p-3.5 sm:p-4 rounded-xl border border-slate-200/80">
+        <div className="self-stretch grid grid-cols-1 sm:grid-cols-2 gap-8 items-start">
           {/* Pick Up */}
-          <div className="flex flex-col justify-start items-start gap-1">
+          <div className="flex flex-col justify-start items-start gap-2">
             <div className="inline-flex items-center gap-1.5">
-              <span className="text-[#8A5A00] text-xs sm:text-sm font-bold font-inter">
+              <span className="text-[#8A5A00] text-sm font-medium font-inter leading-5">
                 Pick Up
               </span>
-              <span className="px-1.5 py-0.5 bg-[#123F6B] rounded text-white text-[10px] font-semibold font-manrope">
-                Terminal 3
+              <span className="px-2 py-0.5 bg-[#123F6B] rounded-sm text-white text-xs font-normal font-manrope leading-4">
+                {bookingData.terminal || "Terminal 3"}
               </span>
             </div>
-            <div className="text-[#071E3B] text-sm sm:text-base font-bold font-manrope leading-snug">
+            <div className="text-[#071E3B] text-base font-bold font-manrope leading-7">
               {bookingData.pickup || "Singapore Changi Airport (SIN)"}
             </div>
-            <div className="text-[#667085] text-xs font-normal font-manrope leading-relaxed">
-              Arrival Hall Meetpoint · Flight tracking active
+            <div className="text-[#667085] text-base font-normal font-manrope leading-6">
+              Arrival Hall Belt 42 Meetpoint , Flight buffer active
             </div>
           </div>
 
           {/* Destination */}
-          <div className="flex flex-col justify-start items-start gap-1 border-t sm:border-t-0 sm:border-l border-slate-200/80 pt-3 sm:pt-0 sm:pl-4">
-            <span className="text-[#8A5A00] text-xs sm:text-sm font-bold font-inter">
+          <div className="flex flex-col justify-start items-start gap-2">
+            <span className="text-[#8A5A00] text-sm font-medium font-inter leading-5">
               Destination
             </span>
-            <div className="text-[#071E3B] text-sm sm:text-base font-bold font-manrope leading-snug">
+            <div className="text-[#071E3B] text-base font-bold font-manrope leading-7">
               {bookingData.dropoff || "Marina Bay Sands Hotel"}
             </div>
-            <div className="text-[#667085] text-xs font-normal font-manrope leading-relaxed">
-              10 Bayfront Avenue, Singapore (VIP Foyer)
+            <div className="text-[#667085] text-base font-normal font-manrope leading-6">
+              10 Bayfront Avenue, Singapore 018956 (Tower 1 VIP Foyer)
             </div>
           </div>
         </div>
 
-        {/* Row 2: Date & Time & Passenger */}
-        <div className="self-stretch grid grid-cols-2 gap-3 sm:gap-4 items-start">
-          <div className="flex flex-col gap-0.5">
-            <span className="text-[#C6A45A] text-[10px] sm:text-xs font-bold font-manrope uppercase tracking-wider">
+        {/* Row 2: Date & Time and IPAD Signboard */}
+        <div className="self-stretch grid grid-cols-1 sm:grid-cols-2 gap-8 items-start">
+          <div className="flex flex-col justify-start items-start gap-1">
+            <span className="text-[#C6A45A] text-xs font-bold font-manrope leading-4 uppercase">
               DATE &amp; TIME
             </span>
-            <div className="text-[#071E3B] text-sm sm:text-base font-bold font-manrope leading-snug">
+            <div className="text-[#071E3B] text-base font-bold font-manrope leading-6">
               {bookingData.pickupDate || "24 Oct 2024"}
             </div>
-            <div className="text-[#5F6B7A] text-xs font-medium font-manrope">
-              {bookingData.pickupTime || "17:15"} SGT
+            <div className="text-[#5F6B7A] text-sm font-medium font-manrope leading-5">
+              {bookingData.pickupTime || "17:15"} SGT (SQ 321 Buffer)
             </div>
           </div>
 
-          <div className="flex flex-col gap-0.5">
-            <span className="text-[#C6A45A] text-[10px] sm:text-xs font-bold font-manrope uppercase tracking-wider">
-              PASSENGER
+          <div className="flex flex-col justify-start items-start gap-1">
+            <span className="text-[#C6A45A] text-xs font-bold font-manrope leading-4 uppercase">
+              IPAD SIGNBOARD
             </span>
-            <div className="text-[#071E3B] text-sm sm:text-base font-bold font-manrope leading-snug">
-              {bookingData.name || "Alexander Wright"}
+            <div className="text-[#071E3B] text-base font-bold font-manrope leading-6">
+              {bookingData.signboardName
+                ? bookingData.signboardName.toUpperCase()
+                : bookingData.name
+                ? `MR. ${bookingData.name.toUpperCase()}`
+                : "MR. ALEXANDER WRIGHT"}
             </div>
-            <div className="text-[#5F6B7A] text-xs font-medium font-manrope">
-              {bookingData.countryCode} {bookingData.phone || "88006006"}
+            <div className="text-[#5F6B7A] text-sm font-medium font-manrope leading-5">
+              Driver will hold in Arrival Hall
             </div>
+          </div>
+        </div>
+
+        {/* Row 3: Passenger */}
+        <div className="flex flex-col justify-start items-start gap-1">
+          <span className="text-[#C6A45A] text-xs font-bold font-manrope leading-4 uppercase">
+            PASSENGER
+          </span>
+          <div className="text-[#071E3B] text-base font-bold font-manrope leading-6">
+            {bookingData.name || "Alexander Wright"}
+          </div>
+          <div className="text-[#5F6B7A] text-sm font-medium font-manrope leading-5">
+            {bookingData.countryCode} {bookingData.phone || "9123 4567"}
           </div>
         </div>
 
         {/* Tariff Breakdown Section */}
-        <div className="self-stretch bg-[#FBF7EC] p-4 rounded-xl border border-[#F4EAD1] flex flex-col gap-3.5">
+        <div className="self-stretch bg-white rounded-2xl flex flex-col justify-start items-start gap-4">
           {/* Header */}
           <div className="self-stretch inline-flex justify-between items-center">
             <div className="flex items-center gap-1.5">
-              <span className="text-[#071E3B] text-base font-bold font-manrope">
+              <ShieldCheck className="w-5 h-5 text-[#8A5A00]" />
+              <span className="text-[#071E3B] text-lg font-bold font-manrope leading-7">
                 Tariff Breakdown
               </span>
             </div>
-            <span className="px-2 py-0.5 bg-[#FFF8E7] rounded-md text-[#8A5A00] text-xs font-bold font-manrope border border-[#F4EAD1]">
-              Zero Hidden Fees
+            <span className="px-2 py-1 bg-[#FFF8E7] rounded-xl text-[#8A5A00] text-xs font-semibold font-manrope leading-4">
+              Zero Hidden Charges
             </span>
           </div>
 
-          <div className="self-stretch flex flex-col gap-2.5">
+          <div className="self-stretch flex flex-col justify-start items-start gap-4">
             {/* Transfer / Charter Line Item */}
-            <div className="self-stretch py-1 flex justify-between items-center text-xs sm:text-sm">
-              <div className="flex flex-col">
-                <span className="text-slate-900 font-semibold font-manrope">
-                  {bookingData.selectedFleet || "Maxi Cab"} {isHourly ? `(${duration} Hours Charter)` : "Transfer"}
+            <div className="self-stretch py-2 inline-flex justify-between items-center border-b border-slate-100">
+              <div className="flex flex-col justify-start items-start">
+                <span className="text-slate-900 text-sm font-medium font-inter leading-5">
+                  {bookingData.selectedFleet || "7-Seater Maxi Cab"} {isHourly ? `(${duration} Hours Charter)` : "Transfer"}
                 </span>
-                <span className="text-[#667085] text-xs font-normal">
+                <span className="text-zinc-700 text-xs font-normal font-manrope leading-4">
                   {isHourly
                     ? `${duration} hours dedicated chauffeur @ $${hourlyRate}/hr`
-                    : "Includes ERP toll systems, luggage assist"}
+                    : "Includes terminal meet & greet, toll systems, and driver dispatch"}
                 </span>
               </div>
-              <div className="text-right shrink-0">
-                <span className="text-slate-900 font-bold font-manrope text-base sm:text-lg">
+              <div className="text-right shrink-0 flex flex-col items-end">
+                <span className="text-slate-900 text-xl font-semibold font-manrope leading-7">
                   ${isHourly ? hourlyRate * duration : (bookingData.baseFare || 70)}.00
                 </span>
-                <span className="text-[#667085] text-[10px] block">SGD</span>
+                <span className="text-slate-900 text-xs font-normal font-manrope leading-4">
+                  SGD
+                </span>
               </div>
             </div>
 
-            {/* Airport Meet & Greet Item if selected */}
-            {isAirport && bookingData.meetAndGreet && (
-              <div className="self-stretch py-1 flex justify-between items-center text-xs sm:text-sm border-t border-slate-200/60 pt-2">
-                <div className="flex flex-col">
-                  <span className="text-slate-900 font-semibold font-manrope">
-                    Airport Meet &amp; Greet
-                  </span>
-                  <span className="text-[#667085] text-xs font-normal">
-                    Arrival hall name board &amp; 60m flight tracking
-                  </span>
-                </div>
-                <div className="text-right shrink-0">
-                  <span className="text-slate-900 font-bold font-manrope text-sm sm:text-base">
-                    +$25.00
-                  </span>
-                  <span className="text-[#667085] text-[10px] block">SGD</span>
-                </div>
-              </div>
-            )}
-
-            {/* Optional Baby Seat Item if added */}
-            {bookingData.babySeat && (
-              <div className="self-stretch py-1 flex justify-between items-center text-xs sm:text-sm border-t border-slate-200/60 pt-2">
-                <span className="text-slate-900 font-semibold font-manrope">
-                  Child / Baby Safety Seat
-                </span>
-                <div className="text-right shrink-0">
-                  <span className="text-slate-900 font-bold font-manrope text-sm sm:text-base">
-                    +$20.00
-                  </span>
-                  <span className="text-[#667085] text-[10px] block">SGD</span>
-                </div>
-              </div>
-            )}
-
             {/* Inclusions */}
-            <div className="self-stretch grid grid-cols-3 gap-2 pt-2 border-t border-[#C6A45A]/20 text-center">
-              <div className="p-2 bg-white rounded-lg border border-[#E9ECEF]">
-                <div className="text-[#5F6B7A] text-[10px] font-normal">ERP &amp; Tolls</div>
-                <div className="text-[#8A5A00] text-[11px] font-bold">INCLUDED</div>
+            <div className="self-stretch flex flex-col justify-start items-start gap-1">
+              <div className="self-stretch inline-flex justify-start items-center gap-1.5">
+                <Star className="w-3.5 h-3.5 text-[#8A5A00] fill-[#8A5A00]" />
+                <span className="text-[#5F6B7A] text-sm font-medium font-manrope leading-5 uppercase">
+                  ALL-INCLUSIVE INCLUSIONS ($0 EXTRA CHARGES)
+                </span>
               </div>
-              <div className="p-2 bg-white rounded-lg border border-[#E9ECEF]">
-                <div className="text-[#5F6B7A] text-[10px] font-normal">60m Flight Wait</div>
-                <div className="text-[#8A5A00] text-[11px] font-bold">INCLUDED</div>
-              </div>
-              <div className="p-2 bg-white rounded-lg border border-[#E9ECEF]">
-                <div className="text-[#5F6B7A] text-[10px] font-normal">Midnight Surge</div>
-                <div className="text-[#8A5A00] text-[11px] font-bold">WAIVED</div>
+              <div className="self-stretch inline-flex justify-center items-start gap-4">
+                <div className="flex-1 p-2 bg-white rounded-lg border border-[#E9ECEF] flex flex-col justify-start items-start gap-1">
+                  <div className="text-[#5F6B7A] text-xs font-normal font-manrope leading-4">
+                    ERP &amp; Tolls
+                  </div>
+                  <div className="text-[#8A5A00] text-xs font-bold font-manrope leading-4">
+                    INCLUDED ($0)
+                  </div>
+                </div>
+                <div className="flex-1 p-2 bg-white rounded-lg border border-[#E9ECEF] flex flex-col justify-start items-start gap-1">
+                  <div className="text-[#5F6B7A] text-xs font-normal font-manrope leading-4">
+                    Meet &amp; Greet + 60m Wait
+                  </div>
+                  <div className="text-[#8A5A00] text-xs font-bold font-manrope leading-4">
+                    INCLUDED ($0)
+                  </div>
+                </div>
+                <div className="flex-1 p-2 bg-white rounded-lg border border-[#E9ECEF] flex flex-col justify-start items-start gap-1">
+                  <div className="text-[#5F6B7A] text-xs font-normal font-manrope leading-4">
+                    Midnight / Peak Surcharge
+                  </div>
+                  <div className="text-[#8A5A00] text-xs font-bold font-manrope leading-4">
+                    WAIVED ($0)
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Final Tariff */}
-            <div className="self-stretch pt-2 border-t border-[#C6A45A]/30 flex justify-between items-center">
-              <div className="flex flex-col">
-                <span className="text-[#8A5A00] text-sm sm:text-base font-extrabold font-manrope">
-                  Final Guaranteed Tariff
-                </span>
-                <span className="text-[#667085] text-[11px]">
-                  Fixed rate · Zero surge or hidden fees
-                </span>
-              </div>
-              <div className="text-right">
-                <div className="text-slate-900 text-2xl sm:text-3xl font-extrabold font-manrope">
-                  ${totalFare}.00
+            <div className="self-stretch flex flex-col justify-start items-start pt-2">
+              <div className="self-stretch rounded-lg inline-flex justify-between items-center">
+                <div className="flex flex-col justify-start items-start">
+                  <span className="text-[#8A5A00] text-base font-bold font-manrope leading-6">
+                    Final Tariff
+                  </span>
+                  <span className="text-zinc-700 text-xs font-normal font-manrope leading-4">
+                    Guaranteed fixed rate · Zero surge or hidden fees
+                  </span>
                 </div>
-                <div className="text-[#8A5A00] text-[10px] font-bold tracking-wider uppercase">
-                  SGD NETT
+                <div className="flex flex-col justify-between items-end">
+                  <div className="text-slate-900 text-3xl font-semibold font-manrope leading-10">
+                    ${totalFare}.00
+                  </div>
+                  <div className="text-zinc-700 text-xs font-normal font-manrope leading-4">
+                    SGD NETT
+                  </div>
                 </div>
               </div>
             </div>
@@ -375,15 +414,15 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
         </div>
 
         {/* Disclaimer & Buttons */}
-        <div className="self-stretch flex flex-col justify-start items-start gap-2.5">
-          <div className="self-stretch text-center text-[#5F6B7A] text-[11px] sm:text-xs font-normal font-manrope">
+        <div className="self-stretch flex flex-col justify-start items-start gap-2">
+          <div className="self-stretch text-center text-[#5F6B7A] text-xs font-normal font-manrope leading-4">
             Singapore trips only — cross-border rides to Malaysia not available.
           </div>
-          <div className="self-stretch flex justify-start items-center gap-3">
+          <div className="self-stretch inline-flex justify-start items-start gap-4">
             <button
               type="button"
               onClick={() => setStep(2)}
-              className="px-5 sm:px-8 py-3.5 bg-[#E9ECEF] hover:bg-slate-200 active:scale-95 rounded-xl flex justify-center items-center gap-2 transition-colors cursor-pointer text-[#5F6B7A] text-sm sm:text-base font-bold font-manrope"
+              className="px-8 py-3 bg-[#E9ECEF] hover:bg-slate-200 active:scale-95 rounded-lg flex justify-center items-center gap-4 transition-colors cursor-pointer text-[#5F6B7A] text-base font-semibold font-manrope leading-6"
             >
               <ArrowLeft className="w-4 h-4 text-[#5F6B7A]" />
               <span>Back</span>
@@ -391,40 +430,41 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
             <button
               type="button"
               onClick={handleProceed}
-              className="flex-1 py-3.5 bg-gradient-to-r from-[#C6A45A] to-[#B58E45] active:scale-98 text-[#071E3B] rounded-xl flex justify-center items-center gap-3 transition-all shadow-md hover:shadow-lg cursor-pointer group text-sm sm:text-base font-extrabold font-manrope"
+              className="flex-1 px-8 py-3 bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-[0.98] text-white rounded-lg flex justify-center items-center gap-4 transition-all shadow-md hover:shadow-lg cursor-pointer text-base font-semibold font-manrope leading-6"
             >
-              <span>Confirm via WhatsApp</span>
-              <ArrowRight className="w-4 h-4 stroke-[3] group-hover:translate-x-1 transition-transform" />
+              <span>Proceed to Payment</span>
+              <ArrowRight className="w-4 h-4 stroke-[2.5]" />
             </button>
           </div>
         </div>
 
         {/* Sub Links */}
-        <div className="self-stretch inline-flex justify-between items-center pt-1">
+        <div className="self-stretch inline-flex justify-between items-center">
           <Link
             href="/pricing"
             onClick={closeModal}
             className="flex justify-start items-center gap-1 group transition-colors"
           >
-            <span className="text-[#667085] group-hover:text-[#071E3B] text-xs sm:text-sm font-normal font-manrope leading-5">
+            <span className="text-[#667085] group-hover:text-[#071E3B] text-sm font-normal font-manrope leading-5">
               View all prices
             </span>
-            <ArrowRight className="w-3.5 h-3.5 text-[#667085] group-hover:text-[#071E3B]" />
+            <ChevronRight className="w-4 h-4 text-[#667085] group-hover:text-[#071E3B]" />
           </Link>
           <a
             href="https://wa.me/6588006006"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex justify-start items-center gap-1.5 group transition-colors"
+            className="flex justify-start items-center gap-2 group transition-colors"
           >
-            <span className="text-[#16803C] group-hover:text-emerald-700 text-xs sm:text-sm font-bold font-manrope leading-5">
-              WhatsApp Us
+            <span className="text-[#16803C] group-hover:text-emerald-700 text-sm font-normal font-manrope leading-5">
+              Book via whatsapp us
             </span>
-            <MessageCircle className="w-3.5 h-3.5 text-[#16803C] fill-current" />
+            <ChevronRight className="w-4 h-4 text-[#16803C]" />
           </a>
         </div>
       </div>
     </div>
   );
 }
+
 

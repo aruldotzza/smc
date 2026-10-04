@@ -16,6 +16,9 @@ export interface BookingData {
   pickupDate: string;
   pickupTime: string;
   flightNo: string;
+  flightNumber?: string;
+  signboardName?: string;
+  terminal?: string;
   babySeat: boolean;
   specialRequests: string;
   name: string;
@@ -51,20 +54,23 @@ const defaultBookingData: BookingData = {
   serviceType: "Airport Transfer",
   pickup: "Singapore Changi Airport (SIN)",
   dropoff: "Marina Bay Sands Hotel",
-  passengers: 1,
-  luggage: 0,
+  passengers: 7,
+  luggage: 5,
   meetAndGreet: true,
   durationHours: 3,
-  selectedFleet: "Mercedes-Benz Vito / Toyota Hiace 9S",
-  selectedFleetSlug: "9-seater",
+  selectedFleet: "7 Seater Maxi Cab",
+  selectedFleetSlug: "7-seater",
   baseFare: 70,
   pickupDate: new Date().toISOString().split("T")[0],
   pickupTime: "17:15",
   flightNo: "SQ 321",
+  flightNumber: "SQ 321",
+  signboardName: "MR. ALEXANDER WRIGHT",
+  terminal: "Terminal 3",
   babySeat: false,
   specialRequests: "",
   name: "Alexander Wright",
-  phone: "88006006",
+  phone: "9123 4567",
   countryCode: "+65",
   email: "alexander.wright@example.com",
 };

@@ -1,5 +1,5 @@
 {
-  "badge": "OUR VEHICLES",
+  "badge": "Our Fleet",
   "title": "Spacious, Clean & Always On Time",
   "subtitle": "Well-maintained Mercedes-Benz, Toyota Vellfire, and HiAce minibuses driven by experienced, licensed chauffeurs.",
   "vehicles": [
@@ -50,10 +50,43 @@
       "bags": "5–6 Bags",
       "luggageCount": 5,
       "pointToPoint": "$70 SGD",
+      "meetAndGreet": "$75 SGD",
+      "charter3h": "$180 SGD",
+      "charter8h": "$480 SGD",
+      "vehicleType": "Toyota Vellfire / Alphard",
+      "inclusions": [
+        "Fixed flat-rate pricing",
+        "Licensed & professional chauffeur",
+        "Flight tracking for airport pickups",
+        "Air-conditioned, clean interior",
+        "Child seat available on request",
+        "WhatsApp driver contact"
+      ],
+      "extras": [
+        { "label": "Changi Meet & Greet", "price": "$75" },
+        { "label": "3-Hour Charter", "price": "$180" }
+      ],
+      "buttonText": "Reserve 7-Seater",
+      "image": "/images/Cab.png"
+    },
+    {
+      "id": "9-seater",
+      "slug": "9-seater",
+      "name": "9 Seater Maxi Cab",
+      "model": "Toyota HiAce / Mercedes Vito",
+      "price": "$75",
+      "currency": "SGD",
+      "description": "Perfect mid-size option for group airport transfers and business travel.",
+      "heroDescription": "A spacious 9-passenger cabin engineered for comfortable group transit across Singapore. Features ample legroom, generous headroom, and substantial luggage capacity for medium-sized teams.",
+      "pax": "9 Pax",
+      "paxCount": 9,
+      "bags": "5–6 Bags",
+      "luggageCount": 6,
+      "pointToPoint": "$75 SGD",
       "meetAndGreet": "$80 SGD",
-      "charter3h": "$195 SGD",
+      "charter3h": "$200 SGD",
       "charter8h": "$520 SGD",
-      "vehicleType": "Toyota Vellfire / Alphard Executive",
+      "vehicleType": "Toyota HiAce / Mercedes Vito",
       "inclusions": [
         "Fixed flat-rate pricing",
         "Licensed & professional chauffeur",
@@ -64,40 +97,7 @@
       ],
       "extras": [
         { "label": "Changi Meet & Greet", "price": "$80" },
-        { "label": "3-Hour Charter", "price": "$195" }
-      ],
-      "buttonText": "Reserve 7-Seater",
-      "image": "/images/Cab.png"
-    },
-    {
-      "id": "9-seater",
-      "slug": "9-seater",
-      "name": "9 Seater Maxi Cab",
-      "model": "Mercedes-Benz Vito / Toyota HiAce 9S",
-      "price": "$80",
-      "currency": "SGD",
-      "description": "Perfect mid-size option for group airport transfers and business travel.",
-      "heroDescription": "A spacious 9-passenger cabin engineered for comfortable group transit across Singapore. Features ample legroom, generous headroom, and substantial luggage capacity for medium-sized teams.",
-      "pax": "9 Pax",
-      "paxCount": 9,
-      "bags": "5–6 Bags",
-      "luggageCount": 6,
-      "pointToPoint": "$80 SGD",
-      "meetAndGreet": "$90 SGD",
-      "charter3h": "$210 SGD",
-      "charter8h": "$560 SGD",
-      "vehicleType": "Mercedes-Benz Vito / Toyota HiAce",
-      "inclusions": [
-        "Fixed flat-rate pricing",
-        "Licensed & professional chauffeur",
-        "Flight tracking for airport pickups",
-        "Air-conditioned, clean interior",
-        "Child seat available on request",
-        "WhatsApp driver contact"
-      ],
-      "extras": [
-        { "label": "Changi Meet & Greet", "price": "$90" },
-        { "label": "3-Hour Charter", "price": "$210" }
+        { "label": "3-Hour Charter", "price": "$200" }
       ],
       "buttonText": "Reserve 9-Seater",
       "image": "/images/Cab.png"
@@ -106,8 +106,8 @@
       "id": "13-seater",
       "slug": "13-seater",
       "name": "13 Seater Minibus",
-      "model": "Toyota HiAce Commuter Deluxe",
-      "price": "$90",
+      "model": "Toyota HiAce Commuter",
+      "price": "$80",
       "currency": "SGD",
       "description": "Spacious minibus for larger groups, corporate visitors, and special events.",
       "heroDescription": "Our flagship high-capacity minibus comfortably seats up to 13 passengers with a dedicated rear luggage compartment. The premier choice for event shuttles, delegational transfers, and wedding convoys.",
@@ -115,10 +115,10 @@
       "paxCount": 13,
       "bags": "11–13 Bags",
       "luggageCount": 12,
-      "pointToPoint": "$90 SGD",
-      "meetAndGreet": "$100 SGD",
-      "charter3h": "$240 SGD",
-      "charter8h": "$640 SGD",
+      "pointToPoint": "$80 SGD",
+      "meetAndGreet": "$85 SGD",
+      "charter3h": "$220 SGD",
+      "charter8h": "$580 SGD",
       "vehicleType": "Toyota HiAce Commuter Minibus",
       "inclusions": [
         "Fixed flat-rate pricing",
@@ -129,8 +129,8 @@
         "WhatsApp driver contact"
       ],
       "extras": [
-        { "label": "Changi Meet & Greet", "price": "$100" },
-        { "label": "3-Hour Charter", "price": "$240" }
+        { "label": "Changi Meet & Greet", "price": "$85" },
+        { "label": "3-Hour Charter", "price": "$220" }
       ],
       "buttonText": "Reserve 13-Seater",
       "image": "/images/Cab.png"
@@ -139,10 +139,10 @@
       "id": "vip-lounge",
       "slug": "vip-lounge",
       "name": "VIP Lounge 7-Seater",
-      "model": "Mercedes-Benz V-Class / Luxury Vellfire",
+      "model": "Mercedes V-Class / Luxury MPV",
       "price": "$90",
       "currency": "SGD",
-      "description": "Luxury lounge seating with reclining captain chairs and ambient lighting.",
+      "description": "Luxury lounge seating with premium comfort, privacy, and VIP service.",
       "heroDescription": "The ultimate luxury chauffeur experience in Singapore. Crafted for VIP delegates, celebrities, and corporate leaders with plush leather reclining seats, ambient cabin illumination, and discreet chauffeur etiquette.",
       "pax": "7 Pax",
       "paxCount": 7,
@@ -152,7 +152,7 @@
       "meetAndGreet": "$100 SGD",
       "charter3h": "$255 SGD",
       "charter8h": "$680 SGD",
-      "vehicleType": "Mercedes-Benz V-Class VIP",
+      "vehicleType": "Mercedes V-Class / Luxury MPV",
       "inclusions": [
         "Fixed flat-rate pricing",
         "Licensed & professional VIP chauffeur",
@@ -172,21 +172,21 @@
       "id": "wheelchair-cab",
       "slug": "wheelchair-cab",
       "name": "Wheelchair Maxi Cab",
-      "model": "Toyota HiAce Hydraulic Ramp Assist",
+      "model": "Modified Toyota HiAce",
       "price": "$75+",
       "currency": "SGD",
       "description": "Built-in wheelchair ramp with secure safety harness for safe hospital and home transfers.",
       "heroDescription": "Specially modified wheelchair accessible maxi cab equipped with a heavy-duty hydraulic ramp, 4-point wheelchair floor restraint system, and lap/shoulder seat belts for dignified and safe mobility across Singapore.",
-      "pax": "1-2 W/C + 4-7 Pax",
-      "paxCount": "1-2 W/C + 7",
+      "pax": "7 Pax",
+      "paxCount": 7,
       "bags": "4 Bags",
       "luggageCount": 4,
       "badge": "LTA Certified • Full Safety Harness",
       "pointToPoint": "$75+ SGD",
-      "meetAndGreet": "$85+ SGD",
-      "charter3h": "$210+ SGD",
-      "charter8h": "$560+ SGD",
-      "vehicleType": "Toyota HiAce Wheelchair Mobility Van",
+      "meetAndGreet": "$85 SGD",
+      "charter3h": "$220+ SGD",
+      "charter8h": "Quote",
+      "vehicleType": "Modified Toyota HiAce",
       "inclusions": [
         "Certified hydraulic ramp & docking system",
         "4-point Q'Straint wheelchair safety harness",

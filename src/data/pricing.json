@@ -6,17 +6,17 @@
     {
       "icon": "ban",
       "title": "$0 Hidden Fees",
-      "description": "Fixed fare from booking to destination. Zero toll or ERP add-on surprises."
+      "description": "Fixed fare from booking to destination."
     },
     {
       "icon": "clock",
       "title": "No Midnight Rates",
-      "description": "Same price at 2am as at 2pm. Flat-rate standard round the clock."
+      "description": "Same price at 2am as at 2pm."
     },
     {
       "icon": "hourglass",
       "title": "No Waiting Fee",
-      "description": "We track your flight in real time and absorb flight delay waiting time."
+      "description": "We track your flight and absorb delay time."
     }
   ],
   "matrix": [
@@ -25,7 +25,7 @@
       "slug": "6-seater",
       "name": "6 Seater Maxi Cab",
       "model": "Toyota Vellfire / Alphard",
-      "pax": "6 Pax",
+      "pax": "6",
       "paxCount": 6,
       "pointToPoint": "$65",
       "meetAndGreet": "$75",
@@ -37,43 +37,43 @@
       "slug": "7-seater",
       "name": "7 Seater Maxi Cab",
       "model": "Toyota Vellfire / Alphard",
-      "pax": "7 Pax",
+      "pax": "7",
       "paxCount": 7,
       "pointToPoint": "$70",
-      "meetAndGreet": "$80",
-      "charter3h": "$195",
-      "charter8h": "$520"
+      "meetAndGreet": "$75",
+      "charter3h": "$180",
+      "charter8h": "$480"
     },
     {
       "id": "9-seater",
       "slug": "9-seater",
       "name": "9 Seater Maxi Cab",
-      "model": "Mercedes Vito / Toyota Hiace",
-      "pax": "9 Pax",
+      "model": "Toyota HiAce / Mercedes Vito",
+      "pax": "9",
       "paxCount": 9,
-      "pointToPoint": "$80",
-      "meetAndGreet": "$90",
-      "charter3h": "$210",
-      "charter8h": "$560"
+      "pointToPoint": "$75",
+      "meetAndGreet": "$80",
+      "charter3h": "$200",
+      "charter8h": "$520"
     },
     {
       "id": "13-seater",
       "slug": "13-seater",
       "name": "13 Seater Minibus",
-      "model": "Toyota Hiace Commuter",
-      "pax": "13 Pax",
+      "model": "Toyota HiAce Commuter",
+      "pax": "13",
       "paxCount": 13,
-      "pointToPoint": "$90",
-      "meetAndGreet": "$100",
-      "charter3h": "$240",
-      "charter8h": "$640"
+      "pointToPoint": "$80",
+      "meetAndGreet": "$85",
+      "charter3h": "$220",
+      "charter8h": "$580"
     },
     {
       "id": "vip-lounge",
       "slug": "vip-lounge",
       "name": "VIP Lounge 7-Seater",
-      "model": "Mercedes-Benz V-Class / Luxury Vellfire",
-      "pax": "7 Pax",
+      "model": "Mercedes V-Class / Luxury MPV",
+      "pax": "7",
       "paxCount": 7,
       "pointToPoint": "$90",
       "meetAndGreet": "$100",
@@ -84,21 +84,21 @@
       "id": "wheelchair-cab",
       "slug": "wheelchair-cab",
       "name": "Wheelchair Maxi Cab",
-      "model": "Hydraulic Ramp Mobility Van",
-      "pax": "1-2 W/C + 7",
-      "paxCount": "1-2 W/C + 7",
+      "model": "Modified Toyota HiAce",
+      "pax": "7",
+      "paxCount": 7,
       "pointToPoint": "$75+",
-      "meetAndGreet": "$85+",
-      "charter3h": "$210+",
-      "charter8h": "$560+"
+      "meetAndGreet": "$85",
+      "charter3h": "$220+",
+      "charter8h": "Quote"
     }
   ],
   "pricingNotes": [
-    "All rates are in Singapore Dollars (SGD) and are inclusive of GST.",
-    "Point-to-Point fares apply for trips within Singapore mainland (extra stop $10–$20 depending on route).",
-    "Airport Meet & Greet includes name board in arrival hall and 60 minutes free waiting after flight touchdown.",
-    "Children safety booster seats are available on request at $20/trip.",
-    "Wheelchair accessible cabs include driver assistance and safety harness docking system.",
-    "For bespoke routing, multiple vehicles or full day event logistics, please contact us for a customized quote."
+    "All prices are in Singapore Dollars (SGD) and inclusive of GST.",
+    "Point-to-Point fares apply for trips within Singapore only. Cross-border trips to Malaysia are not available.",
+    "Meet & Greet price is per trip and includes driver waiting up to 60 minutes after the stated arrival time.",
+    "Charter prices are per vehicle and cover unlimited stops within Singapore.",
+    "Wheelchair cab prices start from listed rates and vary by distance and configuration.",
+    "For groups requiring multiple vehicles or custom routes, please contact us for a tailored quote."
   ]
 }

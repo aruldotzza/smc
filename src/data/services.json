@@ -1,5 +1,5 @@
 {
-  "badge": "WHAT WE OFFER",
+  "badge": "What We Offer",
   "title": "Rides for Every Need",
   "subtitle": "Airport pickups, hourly bookings, corporate transfers, and event transport — all with clear, fixed pricing and no hidden fees.",
   "services": [
@@ -67,10 +67,10 @@
       "pricing": [
         { "vehicle": "6-Seater Maxi Cab", "rate": "$65 SGD" },
         { "vehicle": "7-Seater Maxi Cab", "rate": "$70 SGD" },
-        { "vehicle": "9-Seater Maxi Cab", "rate": "$80 SGD" },
-        { "vehicle": "13-Seater Minibus", "rate": "$90 SGD" },
+        { "vehicle": "9-Seater Maxi Cab", "rate": "$75 SGD" },
+        { "vehicle": "13-Seater Minibus", "rate": "$80 SGD" },
         { "vehicle": "VIP Lounge 7-Seater", "rate": "$90 SGD" },
-        { "vehicle": "Hourly Standby (3h min)", "rate": "$55/hr SGD" }
+        { "vehicle": "Hourly Standby (3h min)", "rate": "$60/hr SGD" }
       ],
       "faqs": [
         {
@@ -92,10 +92,10 @@
       "slug": "weddings-special-occasions",
       "title": "Weddings & Special Occasions",
       "subtitle": "Bridal Fleet & Guest Logistics with Elegance",
-      "shortDescription": "Let us take care of getting your guests to and from the ceremony, photoshoot locations, reception, and after-party seamlessly.",
+      "shortDescription": "Mercedes S-Class with optional bridal decorations for your wedding day, galas, prom nights, and other milestone events.",
       "heroDescription": "Make your special day effortless and memorable. From luxury bridal cars decorated with custom floral ribbons to fleet shuttles for wedding guests and family members.",
       "icon": "Sparkles",
-      "tags": ["Bridal Convoy", "Floral Ribbons", "Guest Shuttles"],
+      "tags": ["Bridal Décor", "Luxury Cars", "Special Events."],
       "inclusions": [
         "Pristine bridal vehicle decoration available on request",
         "Multiple pickup points for bridesmaids & groomsmen",
@@ -109,8 +109,8 @@
       "pricing": [
         { "vehicle": "6-Seater Maxi Cab", "rate": "$65 SGD" },
         { "vehicle": "7-Seater Maxi Cab", "rate": "$70 SGD" },
-        { "vehicle": "13-Seater Minibus (Guest Convoy)", "rate": "$90 SGD" },
-        { "vehicle": "VIP Lounge 7-Seater (Bridal)", "rate": "$100 SGD" },
+        { "vehicle": "13-Seater Minibus (Guest Convoy)", "rate": "$80 SGD" },
+        { "vehicle": "VIP Lounge 7-Seater (Bridal)", "rate": "$90 SGD" },
         { "vehicle": "4-Hour Wedding Package", "rate": "$280 SGD" },
         { "vehicle": "8-Hour Full Day Wedding", "rate": "$520 SGD" }
       ],
@@ -132,12 +132,12 @@
     {
       "id": "groups-event-shuttles",
       "slug": "groups-event-shuttles",
-      "title": "Groups & Event Shuttles",
+      "title": "Group & Event Shuttles",
       "subtitle": "Conferences, Concerts & Island-Wide Events",
-      "shortDescription": "Continuous loop shuttles, point-to-point drops for big events, and large group transfers with coordinated dispatching.",
+      "shortDescription": "Conference transport, corporate away-days, sports events, and large group transfers with coordinated scheduling.",
       "heroDescription": "High-volume passenger logistics for conventions at Marina Bay Sands, Singapore Expo, concerts at the National Stadium, and company social gatherings.",
       "icon": "Users",
-      "tags": ["Circuit Loops", "MBS & Expo", "Large Delegations"],
+      "tags": ["Group Transport", "Events", "Conferences"],
       "inclusions": [
         "Continuous circular shuttle routing for events",
         "Fleet of 13-seater minibuses & 9-seater maxi cabs",
@@ -149,11 +149,11 @@
         "Full day & multi-day event logistics packages"
       ],
       "pricing": [
-        { "vehicle": "9-Seater Maxi Cab", "rate": "$80 SGD" },
-        { "vehicle": "13-Seater Minibus", "rate": "$90 SGD" },
-        { "vehicle": "Dual 13-Seater Minibus Convoy", "rate": "$170 SGD" },
-        { "vehicle": "Half-Day Event Shuttle (4h)", "rate": "$320 SGD" },
-        { "vehicle": "Full-Day Event Shuttle (8h)", "rate": "$600 SGD" },
+        { "vehicle": "9-Seater Maxi Cab", "rate": "$75 SGD" },
+        { "vehicle": "13-Seater Minibus", "rate": "$80 SGD" },
+        { "vehicle": "Dual 13-Seater Minibus Convoy", "rate": "$160 SGD" },
+        { "vehicle": "Half-Day Event Shuttle (4h)", "rate": "$300 SGD" },
+        { "vehicle": "Full-Day Event Shuttle (8h)", "rate": "$580 SGD" },
         { "vehicle": "Continuous Loop Transfer", "rate": "Custom Quote" }
       ],
       "faqs": [
@@ -176,10 +176,10 @@
       "slug": "hourly-booking-standby",
       "title": "Hourly Booking & Standby",
       "subtitle": "Flexible As-Directed Chauffeur Service",
-      "shortDescription": "Dedicated driver at your disposal for 3 to 12 hours. Unlimited stops, flexible itinerary, city tours, shopping, and business travel.",
+      "shortDescription": "Book a dedicated driver for 3 to 12 hours for meetings, city tours, shopping, or business standby.",
       "heroDescription": "Experience complete freedom and flexibility with an on-demand personal chauffeur waiting at every destination. Perfect for VIP shopping, medical appointments, and bespoke city tours.",
       "icon": "Clock",
-      "tags": ["3h Minimum", "Unlimited Stops", "On-Standby"],
+      "tags": ["3–12 Hours", "Multiple Stops", "Dedicated Driver"],
       "inclusions": [
         "Dedicated chauffeur on standby right at your doorstep",
         "Unlimited point-to-point stops and itinerary changes",
@@ -192,9 +192,9 @@
       ],
       "pricing": [
         { "vehicle": "6-Seater Maxi Cab (3h min)", "rate": "$180 SGD ($60/h)" },
-        { "vehicle": "7-Seater Maxi Cab (3h min)", "rate": "$195 SGD ($65/h)" },
-        { "vehicle": "9-Seater Maxi Cab (3h min)", "rate": "$210 SGD ($70/h)" },
-        { "vehicle": "13-Seater Minibus (3h min)", "rate": "$240 SGD ($80/h)" },
+        { "vehicle": "7-Seater Maxi Cab (3h min)", "rate": "$180 SGD ($60/h)" },
+        { "vehicle": "9-Seater Maxi Cab (3h min)", "rate": "$200 SGD ($67/h)" },
+        { "vehicle": "13-Seater Minibus (3h min)", "rate": "$220 SGD ($73/h)" },
         { "vehicle": "VIP Lounge 7-Seater (3h min)", "rate": "$255 SGD ($85/h)" },
         { "vehicle": "8-Hour Full Day Charter", "rate": "From $480 SGD" }
       ],
@@ -218,10 +218,10 @@
       "slug": "wheelchair-transport",
       "title": "Wheelchair Accessible Transport",
       "subtitle": "Safe, Dignified Hospital & Home Mobility",
-      "shortDescription": "Purpose-built accessible vehicles with hydraulic ramps, 4-point safety harness, and courteous assistance for wheelchair users.",
+      "shortDescription": "Purpose-built accessible vehicles with hydraulic ramps and safety harnesses for comfortable and safe mobility transfers.",
       "heroDescription": "Dignified, comfortable, and LTA-certified wheelchair accessible transport for hospital visits, dialysis appointments, family outings, and airport transfers.",
       "icon": "HeartHandshake",
-      "tags": ["Hospital Transfers", "Hydraulic Ramp", "4-Point Harness"],
+      "tags": ["Wheelchair Ramp", "Safety Harness", "Hospital Transfers"],
       "inclusions": [
         "Certified heavy-duty hydraulic ramp & low-incline entry",
         "4-point Q'Straint floor locking safety harness",
@@ -235,9 +235,9 @@
       "pricing": [
         { "vehicle": "One-Way Wheelchair Transfer", "rate": "$75+ SGD" },
         { "vehicle": "Two-Way Hospital Return Trip", "rate": "$140+ SGD" },
-        { "vehicle": "Changi Airport Wheelchair Transfer", "rate": "$85+ SGD" },
-        { "vehicle": "3-Hour Medical / Outing Standby", "rate": "$210+ SGD" },
-        { "vehicle": "8-Hour Full Day Accessible Tour", "rate": "$560+ SGD" }
+        { "vehicle": "Changi Airport Wheelchair Transfer", "rate": "$85 SGD" },
+        { "vehicle": "3-Hour Medical / Outing Standby", "rate": "$220+ SGD" },
+        { "vehicle": "8-Hour Full Day Accessible Tour", "rate": "Quote" }
       ],
       "faqs": [
         {
