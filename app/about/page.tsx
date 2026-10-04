@@ -12,18 +12,104 @@ import { useBookingModal } from "@/context/BookingContext";
 export default function AboutPage() {
   const { openModal } = useBookingModal();
 
-  const getIcon = (iconName: string) => {
+  const renderWhyChooseIcon = (iconName: string) => {
     switch (iconName) {
+      case "time":
       case "clock":
-        return <Clock className="w-6 h-6 text-[#C6A45A]" />;
+        return (
+          <svg
+            className="w-9 h-9 text-[#C6A45A]"
+            viewBox="0 0 36 36"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="18" cy="18" r="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            <path d="M18 12V18L21.5 21.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        );
+      case "fare":
       case "badge-percent":
-        return <ShieldCheck className="w-6 h-6 text-[#C6A45A]" />;
+        return (
+          <svg
+            className="w-9 h-9 text-[#C6A45A]"
+            viewBox="0 0 36 36"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {/* Money bag pouch shape */}
+            <path
+              d="M14.5 9H21.5M13 12H23M18 12C12.5 12 8.5 16 8.5 22C8.5 26.5 12.5 29 18 29C23.5 29 27.5 26.5 27.5 22C27.5 16 23.5 12 18 12Z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            {/* Dollar sign */}
+            <path
+              d="M18 16V25M15.5 18C15.5 16.9 16.6 16 18 16C19.4 16 20.5 16.9 20.5 18C20.5 19.5 15.5 19.8 15.5 22.2C15.5 23.6 16.6 24.5 18 24.5C19.4 24.5 20.5 23.6 20.5 22.2"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        );
+      case "vehicle":
       case "sparkles":
-        return <Sparkles className="w-6 h-6 text-[#C6A45A]" />;
+        return (
+          <svg
+            className="w-9 h-9 text-[#C6A45A]"
+            viewBox="0 0 36 36"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {/* Car body */}
+            <path
+              d="M6 23.5H7.5M13.5 23.5H21.5M27.5 23.5H29C29.8 23.5 30.5 22.8 30.5 22V19.5C30.5 18.7 29.8 18 29 18H27L24 13.5H13.5L11 18H6.5C5.7 18 5 18.7 5 19.5V22C5 22.8 5.7 23.5 6.5 23.5H6Z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            {/* Wheels */}
+            <circle cx="10.5" cy="23.5" r="3" stroke="currentColor" strokeWidth="2" />
+            <circle cx="24.5" cy="23.5" r="3" stroke="currentColor" strokeWidth="2" />
+            {/* Sparkles / Stars above car */}
+            <path
+              d="M26 6L26.9 8.5L29.5 9.5L26.9 10.5L26 13L25.1 10.5L22.5 9.5L25.1 8.5L26 6Z"
+              fill="currentColor"
+            />
+            <path
+              d="M19 5L19.6 6.8L21.5 7.5L19.6 8.2L19 10L18.4 8.2L16.5 7.5L18.4 6.8L19 5Z"
+              fill="currentColor"
+            />
+          </svg>
+        );
+      case "support":
       case "headphones":
-        return <Headphones className="w-6 h-6 text-[#C6A45A]" />;
+        return (
+          <svg
+            className="w-9 h-9 text-[#C6A45A]"
+            viewBox="0 0 36 36"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {/* Telephone receiver handset */}
+            <path
+              d="M9.5 8C9.5 6.8 10.5 5.8 11.8 5.8H14C14.7 5.8 15.3 6.3 15.6 7L16.8 10.8C17 11.5 16.8 12.3 16.2 12.8L14.8 13.9C16.2 16.8 18.7 19.3 21.6 20.7L22.7 19.3C23.2 18.7 24 18.5 24.7 18.7L28.5 19.9C29.2 20.2 29.7 20.8 29.7 21.5V23.7C29.7 25 28.7 26 27.5 26C17.5 26 9.5 18 9.5 8Z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        );
       default:
-        return <Sparkles className="w-6 h-6 text-[#C6A45A]" />;
+        return (
+          <svg className="w-9 h-9 text-[#C6A45A]" viewBox="0 0 36 36" fill="none">
+            <circle cx="18" cy="18" r="12" stroke="currentColor" strokeWidth="2" />
+          </svg>
+        );
     }
   };
 
@@ -81,8 +167,8 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* 4. Why Choose Us */}
-        <div className="flex flex-col items-center gap-8 sm:gap-12 pt-4 sm:pt-8 border-t border-slate-100">
+        {/* 4. Why Choose Us (Exactly matching Figma Screenshot) */}
+        <div className="flex flex-col items-center gap-8 sm:gap-10 pt-4 sm:pt-8 border-t border-slate-100">
           <div className="text-center flex flex-col items-center gap-2">
             <h2 className="text-2xl sm:text-4xl font-bold text-[#071E3B] font-manrope">
               Why Choose Us
@@ -93,10 +179,10 @@ export default function AboutPage() {
             {aboutData.whyChooseUs.map((item, idx) => (
               <div
                 key={idx}
-                className="p-6 sm:p-7 bg-[#F8F7F4] rounded-2xl border border-[#E9ECEF] flex flex-col items-center text-center gap-3 hover:border-[#C6A45A] hover:shadow-md transition-all group"
+                className="p-6 sm:p-7 bg-[#F9F8F5] rounded-2xl border border-[#E9ECEF] flex flex-col items-center text-center gap-3.5 hover:border-[#C6A45A] hover:shadow-md transition-all group"
               >
-                <div className="w-12 h-12 rounded-2xl bg-white shadow-xs flex items-center justify-center group-hover:scale-105 transition-transform">
-                  {getIcon(item.icon)}
+                <div className="h-11 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  {renderWhyChooseIcon(item.icon)}
                 </div>
                 <h3 className="text-base sm:text-lg font-bold text-[#071E3B] font-manrope">
                   {item.title}

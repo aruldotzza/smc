@@ -4,32 +4,32 @@
   "subtitle": "A dedicated ground transport partner for businesses, embassies, hotels, and VIP clients across Singapore.",
   "features": [
     {
-      "icon": "receipt",
+      "icon": "billing",
       "title": "Monthly Consolidated Billing",
       "description": "One invoice per month covering all trips, sorted by cost center or department."
     },
     {
-      "icon": "zap",
+      "icon": "dispatch",
       "title": "Priority Dispatch",
       "description": "Corporate accounts get priority queuing with guaranteed vehicle availability."
     },
     {
-      "icon": "user-check",
+      "icon": "manager",
       "title": "Dedicated Account Manager",
       "description": "A named point of contact for scheduling, queries, and last-minute changes."
     },
     {
-      "icon": "award",
+      "icon": "airport",
       "title": "Airport VIP Service",
       "description": "Meet & Greet for your executives with name board service at Changi arrivals."
     },
     {
-      "icon": "map",
+      "icon": "tracking",
       "title": "Real-Time Tracking",
       "description": "Track all active bookings for your company in real time via WhatsApp updates."
     },
     {
-      "icon": "layers",
+      "icon": "coordination",
       "title": "Multi-Car Coordination",
       "description": "Delegate management for large groups, product launches, and roadshows."
     }
