@@ -1,0 +1,341 @@
+/**
+ * Maxicab Backend API Service Methods
+ * All 24 Endpoint Handlers from frontend-api-handoff.html
+ */
+
+import { apiFetch, RequestOptions } from "./client";
+import { ENDPOINTS } from "@/config/api";
+import {
+  VehicleListResponse,
+  SingleVehicleResponse,
+  ServiceListResponse,
+  VehicleTypeListResponse,
+  CatalogResponse,
+  AddOnListResponse,
+  QuoteRequest,
+  QuoteResponse,
+  CheckoutRequest,
+  CheckoutResponse,
+  HealthResponse,
+  ReadyResponse,
+  AdminCreateVehicleTypeRequest,
+  AdminUpdateVehicleTypeRequest,
+  AdminCreateVehicleRequest,
+  AdminUpdateVehicleRequest,
+  AdminSetVehiclePriceRequest,
+  AdminCreateServiceRequest,
+  AdminUpdateServiceRequest,
+  AdminCreateAddOnRequest,
+  AdminUpdateAddOnRequest,
+  AdminCreateDistanceRuleRequest,
+  AdminUpdateDistanceRuleRequest,
+  DistancePricingRuleListResponse,
+  DistancePricingRuleSingleResponse,
+} from "@/types/api";
+
+// ==========================================
+// 1. PUBLIC CATALOG & PRICING
+// ==========================================
+
+/**
+ * 1. List vehicle cards
+ * GET /api/vehicles (optional query: persons, luggage)
+ */
+export async function getVehicles(
+  params?: { persons?: number; luggage?: number },
+  options?: RequestOptions
+): Promise<VehicleListResponse> {
+  const query = new URLSearchParams();
+  if (params?.persons !== undefined) query.set("persons", params.persons.toString());
+  if (params?.luggage !== undefined) query.set("luggage", params.luggage.toString());
+
+  const queryString = query.toString();
+  const path = queryString ? `${ENDPOINTS.VEHICLES}?${queryString}` : ENDPOINTS.VEHICLES;
+
+  return apiFetch<VehicleListResponse>(path, {
+    method: "GET",
+    ...options,
+  });
+}
+
+/**
+ * 2. Recommend a vehicle
+ * GET /api/vehicles/recommend?persons=5&luggage=4
+ */
+export async function getVehicleRecommendation(
+  persons: number,
+  luggage: number,
+  options?: RequestOptions
+): Promise<VehicleListResponse> {
+  const query = new URLSearchParams({
+    persons: persons.toString(),
+    luggage: luggage.toString(),
+  });
+
+  return apiFetch<VehicleListResponse>(`${ENDPOINTS.VEHICLES_RECOMMEND}?${query.toString()}`, {
+    method: "GET",
+    ...options,
+  });
+}
+
+/**
+ * 3. Get one vehicle by ID
+ * GET /api/vehicles/:id
+ */
+export async function getVehicleById(
+  id: number | string,
+  options?: RequestOptions
+): Promise<SingleVehicleResponse> {
+  return apiFetch<SingleVehicleResponse>(ENDPOINTS.VEHICLE_DETAIL(id), {
+    method: "GET",
+    ...options,
+  });
+}
+
+/**
+ * 4. List active services
+ * GET /api/services
+ */
+export async function getServices(options?: RequestOptions): Promise<ServiceListResponse> {
+  return apiFetch<ServiceListResponse>(ENDPOINTS.SERVICES, {
+    method: "GET",
+    ...options,
+  });
+}
+
+/**
+ * 5. List vehicle types
+ * GET /api/vehicle-types
+ */
+export async function getVehicleTypes(
+  options?: RequestOptions
+): Promise<VehicleTypeListResponse> {
+  return apiFetch<VehicleTypeListResponse>(ENDPOINTS.VEHICLE_TYPES, {
+    method: "GET",
+    ...options,
+  });
+}
+
+/**
+ * 6. Resolve a vehicle/service price
+ * GET /api/catalog/:id
+ */
+export async function getCatalogPrice(
+  catalogId: number | string,
+  options?: RequestOptions
+): Promise<CatalogResponse> {
+  return apiFetch<CatalogResponse>(ENDPOINTS.CATALOG_PRICE(catalogId), {
+    method: "GET",
+    ...options,
+  });
+}
+
+/**
+ * 7. List active add-ons
+ * GET /api/add-ons
+ */
+export async function getAddOns(options?: RequestOptions): Promise<AddOnListResponse> {
+  return apiFetch<AddOnListResponse>(ENDPOINTS.ADD_ONS, {
+    method: "GET",
+    ...options,
+  });
+}
+
+// ==========================================
+// 2. PUBLIC BOOKING & CHECKOUT
+// ==========================================
+
+/**
+ * 8. Calculate a quotation
+ * POST /api/booking/quote
+ */
+export async function calculateQuote(
+  payload: QuoteRequest,
+  options?: RequestOptions
+): Promise<QuoteResponse> {
+  return apiFetch<QuoteResponse>(ENDPOINTS.BOOKING_QUOTE, {
+    method: "POST",
+    body: JSON.stringify(payload),
+    ...options,
+  });
+}
+
+/**
+ * 9. Create booking and Stripe checkout
+ * POST /api/bookings/checkout
+ */
+export async function createBookingCheckout(
+  payload: CheckoutRequest,
+  options?: RequestOptions
+): Promise<CheckoutResponse> {
+  return apiFetch<CheckoutResponse>(ENDPOINTS.BOOKINGS_CHECKOUT, {
+    method: "POST",
+    body: JSON.stringify(payload),
+    ...options,
+  });
+}
+
+// ==========================================
+// 3. SYSTEM HEALTH & MONITORING
+// ==========================================
+
+/**
+ * 22. Process health
+ * GET /health
+ */
+export async function checkHealth(options?: RequestOptions): Promise<HealthResponse> {
+  return apiFetch<HealthResponse>(ENDPOINTS.HEALTH, {
+    method: "GET",
+    ...options,
+  });
+}
+
+/**
+ * 23. Database readiness
+ * GET /ready
+ */
+export async function checkReadiness(options?: RequestOptions): Promise<ReadyResponse> {
+  return apiFetch<ReadyResponse>(ENDPOINTS.READY, {
+    method: "GET",
+    ...options,
+  });
+}
+
+// ==========================================
+// 4. ADMIN CATALOG & OPERATIONS
+// (Requires Authorization: Bearer <ADMIN_API_KEY>)
+// ==========================================
+
+export const adminApi = {
+  // 10. Create vehicle type
+  createVehicleType: (data: AdminCreateVehicleTypeRequest, adminApiKey: string) =>
+    apiFetch<{ vehicleType: { id: number; name: string; description: string } }>(
+      ENDPOINTS.ADMIN_VEHICLE_TYPES,
+      {
+        method: "POST",
+        adminApiKey,
+        body: JSON.stringify(data),
+      }
+    ),
+
+  // 11. Update vehicle type
+  updateVehicleType: (
+    id: number | string,
+    data: AdminUpdateVehicleTypeRequest,
+    adminApiKey: string
+  ) =>
+    apiFetch<{ vehicleType: { id: number; name: string; description: string } }>(
+      ENDPOINTS.ADMIN_VEHICLE_TYPE_DETAIL(id),
+      {
+        method: "PATCH",
+        adminApiKey,
+        body: JSON.stringify(data),
+      }
+    ),
+
+  // 12. Create vehicle and rates
+  createVehicle: (data: AdminCreateVehicleRequest, adminApiKey: string) =>
+    apiFetch<SingleVehicleResponse>(ENDPOINTS.ADMIN_VEHICLES, {
+      method: "POST",
+      adminApiKey,
+      body: JSON.stringify(data),
+    }),
+
+  // 13. Update vehicle details
+  updateVehicle: (
+    id: number | string,
+    data: AdminUpdateVehicleRequest,
+    adminApiKey: string
+  ) =>
+    apiFetch<SingleVehicleResponse>(ENDPOINTS.ADMIN_VEHICLE_DETAIL(id), {
+      method: "PATCH",
+      adminApiKey,
+      body: JSON.stringify(data),
+    }),
+
+  // 14. Set or replace one service rate
+  setVehiclePrice: (
+    vehicleId: number | string,
+    serviceCode: string,
+    data: AdminSetVehiclePriceRequest,
+    adminApiKey: string
+  ) =>
+    apiFetch<SingleVehicleResponse>(ENDPOINTS.ADMIN_VEHICLE_PRICE(vehicleId, serviceCode), {
+      method: "PUT",
+      adminApiKey,
+      body: JSON.stringify(data),
+    }),
+
+  // 15. Create service
+  createService: (data: AdminCreateServiceRequest, adminApiKey: string) =>
+    apiFetch<{ service: { id: number; code: string; name: string; unit: string; sortOrder: number; status: string } }>(
+      ENDPOINTS.ADMIN_SERVICES,
+      {
+        method: "POST",
+        adminApiKey,
+        body: JSON.stringify(data),
+      }
+    ),
+
+  // 16. Update service
+  updateService: (
+    serviceCode: string,
+    data: AdminUpdateServiceRequest,
+    adminApiKey: string
+  ) =>
+    apiFetch<{ service: { id: number; code: string; name: string; unit: string; sortOrder: number; status: string } }>(
+      ENDPOINTS.ADMIN_SERVICE_DETAIL(serviceCode),
+      {
+        method: "PATCH",
+        adminApiKey,
+        body: JSON.stringify(data),
+      }
+    ),
+
+  // 17. Create add-on
+  createAddOn: (data: AdminCreateAddOnRequest, adminApiKey: string) =>
+    apiFetch<{ success: true; add_on: unknown }>(ENDPOINTS.ADMIN_ADD_ONS, {
+      method: "POST",
+      adminApiKey,
+      body: JSON.stringify(data),
+    }),
+
+  // 18. Update add-on
+  updateAddOn: (
+    id: number | string,
+    data: AdminUpdateAddOnRequest,
+    adminApiKey: string
+  ) =>
+    apiFetch<{ success: true; add_on: unknown }>(ENDPOINTS.ADMIN_ADD_ON_DETAIL(id), {
+      method: "PATCH",
+      adminApiKey,
+      body: JSON.stringify(data),
+    }),
+
+  // 19. List distance rules
+  getDistanceRules: (adminApiKey: string) =>
+    apiFetch<DistancePricingRuleListResponse>(ENDPOINTS.ADMIN_DISTANCE_RULES, {
+      method: "GET",
+      adminApiKey,
+    }),
+
+  // 20. Create distance rule
+  createDistanceRule: (data: AdminCreateDistanceRuleRequest, adminApiKey: string) =>
+    apiFetch<DistancePricingRuleSingleResponse>(ENDPOINTS.ADMIN_DISTANCE_RULES, {
+      method: "POST",
+      adminApiKey,
+      body: JSON.stringify(data),
+    }),
+
+  // 21. Update distance rule
+  updateDistanceRule: (
+    id: number | string,
+    data: AdminUpdateDistanceRuleRequest,
+    adminApiKey: string
+  ) =>
+    apiFetch<DistancePricingRuleSingleResponse>(ENDPOINTS.ADMIN_DISTANCE_RULE_DETAIL(id), {
+      method: "PATCH",
+      adminApiKey,
+      body: JSON.stringify(data),
+    }),
+};

@@ -364,4 +364,4 @@ export default function CorporatePage() {
       <Footer />
     </main>
   );
-}
+};

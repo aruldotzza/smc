@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useBookingModal } from "@/context/BookingContext";
@@ -15,6 +15,9 @@ import {
   Users,
   Briefcase,
   ChevronRight,
+  Loader2,
+  CreditCard,
+  AlertCircle,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -23,23 +26,41 @@ interface Step3CardProps {
 }
 
 export default function Step3Card({ isModal = true }: Step3CardProps) {
-  const { bookingData, calculateTotal, setStep, closeModal } = useBookingModal();
+  const {
+    bookingData,
+    calculateTotal,
+    setStep,
+    closeModal,
+    fetchLiveQuote,
+    submitLiveCheckout,
+    quote,
+    isQuoting,
+    quoteError,
+    isCheckingOut,
+    checkoutError,
+  } = useBookingModal();
+
   const [isSuccess, setIsSuccess] = useState(false);
   const router = useRouter();
+
+  // Fetch live backend quotation when Step 3 mounts
+  useEffect(() => {
+    fetchLiveQuote();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const totalFare = calculateTotal();
 
   const isHourly = bookingData.serviceType.toLowerCase().includes("hourly");
-  const isAirport =
-    bookingData.serviceType.toLowerCase().includes("airport") ||
-    bookingData.serviceType.toLowerCase().includes("arrival");
   const hourlyRate =
     bookingData.baseFare >= 50 && bookingData.baseFare <= 120
       ? bookingData.baseFare
       : 65;
   const duration = bookingData.durationHours || 3;
 
-  const handleProceed = () => {
+  const isContactSupport = quote?.quote_status === "CONTACT_SUPPORT";
+
+  const handleProceed = async () => {
     if (isModal) {
       if (closeModal) closeModal();
       setStep(3);
@@ -47,7 +68,31 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
       return;
     }
 
-    // On full booking page: Generate WhatsApp Booking Message & Show Confirmed State
+    if (isContactSupport) {
+      // Direct to WhatsApp for customized quotation
+      const text =
+        `*Customized Route Quotation Request*%0A` +
+        `--------------------------------%0A` +
+        `*Service:* ${bookingData.serviceType}%0A` +
+        `*Pickup:* ${bookingData.pickup}%0A` +
+        `*Dropoff:* ${bookingData.dropoff}%0A` +
+        `*Vehicle:* ${bookingData.selectedFleet || "7-Seater Maxi Cab"}%0A` +
+        `*Passengers:* ${bookingData.passengers} | *Luggage:* ${bookingData.luggage}%0A` +
+        `*Contact:* ${bookingData.name} (${bookingData.countryCode} ${bookingData.phone})%0A` +
+        `--------------------------------%0A` +
+        `Please provide a custom quotation for this route.`;
+      window.open(`https://wa.me/6588006006?text=${text}`, "_blank");
+      return;
+    }
+
+    // Try Live Checkout via Stripe
+    const checkoutRes = await submitLiveCheckout();
+    if (checkoutRes && "stripe_checkout_url" in checkoutRes && checkoutRes.stripe_checkout_url) {
+      // Browser redirected to Stripe by submitLiveCheckout()
+      return;
+    }
+
+    // Fallback if backend checkout is not running or returns error: WhatsApp confirmation
     const text =
       `*New Singapore Maxi Cab Booking Request*%0A` +
       `--------------------------------%0A` +
@@ -86,7 +131,7 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
             <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         )}
-        
+
         {/* Success Icon Circle */}
         <div className="w-20 h-20 bg-[#E8F8EE] rounded-full flex items-center justify-center text-[#16803C] shrink-0 border border-[#22C55E]/30">
           <CheckCircle2 className="w-10 h-10 stroke-[2.5]" />
@@ -175,7 +220,7 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
         </div>
       </div>
 
-      {/* Confirmed Vehicle Class Hero Card - Exactly matching Figma Screenshot */}
+      {/* Confirmed Vehicle Class Hero Card */}
       <div className="w-full h-[288px] min-h-[288px] shrink-0 relative rounded-2xl flex flex-col justify-between p-4 sm:p-5 overflow-hidden bg-slate-900 shadow-md">
         <Image
           src="/images/bookinpage3.png"
@@ -185,7 +230,6 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
           className="object-cover object-center"
           priority
         />
-        {/* Subtle Dark Gradient to make bottom text and badges crisp while keeping sky/skyline bright */}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 via-55% to-transparent pointer-events-none" />
 
         {/* Top Badges */}
@@ -315,6 +359,27 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
           </div>
         </div>
 
+        {/* Contact Support Alert if Route > 35km */}
+        {isContactSupport && (
+          <div className="self-stretch p-4 bg-amber-50 rounded-xl border border-amber-200 flex items-start gap-3 text-amber-800">
+            <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+            <div className="flex flex-col gap-1">
+              <span className="text-sm font-bold font-manrope">Custom Quotation Required</span>
+              <p className="text-xs font-manrope leading-relaxed">
+                This route exceeds standard limits ({quote.distance?.value || ""} km). Please contact our WhatsApp dispatch team for a personalized VIP quote.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Live Quoting Loading Indicator */}
+        {isQuoting && (
+          <div className="self-stretch p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-center gap-2 text-slate-600 text-xs font-medium font-manrope">
+            <Loader2 className="w-4 h-4 animate-spin text-[#C6A45A]" />
+            <span>Calculating live route distance &amp; tariff...</span>
+          </div>
+        )}
+
         {/* Tariff Breakdown Section */}
         <div className="self-stretch bg-white rounded-2xl flex flex-col justify-start items-start gap-4">
           {/* Header */}
@@ -352,6 +417,21 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
                 </span>
               </div>
             </div>
+
+            {/* Distance Charge if present from live quote */}
+            {quote && quote.quote_status === "AVAILABLE" && quote.quote.distance_amount > 0 && (
+              <div className="self-stretch py-1.5 inline-flex justify-between items-center border-b border-slate-100 text-xs">
+                <div className="flex flex-col">
+                  <span className="text-slate-900 font-semibold font-manrope">
+                    Distance Surcharge ({quote.quote.distance_charge?.rule || `${quote.quote.route.distance_km} km`})
+                  </span>
+                  <span className="text-[#667085]">Verified Google Distance Matrix Route</span>
+                </div>
+                <span className="text-slate-900 font-bold font-manrope text-sm">
+                  +${quote.quote.distance_amount}.00 SGD
+                </span>
+              </div>
+            )}
 
             {/* Inclusions */}
             <div className="self-stretch flex flex-col justify-start items-start gap-1">
@@ -430,10 +510,25 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
             <button
               type="button"
               onClick={handleProceed}
-              className="flex-1 px-8 py-3 bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-[0.98] text-white rounded-lg flex justify-center items-center gap-4 transition-all shadow-md hover:shadow-lg cursor-pointer text-base font-semibold font-manrope leading-6"
+              disabled={isCheckingOut}
+              className="flex-1 px-8 py-3 bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-[0.98] text-white rounded-lg flex justify-center items-center gap-4 transition-all shadow-md hover:shadow-lg cursor-pointer text-base font-semibold font-manrope leading-6 disabled:opacity-75"
             >
-              <span>Proceed to Payment</span>
-              <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+              {isCheckingOut ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-[#C6A45A]" />
+                  <span>Connecting to Stripe...</span>
+                </>
+              ) : isContactSupport ? (
+                <>
+                  <span>Chat on WhatsApp</span>
+                  <MessageCircle className="w-4 h-4 stroke-[2.5]" />
+                </>
+              ) : (
+                <>
+                  <span>Proceed to Payment</span>
+                  <CreditCard className="w-4 h-4 text-[#C6A45A]" />
+                </>
+              )}
             </button>
           </div>
         </div>
@@ -466,5 +561,3 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
     </div>
   );
 }
-
-
