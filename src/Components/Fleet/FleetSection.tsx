@@ -5,8 +5,62 @@ import fleetData from "@/data/fleet.json";
 import FleetCard, { Vehicle } from "./FleetCard";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
+import { useBookingModal } from "@/context/BookingContext";
 
 export default function FleetSection() {
+  const { vehicles: liveVehicles } = useBookingModal();
+
+  // Transform live API vehicles or fallback to static fleetData
+  const vehiclesToDisplay: Vehicle[] =
+    liveVehicles && liveVehicles.length > 0
+      ? liveVehicles.map((v) => {
+          const slug =
+            v.passengerCapacity === 6
+              ? "6-seater"
+              : v.passengerCapacity === 7
+              ? "7-seater"
+              : v.passengerCapacity === 9
+              ? "9-seater"
+              : v.passengerCapacity === 13
+              ? "13-seater"
+              : `vehicle-${v.id}`;
+          const localMatch = fleetData.vehicles.find(
+            (fv) => fv.slug === slug || fv.id === slug
+          );
+
+          const pointToPoint =
+            v.prices?.departure_transfer?.amount ||
+            v.prices?.arrival?.amount ||
+            (localMatch ? parseInt(localMatch.price.replace(/[^0-9]/g, "")) : 70);
+          const meetAndGreet =
+            v.prices?.arrival?.amount || pointToPoint + 10;
+          const hourlyRate = v.prices?.hourly?.amount || 65;
+
+          return {
+            id: String(v.id),
+            slug,
+            name: v.name,
+            model: v.description || v.vehicleType || localMatch?.model || "Executive Maxi Cab",
+            price: `$${pointToPoint}`,
+            currency: v.currency || "SGD",
+            description:
+              v.description ||
+              localMatch?.description ||
+              "Comfortable luxury maxi cab with air-conditioned cabin and professional chauffeur.",
+            heroDescription: localMatch?.heroDescription,
+            pax: `${v.passengerCapacity || 7} Pax`,
+            paxCount: v.passengerCapacity || 7,
+            bags: `${v.luggageCapacity || 5} Bags`,
+            luggageCount: v.luggageCapacity || 5,
+            badge: v.recommendation ? "Recommended" : localMatch?.badge,
+            image: v.imageUrl || localMatch?.image || "/images/Cab.png",
+            meetAndGreet: `$${meetAndGreet} SGD`,
+            charter3h: `$${hourlyRate * 3} SGD`,
+            buttonText: `Reserve ${v.name.split(" ")[0]}`,
+          };
+        })
+      : fleetData.vehicles;
+
   return (
     <section id="fleet" className="py-10 sm:py-16 px-4 sm:px-8 lg:px-16 bg-white">
       <div className="max-w-[1312px] mx-auto flex flex-col items-center gap-8 sm:gap-10">
@@ -28,7 +82,7 @@ export default function FleetSection() {
         {/* Fleet Grid */}
         <div className="w-full flex flex-col gap-6 sm:gap-8">
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-            {fleetData.vehicles.map((vehicle: Vehicle) => (
+            {vehiclesToDisplay.map((vehicle: Vehicle) => (
               <FleetCard key={vehicle.id} vehicle={vehicle} />
             ))}
           </div>

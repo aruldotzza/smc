@@ -5,6 +5,7 @@ import {
   calculateQuote,
   createBookingCheckout,
   getVehicles,
+  getVehicleRecommendation,
   getServices,
   getAddOns,
   generateIdempotencyKey,
@@ -167,6 +168,101 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
       isMounted = false;
     };
   }, []);
+
+  // Auto-recommendation watcher when passenger or luggage counts change
+  useEffect(() => {
+    let isCancelled = false;
+    async function updateRecommendation() {
+      try {
+        const res = await getVehicleRecommendation(
+          bookingData.passengers || 7,
+          bookingData.luggage || 5
+        );
+        if (!isCancelled && res && res.data && res.data.length > 0) {
+          setVehicles(res.data);
+          if (res.recommendation && res.recommendation.vehicle_id) {
+            const recommendedVehicle = res.data.find(
+              (v) => v.id === res.recommendation?.vehicle_id
+            );
+            if (recommendedVehicle) {
+              const currentCap = bookingData.passengers || 7;
+              const currentLug = bookingData.luggage || 5;
+              // If current vehicle is under-capacity for the passenger/luggage count, auto-upgrade
+              if (
+                (recommendedVehicle.passengerCapacity ?? 7) >= currentCap &&
+                (recommendedVehicle.luggageCapacity ?? 5) >= currentLug
+              ) {
+                const slug =
+                  recommendedVehicle.passengerCapacity === 6
+                    ? "6-seater"
+                    : recommendedVehicle.passengerCapacity === 7
+                    ? "7-seater"
+                    : recommendedVehicle.passengerCapacity === 9
+                    ? "9-seater"
+                    : recommendedVehicle.passengerCapacity === 13
+                    ? "13-seater"
+                    : `vehicle-${recommendedVehicle.id}`;
+                const fare =
+                  recommendedVehicle.prices?.arrival?.amount ||
+                  recommendedVehicle.prices?.departure_transfer?.amount ||
+                  70;
+                setBookingData((prev) => ({
+                  ...prev,
+                  vehicleId: recommendedVehicle.id,
+                  selectedFleet: recommendedVehicle.name,
+                  selectedFleetSlug: slug,
+                  baseFare: fare,
+                }));
+              }
+            }
+          }
+        }
+      } catch {
+        // Local capacity-based recommendation fallback
+        const p = bookingData.passengers || 7;
+        const l = bookingData.luggage || 5;
+        let recommendedSlug = "7-seater";
+        let recommendedName = "7 Seater Maxi Cab";
+        let defaultFare = 75;
+        let vId = 3;
+
+        if (p <= 6 && l <= 4) {
+          recommendedSlug = "6-seater";
+          recommendedName = "6 Seater Maxi Cab";
+          defaultFare = 70;
+          vId = 1;
+        } else if (p <= 7 && l <= 5) {
+          recommendedSlug = "7-seater";
+          recommendedName = "7 Seater Maxi Cab";
+          defaultFare = 75;
+          vId = 3;
+        } else if (p <= 9 && l <= 8) {
+          recommendedSlug = "9-seater";
+          recommendedName = "9 Seater Maxi Cab";
+          defaultFare = 80;
+          vId = 4;
+        } else {
+          recommendedSlug = "13-seater";
+          recommendedName = "13 Seater Minibus";
+          defaultFare = 85;
+          vId = 5;
+        }
+
+        setBookingData((prev) => ({
+          ...prev,
+          vehicleId: vId,
+          selectedFleet: recommendedName,
+          selectedFleetSlug: recommendedSlug,
+          baseFare: defaultFare,
+        }));
+      }
+    }
+
+    updateRecommendation();
+    return () => {
+      isCancelled = true;
+    };
+  }, [bookingData.passengers, bookingData.luggage]);
 
   const openModal = (options?: BookingModalOptions) => {
     if (options) {

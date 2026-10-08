@@ -58,6 +58,11 @@ export interface VehicleListResponse {
   success: boolean;
   requirements: VehicleListRequirements | null;
   data: VehicleCard[];
+  recommendation?: {
+    vehicle_id: number;
+    name?: string;
+    reason?: string;
+  };
 }
 
 export interface SingleVehicleResponse {

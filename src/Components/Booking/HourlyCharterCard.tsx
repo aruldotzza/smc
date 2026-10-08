@@ -11,7 +11,7 @@ interface HourlyCharterCardProps {
 }
 
 export default function HourlyCharterCard({ isModal = true }: HourlyCharterCardProps) {
-  const { bookingData, updateBookingData, setStep, closeModal } = useBookingModal();
+  const { bookingData, updateBookingData, setStep, closeModal, vehicles } = useBookingModal();
 
   const durationOptions = [3, 4, 6, 8, 10, 12];
   const currentDuration = bookingData.durationHours || 3;
@@ -20,13 +20,56 @@ export default function HourlyCharterCard({ isModal = true }: HourlyCharterCardP
     updateBookingData({ durationHours: hours });
   };
 
+  // Derive fleet options from live API vehicles with fallback to fleet.json
+  const fleetOptions =
+    vehicles && vehicles.length > 0
+      ? vehicles.map((v) => {
+          const slug =
+            v.passengerCapacity === 6
+              ? "6-seater"
+              : v.passengerCapacity === 7
+              ? "7-seater"
+              : v.passengerCapacity === 9
+              ? "9-seater"
+              : v.passengerCapacity === 13
+              ? "13-seater"
+              : `vehicle-${v.id}`;
+          const hourly = v.prices?.hourly?.amount || 65;
+          return {
+            id: String(v.id),
+            numericId: v.id,
+            slug,
+            name: v.name,
+            model: v.description || v.vehicleType || "Executive Maxi Cab",
+            hourlyRate: hourly,
+          };
+        })
+      : fleetData.vehicles.map((v) => ({
+          id: v.id,
+          numericId:
+            v.id === "6-seater"
+              ? 1
+              : v.id === "7-seater"
+              ? 3
+              : v.id === "9-seater"
+              ? 4
+              : 5,
+          slug: v.slug || v.id,
+          name: v.name,
+          model: v.model,
+          hourlyRate: 65,
+        }));
+
   const handleFleetChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selected = fleetData.vehicles.find((v) => v.id === e.target.value);
+    const selected = fleetOptions.find(
+      (v) => v.id === e.target.value || v.slug === e.target.value
+    );
     if (selected) {
       updateBookingData({
+        vehicleId: selected.numericId,
         selectedFleet: selected.name,
         selectedFleetSlug: selected.slug,
-        baseFare: parseInt(selected.price.replace(/[^0-9]/g, "")) || 65,
+        baseFare: selected.hourlyRate,
       });
     }
   };
@@ -246,12 +289,12 @@ export default function HourlyCharterCard({ isModal = true }: HourlyCharterCardP
           </label>
           <div className="self-stretch relative px-3 py-2.5 bg-[#F8F7F4] rounded-lg border border-slate-200/90 flex justify-between items-center">
             <select
-              value={bookingData.selectedFleetSlug}
+              value={bookingData.selectedFleetSlug || String(bookingData.vehicleId)}
               onChange={handleFleetChange}
               className="w-full appearance-none bg-transparent text-xs sm:text-sm font-normal font-manrope text-[#071E3B] pr-28 outline-none cursor-pointer"
             >
-              {fleetData.vehicles.map((v) => (
-                <option key={v.id} value={v.id} className="text-[#071E3B] bg-white">
+              {fleetOptions.map((v) => (
+                <option key={v.id} value={v.slug} className="text-[#071E3B] bg-white">
                   {v.name} ({v.model})
                 </option>
               ))}

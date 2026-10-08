@@ -7,7 +7,7 @@ import { useBookingModal } from "@/context/BookingContext";
 import Link from "next/link";
 
 export default function PricingSection() {
-  const { openModal } = useBookingModal();
+  const { openModal, vehicles: liveVehicles } = useBookingModal();
 
   const handleBookVehicle = (slug: string, name: string, fareStr: string) => {
     const fare = parseInt(fareStr.replace(/[^0-9]/g, "")) || 65;
@@ -18,6 +18,46 @@ export default function PricingSection() {
       baseFare: fare,
     });
   };
+
+  // Derive matrix rows from live API vehicles or fallback to pricingData.matrix
+  const matrixRows =
+    liveVehicles && liveVehicles.length > 0
+      ? liveVehicles.map((v) => {
+          const slug =
+            v.passengerCapacity === 6
+              ? "6-seater"
+              : v.passengerCapacity === 7
+              ? "7-seater"
+              : v.passengerCapacity === 9
+              ? "9-seater"
+              : v.passengerCapacity === 13
+              ? "13-seater"
+              : `vehicle-${v.id}`;
+          const localMatch = pricingData.matrix.find(
+            (m) => m.slug === slug || m.id === slug
+          );
+
+          const pointToPoint =
+            v.prices?.departure_transfer?.amount ||
+            v.prices?.arrival?.amount ||
+            (localMatch ? parseInt(localMatch.pointToPoint.replace(/[^0-9]/g, "")) : 70);
+          const meetAndGreet =
+            v.prices?.arrival?.amount || pointToPoint + 10;
+          const hourlyRate = v.prices?.hourly?.amount || 65;
+
+          return {
+            id: String(v.id),
+            slug,
+            name: v.name,
+            model: v.description || v.vehicleType || localMatch?.model || "Executive Maxi Cab",
+            pax: `${v.passengerCapacity || 7}`,
+            pointToPoint: `$${pointToPoint} SGD`,
+            meetAndGreet: `$${meetAndGreet} SGD`,
+            charter3h: `$${hourlyRate * 3} SGD`,
+            charter8h: `$${hourlyRate * 8} SGD`,
+          };
+        })
+      : pricingData.matrix;
 
   const getGuaranteeIcon = (iconName: string) => {
     switch (iconName) {
@@ -86,7 +126,7 @@ export default function PricingSection() {
 
           {/* Mobile Pricing Cards (shown on < md) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden">
-            {pricingData.matrix.map((row) => (
+            {matrixRows.map((row) => (
               <div
                 key={row.id}
                 className="bg-white rounded-2xl border border-[#E9ECEF] p-5 flex flex-col justify-between gap-4 shadow-xs"
@@ -164,7 +204,7 @@ export default function PricingSection() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {pricingData.matrix.map((row, idx) => (
+                {matrixRows.map((row, idx) => (
                   <tr
                     key={row.id}
                     className={`${

@@ -9,15 +9,61 @@ import { useBookingModal } from "@/context/BookingContext";
 import LocationAutocompleteInput from "@/Components/Booking/LocationAutocompleteInput";
 
 export default function BookingCard() {
-  const { bookingData, updateBookingData, openModal } = useBookingModal();
+  const { bookingData, updateBookingData, openModal, vehicles } = useBookingModal();
+
+  // Derive fleet options from live API vehicles with fallback to fleet.json
+  const fleetOptions =
+    vehicles && vehicles.length > 0
+      ? vehicles.map((v) => {
+          const slug =
+            v.passengerCapacity === 6
+              ? "6-seater"
+              : v.passengerCapacity === 7
+              ? "7-seater"
+              : v.passengerCapacity === 9
+              ? "9-seater"
+              : v.passengerCapacity === 13
+              ? "13-seater"
+              : `vehicle-${v.id}`;
+          const fare =
+            v.prices?.arrival?.amount ||
+            v.prices?.departure_transfer?.amount ||
+            70;
+          return {
+            id: String(v.id),
+            numericId: v.id,
+            slug,
+            name: v.name,
+            model: v.description || v.vehicleType || "Executive Maxi Cab",
+            fare,
+          };
+        })
+      : fleetData.vehicles.map((v) => ({
+          id: v.id,
+          numericId:
+            v.id === "6-seater"
+              ? 1
+              : v.id === "7-seater"
+              ? 3
+              : v.id === "9-seater"
+              ? 4
+              : 5,
+          slug: v.slug || v.id,
+          name: v.name,
+          model: v.model,
+          fare: parseInt(v.price.replace(/[^0-9]/g, "")) || 70,
+        }));
 
   const handleFleetChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selected = fleetData.vehicles.find((v) => v.id === e.target.value);
+    const selected = fleetOptions.find(
+      (v) => v.id === e.target.value || v.slug === e.target.value
+    );
     if (selected) {
       updateBookingData({
+        vehicleId: selected.numericId,
         selectedFleet: selected.name,
         selectedFleetSlug: selected.slug,
-        baseFare: parseInt(selected.price.replace(/[^0-9]/g, "")) || 70,
+        baseFare: selected.fare,
       });
     }
   };
@@ -166,12 +212,12 @@ export default function BookingCard() {
           </label>
           <div className="relative">
             <select
-              value={bookingData.selectedFleetSlug}
+              value={bookingData.selectedFleetSlug || String(bookingData.vehicleId)}
               onChange={handleFleetChange}
               className="w-full appearance-none px-3.5 py-3 bg-white rounded-xl flex items-center justify-between text-xs sm:text-sm font-semibold font-manrope text-[#071E3B] shadow-sm outline-none cursor-pointer pr-24"
             >
-              {fleetData.vehicles.map((v) => (
-                <option key={v.id} value={v.id}>
+              {fleetOptions.map((v) => (
+                <option key={v.id} value={v.slug} className="text-[#071E3B]">
                   {v.name} ({v.model})
                 </option>
               ))}
