@@ -6,6 +6,7 @@ import fleetData from "@/data/fleet.json";
 import { MapPin, ArrowRight, Check, ChevronDown, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useBookingModal } from "@/context/BookingContext";
+import LocationAutocompleteInput from "@/Components/Booking/LocationAutocompleteInput";
 
 export default function BookingCard() {
   const { bookingData, updateBookingData, openModal } = useBookingModal();
@@ -40,40 +41,24 @@ export default function BookingCard() {
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-3.5 sm:gap-4">
         {/* Pickup Location */}
-        <div className="flex flex-col gap-1">
-          <label className="text-white text-xs sm:text-sm font-medium font-manrope leading-5">
-            Pickup Location
-          </label>
-          <div className="px-3.5 py-3 bg-white rounded-xl flex items-center justify-between shadow-sm focus-within:ring-2 focus-within:ring-[#C6A45A]">
-            <input
-              type="text"
-              placeholder={heroData.bookingForm.pickupPlaceholder}
-              value={bookingData.pickup}
-              onChange={(e) => updateBookingData({ pickup: e.target.value })}
-              required
-              className="w-full text-sm sm:text-xs font-normal font-manrope text-slate-900 placeholder:text-[#667085] outline-none bg-transparent"
-            />
-            <MapPin className="w-4 h-4 text-[#C6A45A] shrink-0 ml-2" />
-          </div>
-        </div>
+        <LocationAutocompleteInput
+          label="Pickup Location"
+          placeholder={heroData.bookingForm.pickupPlaceholder}
+          value={bookingData.pickup}
+          onChange={(val) => updateBookingData({ pickup: val })}
+          theme="glassDark"
+          required
+        />
 
         {/* Dropoff Location */}
-        <div className="flex flex-col gap-1">
-          <label className="text-white text-xs sm:text-sm font-medium font-manrope leading-5">
-            Dropoff Location
-          </label>
-          <div className="px-3.5 py-3 bg-white rounded-xl flex items-center justify-between shadow-sm focus-within:ring-2 focus-within:ring-[#C6A45A]">
-            <input
-              type="text"
-              placeholder={heroData.bookingForm.dropoffPlaceholder}
-              value={bookingData.dropoff}
-              onChange={(e) => updateBookingData({ dropoff: e.target.value })}
-              required
-              className="w-full text-sm sm:text-xs font-normal font-manrope text-slate-900 placeholder:text-[#667085] outline-none bg-transparent"
-            />
-            <MapPin className="w-4 h-4 text-[#C6A45A] shrink-0 ml-2" />
-          </div>
-        </div>
+        <LocationAutocompleteInput
+          label="Dropoff Location"
+          placeholder={heroData.bookingForm.dropoffPlaceholder}
+          value={bookingData.dropoff}
+          onChange={(val) => updateBookingData({ dropoff: val })}
+          theme="glassDark"
+          required
+        />
 
         {/* Passengers & Luggage Steppers */}
         <div className="grid grid-cols-2 gap-2.5 sm:gap-3">

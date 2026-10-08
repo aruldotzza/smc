@@ -235,6 +235,27 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
     return list;
   };
 
+  // Helper to dynamically resolve the vehicle ID matching API catalog
+  const resolveVehicleId = () => {
+    if (bookingData.vehicleId && vehicles.some((v) => v.id === bookingData.vehicleId)) {
+      return bookingData.vehicleId;
+    }
+    if (vehicles.length > 0) {
+      const slug = (bookingData.selectedFleetSlug || "").toLowerCase();
+      const name = (bookingData.selectedFleet || "").toLowerCase();
+      const found = vehicles.find((v) => {
+        if (slug.includes("6-seater") || name.includes("6 seater")) return v.passengerCapacity === 6;
+        if (slug.includes("7-seater") || name.includes("7 seater") || slug.includes("vip")) return v.passengerCapacity === 7;
+        if (slug.includes("9-seater") || name.includes("9 seater")) return v.passengerCapacity === 9;
+        if (slug.includes("13-seater") || name.includes("13 seater") || name.includes("minibus")) return v.passengerCapacity === 13;
+        if (slug.includes("wheelchair") || name.includes("wheelchair")) return v.name.toLowerCase().includes("wheelchair");
+        return false;
+      });
+      if (found) return found.id;
+    }
+    return bookingData.vehicleId || 3;
+  };
+
   // 8. Calculate live quote via API
   const fetchLiveQuote = async (): Promise<QuoteResponse | null> => {
     setIsQuoting(true);
@@ -258,7 +279,7 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
     }
 
     const payload: QuoteRequest = {
-      vehicle_id: bookingData.vehicleId || 3,
+      vehicle_id: resolveVehicleId(),
       service_id: resolvedServiceId,
       pickup: { address: bookingData.pickup || "Singapore Changi Airport" },
       drop: { address: bookingData.dropoff || "Marina Bay Sands" },
@@ -314,7 +335,7 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
         email: bookingData.email.trim() || "booking@singaporemaxicabs.com.sg",
         phone: formattedPhone,
       },
-      vehicle_id: bookingData.vehicleId || 3,
+      vehicle_id: resolveVehicleId(),
       service_id: resolvedServiceId,
       pickup: { address: bookingData.pickup || "Singapore Changi Airport" },
       drop: { address: bookingData.dropoff || "Marina Bay Sands" },

@@ -44,6 +44,8 @@ export const ENDPOINTS = {
   READY: "/ready",
   // 24. Stripe payment notification
   STRIPE_WEBHOOK: "/api/payments/stripe/webhook",
+  // Google Places Autocomplete Endpoint
+  PLACES_AUTOCOMPLETE: "/api/places/autocomplete",
 
   // --- Admin Endpoints ---
   // 10 & 11. Vehicle Types CRUD

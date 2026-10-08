@@ -31,6 +31,8 @@ import {
   AdminUpdateDistanceRuleRequest,
   DistancePricingRuleListResponse,
   DistancePricingRuleSingleResponse,
+  GooglePlacesAutocompleteRequest,
+  GooglePlacesAutocompleteResponse,
 } from "@/types/api";
 
 // ==========================================
@@ -174,6 +176,40 @@ export async function createBookingCheckout(
     ...options,
   });
 }
+
+/**
+ * Google Places Autocomplete Search
+ * POST /api/places/autocomplete (calls https://places.googleapis.com/v1/places:autocomplete)
+ */
+export async function getPlacesAutocomplete(
+  input: string,
+  includedRegionCodes: string[] = ["sg"],
+  options?: RequestOptions
+): Promise<GooglePlacesAutocompleteResponse> {
+  try {
+    const res = await fetch(ENDPOINTS.PLACES_AUTOCOMPLETE, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        input,
+        includedRegionCodes,
+      }),
+      signal: options?.signal,
+    });
+
+    if (!res.ok) {
+      return { suggestions: [] };
+    }
+
+    return await res.json();
+  } catch (err) {
+    console.warn("Places autocomplete request failed:", err);
+    return { suggestions: [] };
+  }
+}
+
 
 // ==========================================
 // 3. SYSTEM HEALTH & MONITORING

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useBookingModal } from "@/context/BookingContext";
 import { ArrowRight, ChevronDown, Info, MapPin, X } from "lucide-react";
 import fleetData from "@/data/fleet.json";
+import LocationAutocompleteInput from "./LocationAutocompleteInput";
 
 interface AirportTransferCardProps {
   isModal?: boolean;
@@ -104,40 +105,22 @@ export default function AirportTransferCard({ isModal = true }: AirportTransferC
         </div>
 
         {/* Pickup Location */}
-        <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
-          <label className="text-[#071E3B] text-xs sm:text-sm font-medium font-inter leading-5">
-            Pickup Location
-          </label>
-          <div className="self-stretch p-3.5 sm:p-4 bg-[#F8F7F4] rounded-lg border border-slate-200/90 flex justify-between items-center overflow-hidden focus-within:border-[#C6A45A] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#C6A45A] transition-all">
-            <input
-              type="text"
-              placeholder="e.g. Singapore Changi Airport (T1-T4)"
-              value={bookingData.pickup}
-              onChange={(e) => updateBookingData({ pickup: e.target.value })}
-              required
-              className="flex-1 text-xs sm:text-sm font-normal font-manrope text-[#071E3B] placeholder:text-[#667085] outline-none bg-transparent"
-            />
-            <MapPin className="w-4 h-4 text-[#C6A45A] shrink-0 ml-2" />
-          </div>
-        </div>
+        <LocationAutocompleteInput
+          label="Pickup Location"
+          placeholder="e.g. Singapore Changi Airport (T1-T4)"
+          value={bookingData.pickup}
+          onChange={(val) => updateBookingData({ pickup: val })}
+          required
+        />
 
         {/* Dropoff Location */}
-        <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
-          <label className="text-[#071E3B] text-xs sm:text-sm font-medium font-inter leading-5">
-            Dropoff Location
-          </label>
-          <div className="self-stretch p-3.5 sm:p-4 bg-[#F8F7F4] rounded-lg border border-slate-200/90 flex justify-between items-center overflow-hidden focus-within:border-[#C6A45A] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#C6A45A] transition-all">
-            <input
-              type="text"
-              placeholder="e.g. Marina Bay Sands Hotel / Orchard Rd"
-              value={bookingData.dropoff}
-              onChange={(e) => updateBookingData({ dropoff: e.target.value })}
-              required
-              className="flex-1 text-xs sm:text-sm font-normal font-manrope text-[#071E3B] placeholder:text-[#667085] outline-none bg-transparent"
-            />
-            <MapPin className="w-4 h-4 text-[#C6A45A] shrink-0 ml-2" />
-          </div>
-        </div>
+        <LocationAutocompleteInput
+          label="Dropoff Location"
+          placeholder="e.g. Marina Bay Sands Hotel / Orchard Rd"
+          value={bookingData.dropoff}
+          onChange={(val) => updateBookingData({ dropoff: val })}
+          required
+        />
 
         {/* Steppers: Passengers & Luggage */}
         <div className="self-stretch grid grid-cols-2 gap-3 sm:gap-8 items-start">

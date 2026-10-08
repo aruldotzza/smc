@@ -403,3 +403,45 @@ export interface ApiErrorResponse {
   error: ApiErrorDetails;
   requestId?: string;
 }
+
+// ==========================================
+// 8. Google Places Autocomplete Types
+// (POST https://places.googleapis.com/v1/places:autocomplete)
+// ==========================================
+
+export interface GooglePlacePredictionText {
+  text: string;
+  matches?: { startOffset?: number; endOffset?: number }[];
+}
+
+export interface GooglePlaceStructuredFormat {
+  mainText: GooglePlacePredictionText;
+  secondaryText?: GooglePlacePredictionText;
+}
+
+export interface GooglePlacePrediction {
+  place?: string;
+  placeId: string;
+  text: GooglePlacePredictionText;
+  structuredFormat?: GooglePlaceStructuredFormat;
+  types?: string[];
+}
+
+export interface GooglePlaceSuggestion {
+  placePrediction?: GooglePlacePrediction;
+}
+
+export interface GooglePlacesAutocompleteRequest {
+  input: string;
+  includedRegionCodes?: string[];
+}
+
+export interface GooglePlacesAutocompleteResponse {
+  suggestions?: GooglePlaceSuggestion[];
+  error?: {
+    code?: number | string;
+    message?: string;
+    status?: string;
+  };
+}
+

@@ -4,6 +4,7 @@ import React from "react";
 import { useBookingModal } from "@/context/BookingContext";
 import { ArrowRight, ChevronDown, MapPin, X } from "lucide-react";
 import fleetData from "@/data/fleet.json";
+import LocationAutocompleteInput from "./LocationAutocompleteInput";
 
 interface HourlyCharterCardProps {
   isModal?: boolean;
@@ -90,22 +91,13 @@ export default function HourlyCharterCard({ isModal = true }: HourlyCharterCardP
 
       <form onSubmit={handleContinue} className="self-stretch flex flex-col justify-start items-start gap-4">
         {/* Pickup Location */}
-        <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
-          <label className="text-[#071E3B] text-xs sm:text-sm font-medium font-inter leading-5">
-            Pickup Location
-          </label>
-          <div className="self-stretch p-3.5 sm:p-4 bg-[#F8F7F4] rounded-lg border border-slate-200/90 flex justify-between items-center overflow-hidden focus-within:border-[#C6A45A] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#C6A45A] transition-all">
-            <input
-              type="text"
-              placeholder="e.g. Hotel Grand Pacific Singapore / Changi Airport"
-              value={bookingData.pickup}
-              onChange={(e) => updateBookingData({ pickup: e.target.value })}
-              required
-              className="flex-1 text-xs sm:text-sm font-normal font-manrope text-[#071E3B] placeholder:text-[#667085] outline-none bg-transparent"
-            />
-            <MapPin className="w-4 h-4 text-[#C6A45A] shrink-0 ml-2" />
-          </div>
-        </div>
+        <LocationAutocompleteInput
+          label="Pickup Location"
+          placeholder="e.g. Hotel Grand Pacific Singapore / Changi Airport"
+          value={bookingData.pickup}
+          onChange={(val) => updateBookingData({ pickup: val })}
+          required
+        />
 
         {/* Duration Section matching hourly.html */}
         <div className="self-stretch flex flex-col justify-start items-start gap-2 bg-[#F8F7F4] p-4 rounded-xl border border-slate-200/90">
