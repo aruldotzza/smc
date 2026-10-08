@@ -1,6 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GooglePlacesAutocompleteResponse, GooglePlaceSuggestion } from "@/types/api";
 
+// In-memory Server-side Cache with TTL (30 minutes)
+interface CacheEntry {
+  data: GooglePlacesAutocompleteResponse;
+  timestamp: number;
+}
+const serverAutocompleteCache = new Map<string, CacheEntry>();
+const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
+const MAX_CACHE_ENTRIES = 500;
+
+function getCachedSuggestions(key: string): GooglePlacesAutocompleteResponse | null {
+  const entry = serverAutocompleteCache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.timestamp > CACHE_TTL_MS) {
+    serverAutocompleteCache.delete(key);
+    return null;
+  }
+  return entry.data;
+}
+
+function setCachedSuggestions(key: string, data: GooglePlacesAutocompleteResponse) {
+  if (serverAutocompleteCache.size >= MAX_CACHE_ENTRIES) {
+    // Evict oldest entry
+    const firstKey = serverAutocompleteCache.keys().next().value;
+    if (firstKey) serverAutocompleteCache.delete(firstKey);
+  }
+  serverAutocompleteCache.set(key, { data, timestamp: Date.now() });
+}
+
 // Fallback curated Singapore places for development, testing, or when API key is not yet configured
 const FALLBACK_SINGAPORE_PLACES = [
   {
@@ -183,8 +211,28 @@ export async function POST(request: NextRequest) {
       ? body.includedRegionCodes
       : ["sg"];
 
+    const cacheKey = `post_${input.toLowerCase()}_${includedRegionCodes.sort().join(",")}`;
+
+    // 1. Check in-memory server cache first
+    const cached = getCachedSuggestions(cacheKey);
+    if (cached) {
+      return NextResponse.json(cached, {
+        headers: {
+          "Cache-Control": "public, max-age=1800, stale-while-revalidate=86400",
+          "X-Cache": "HIT",
+        },
+      });
+    }
+
     if (!input) {
-      return NextResponse.json(getFallbackSuggestions(""));
+      const fallback = getFallbackSuggestions("");
+      setCachedSuggestions(cacheKey, fallback);
+      return NextResponse.json(fallback, {
+        headers: {
+          "Cache-Control": "public, max-age=1800, stale-while-revalidate=86400",
+          "X-Cache": "MISS",
+        },
+      });
     }
 
     const apiKey =
@@ -192,7 +240,7 @@ export async function POST(request: NextRequest) {
       process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ||
       "";
 
-    // If API key is provided, call Google Places Autocomplete API
+    // 2. If API key is provided, call Google Places Autocomplete API
     if (apiKey && apiKey.trim() !== "") {
       try {
         const googleRes = await fetch(
@@ -213,7 +261,13 @@ export async function POST(request: NextRequest) {
 
         if (googleRes.ok) {
           const data: GooglePlacesAutocompleteResponse = await googleRes.json();
-          return NextResponse.json(data);
+          setCachedSuggestions(cacheKey, data);
+          return NextResponse.json(data, {
+            headers: {
+              "Cache-Control": "public, max-age=1800, stale-while-revalidate=86400",
+              "X-Cache": "MISS",
+            },
+          });
         }
 
         const errorText = await googleRes.text();
@@ -225,8 +279,15 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Graceful fallback to curated dataset
-    return NextResponse.json(getFallbackSuggestions(input));
+    // 3. Graceful fallback to curated dataset
+    const fallbackData = getFallbackSuggestions(input);
+    setCachedSuggestions(cacheKey, fallbackData);
+    return NextResponse.json(fallbackData, {
+      headers: {
+        "Cache-Control": "public, max-age=1800, stale-while-revalidate=86400",
+        "X-Cache": "FALLBACK",
+      },
+    });
   } catch (err: unknown) {
     console.error("Autocomplete handler error:", err);
     return NextResponse.json(
@@ -245,6 +306,17 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const input = searchParams.get("input") || "";
   const region = searchParams.get("region") || "sg";
+
+  const cacheKey = `get_${input.toLowerCase()}_${region}`;
+  const cached = getCachedSuggestions(cacheKey);
+  if (cached) {
+    return NextResponse.json(cached, {
+      headers: {
+        "Cache-Control": "public, max-age=1800, stale-while-revalidate=86400",
+        "X-Cache": "HIT",
+      },
+    });
+  }
 
   const apiKey =
     process.env.GOOGLE_PLACES_API_KEY ||
@@ -271,12 +343,25 @@ export async function GET(request: NextRequest) {
 
       if (googleRes.ok) {
         const data: GooglePlacesAutocompleteResponse = await googleRes.json();
-        return NextResponse.json(data);
+        setCachedSuggestions(cacheKey, data);
+        return NextResponse.json(data, {
+          headers: {
+            "Cache-Control": "public, max-age=1800, stale-while-revalidate=86400",
+            "X-Cache": "MISS",
+          },
+        });
       }
     } catch (e) {
       console.warn("Google Places GET error, returning fallback:", e);
     }
   }
 
-  return NextResponse.json(getFallbackSuggestions(input));
+  const fallback = getFallbackSuggestions(input);
+  setCachedSuggestions(cacheKey, fallback);
+  return NextResponse.json(fallback, {
+    headers: {
+      "Cache-Control": "public, max-age=1800, stale-while-revalidate=86400",
+      "X-Cache": "FALLBACK",
+    },
+  });
 }

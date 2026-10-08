@@ -42,6 +42,8 @@ export default function LocationAutocompleteInput({
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const lastFetchedQueryRef = useRef<string | null>(null);
+  const isSelectingRef = useRef<boolean>(false);
 
   // Sync external value changes
   useEffect(() => {
@@ -64,8 +66,20 @@ export default function LocationAutocompleteInput({
     };
   }, []);
 
-  // Fetch suggestions with debounce
+  // Fetch suggestions with cancellation & caching
   const fetchSuggestions = useCallback(async (query: string) => {
+    const trimmed = (query || "").trim();
+
+    // If query is just 1 character, don't spam network; wait for 2+ characters or 0 (default popular places)
+    if (trimmed.length === 1) {
+      return;
+    }
+
+    if (lastFetchedQueryRef.current === trimmed && suggestions.length > 0) {
+      setIsOpen(true);
+      return;
+    }
+
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
@@ -74,11 +88,12 @@ export default function LocationAutocompleteInput({
 
     setIsLoading(true);
     try {
-      const res = await getPlacesAutocomplete(query, ["sg"], {
+      const res = await getPlacesAutocomplete(trimmed, ["sg"], {
         signal: controller.signal,
       });
       if (res && res.suggestions) {
         setSuggestions(res.suggestions);
+        lastFetchedQueryRef.current = trimmed;
         setIsOpen(true);
       } else {
         setSuggestions([]);
@@ -90,15 +105,20 @@ export default function LocationAutocompleteInput({
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [suggestions.length]);
 
-  // Debounced input change
+  // 300ms Debounced input watcher
   useEffect(() => {
+    if (isSelectingRef.current) {
+      isSelectingRef.current = false;
+      return;
+    }
+
     const timer = setTimeout(() => {
       if (document.activeElement === inputRef.current) {
         fetchSuggestions(inputValue);
       }
-    }, 200);
+    }, 300);
 
     return () => clearTimeout(timer);
   }, [inputValue, fetchSuggestions]);
@@ -123,6 +143,7 @@ export default function LocationAutocompleteInput({
     const secondaryText = pred.structuredFormat?.secondaryText?.text;
     const fullText = secondaryText ? `${mainText}, ${secondaryText}` : mainText;
 
+    isSelectingRef.current = true;
     setInputValue(fullText);
     onChange(fullText);
     setIsOpen(false);
@@ -131,9 +152,11 @@ export default function LocationAutocompleteInput({
 
   const handleClear = (e: React.MouseEvent) => {
     e.stopPropagation();
+    isSelectingRef.current = true;
     setInputValue("");
     onChange("");
     setSuggestions([]);
+    lastFetchedQueryRef.current = null;
     if (inputRef.current) {
       inputRef.current.focus();
     }

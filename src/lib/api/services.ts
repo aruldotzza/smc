@@ -36,6 +36,17 @@ import {
 } from "@/types/api";
 
 // ==========================================
+// CLIENT-SIDE IN-MEMORY CACHE
+// ==========================================
+
+const clientPlacesCache = new Map<string, GooglePlacesAutocompleteResponse>();
+let cachedVehicles: VehicleListResponse | null = null;
+let cachedServices: ServiceListResponse | null = null;
+let cachedAddOns: AddOnListResponse | null = null;
+const clientQuoteCache = new Map<string, { data: QuoteResponse; timestamp: number }>();
+const QUOTE_CACHE_TTL_MS = 3 * 60 * 1000; // 3 minutes cache for live quotes
+
+// ==========================================
 // 1. PUBLIC CATALOG & PRICING
 // ==========================================
 
@@ -47,6 +58,11 @@ export async function getVehicles(
   params?: { persons?: number; luggage?: number },
   options?: RequestOptions
 ): Promise<VehicleListResponse> {
+  const isDefaultQuery = !params || (params.persons === undefined && params.luggage === undefined);
+  if (isDefaultQuery && cachedVehicles) {
+    return cachedVehicles;
+  }
+
   const query = new URLSearchParams();
   if (params?.persons !== undefined) query.set("persons", params.persons.toString());
   if (params?.luggage !== undefined) query.set("luggage", params.luggage.toString());
@@ -54,10 +70,16 @@ export async function getVehicles(
   const queryString = query.toString();
   const path = queryString ? `${ENDPOINTS.VEHICLES}?${queryString}` : ENDPOINTS.VEHICLES;
 
-  return apiFetch<VehicleListResponse>(path, {
+  const result = await apiFetch<VehicleListResponse>(path, {
     method: "GET",
     ...options,
   });
+
+  if (isDefaultQuery && result && result.success) {
+    cachedVehicles = result;
+  }
+
+  return result;
 }
 
 /**
@@ -99,10 +121,20 @@ export async function getVehicleById(
  * GET /api/services
  */
 export async function getServices(options?: RequestOptions): Promise<ServiceListResponse> {
-  return apiFetch<ServiceListResponse>(ENDPOINTS.SERVICES, {
+  if (cachedServices) {
+    return cachedServices;
+  }
+
+  const result = await apiFetch<ServiceListResponse>(ENDPOINTS.SERVICES, {
     method: "GET",
     ...options,
   });
+
+  if (result && Array.isArray(result.services)) {
+    cachedServices = result;
+  }
+
+  return result;
 }
 
 /**
@@ -137,10 +169,20 @@ export async function getCatalogPrice(
  * GET /api/add-ons
  */
 export async function getAddOns(options?: RequestOptions): Promise<AddOnListResponse> {
-  return apiFetch<AddOnListResponse>(ENDPOINTS.ADD_ONS, {
+  if (cachedAddOns) {
+    return cachedAddOns;
+  }
+
+  const result = await apiFetch<AddOnListResponse>(ENDPOINTS.ADD_ONS, {
     method: "GET",
     ...options,
   });
+
+  if (result && result.success) {
+    cachedAddOns = result;
+  }
+
+  return result;
 }
 
 // ==========================================
@@ -149,17 +191,37 @@ export async function getAddOns(options?: RequestOptions): Promise<AddOnListResp
 
 /**
  * 8. Calculate a quotation
- * POST /api/booking/quote
+ * POST /api/booking/quote (Cached with 3-minute TTL)
  */
 export async function calculateQuote(
   payload: QuoteRequest,
   options?: RequestOptions
 ): Promise<QuoteResponse> {
-  return apiFetch<QuoteResponse>(ENDPOINTS.BOOKING_QUOTE, {
+  const cacheKey = JSON.stringify({
+    v: payload.vehicle_id,
+    s: payload.service_id,
+    p: (payload.pickup?.address || "").toLowerCase().trim(),
+    d: (payload.drop?.address || "").toLowerCase().trim(),
+    a: payload.add_ons,
+    h: payload.hours,
+  });
+
+  const cached = clientQuoteCache.get(cacheKey);
+  if (cached && Date.now() - cached.timestamp < QUOTE_CACHE_TTL_MS) {
+    return cached.data;
+  }
+
+  const result = await apiFetch<QuoteResponse>(ENDPOINTS.BOOKING_QUOTE, {
     method: "POST",
     body: JSON.stringify(payload),
     ...options,
   });
+
+  if (result && result.success) {
+    clientQuoteCache.set(cacheKey, { data: result, timestamp: Date.now() });
+  }
+
+  return result;
 }
 
 /**
@@ -179,13 +241,21 @@ export async function createBookingCheckout(
 
 /**
  * Google Places Autocomplete Search
- * POST /api/places/autocomplete (calls https://places.googleapis.com/v1/places:autocomplete)
+ * POST /api/places/autocomplete (with client in-memory cache)
  */
 export async function getPlacesAutocomplete(
   input: string,
   includedRegionCodes: string[] = ["sg"],
   options?: RequestOptions
 ): Promise<GooglePlacesAutocompleteResponse> {
+  const cleanInput = (input || "").toLowerCase().trim();
+  const cacheKey = `${cleanInput}_${includedRegionCodes.sort().join(",")}`;
+
+  // Check client memory cache first
+  if (clientPlacesCache.has(cacheKey)) {
+    return clientPlacesCache.get(cacheKey)!;
+  }
+
   try {
     const res = await fetch(ENDPOINTS.PLACES_AUTOCOMPLETE, {
       method: "POST",
@@ -193,7 +263,7 @@ export async function getPlacesAutocomplete(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        input,
+        input: cleanInput,
         includedRegionCodes,
       }),
       signal: options?.signal,
@@ -203,9 +273,15 @@ export async function getPlacesAutocomplete(
       return { suggestions: [] };
     }
 
-    return await res.json();
+    const data: GooglePlacesAutocompleteResponse = await res.json();
+    if (data && Array.isArray(data.suggestions)) {
+      clientPlacesCache.set(cacheKey, data);
+    }
+    return data;
   } catch (err) {
-    console.warn("Places autocomplete request failed:", err);
+    if ((err as Error).name !== "AbortError") {
+      console.warn("Places autocomplete request failed:", err);
+    }
     return { suggestions: [] };
   }
 }
