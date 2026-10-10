@@ -107,7 +107,7 @@ export default function LocationAutocompleteInput({
     }
   }, [suggestions.length]);
 
-  // 300ms Debounced input watcher
+  // 2000ms Debounced input watcher
   useEffect(() => {
     if (isSelectingRef.current) {
       isSelectingRef.current = false;
@@ -118,7 +118,7 @@ export default function LocationAutocompleteInput({
       if (document.activeElement === inputRef.current) {
         fetchSuggestions(inputValue);
       }
-    }, 300);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [inputValue, fetchSuggestions]);
