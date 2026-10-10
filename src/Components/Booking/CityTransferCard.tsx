@@ -11,7 +11,7 @@ interface CityTransferCardProps {
 }
 
 export default function CityTransferCard({ isModal = true }: CityTransferCardProps) {
-  const { bookingData, updateBookingData, setStep, closeModal, vehicles } = useBookingModal();
+  const { bookingData, updateBookingData, setStep, closeModal, vehicles, fetchRecommendation, fetchLiveQuote } = useBookingModal();
 
   // Derive fleet options from live API vehicles with fallback to fleet.json
   const fleetOptions =
@@ -78,6 +78,15 @@ export default function CityTransferCard({ isModal = true }: CityTransferCardPro
     setStep(2);
   };
 
+  const handleLocationSelect = async (val: string, field: "pickup" | "dropoff") => {
+    updateBookingData({ [field]: val });
+    // Add a tiny delay to ensure state propagates if needed by quote API
+    setTimeout(() => {
+      fetchRecommendation();
+      fetchLiveQuote();
+    }, 50);
+  };
+
   return (
     <div className="w-full max-w-[620px] mx-auto p-5 sm:p-9 bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-2xl flex flex-col justify-start items-start gap-4 sm:gap-5 relative max-h-[92vh] overflow-y-auto">
       {/* Close button if in modal */}
@@ -111,6 +120,7 @@ export default function CityTransferCard({ isModal = true }: CityTransferCardPro
           placeholder="e.g. Marina Bay Financial Centre / Hotel"
           value={bookingData.pickup}
           onChange={(val) => updateBookingData({ pickup: val })}
+          onSelect={(val) => handleLocationSelect(val, "pickup")}
           required
         />
 
@@ -120,6 +130,7 @@ export default function CityTransferCard({ isModal = true }: CityTransferCardPro
           placeholder="e.g. Orchard Road Shopping District / Sentosa"
           value={bookingData.dropoff}
           onChange={(val) => updateBookingData({ dropoff: val })}
+          onSelect={(val) => handleLocationSelect(val, "dropoff")}
           required
         />
 

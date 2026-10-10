@@ -19,6 +19,7 @@ interface LocationAutocompleteInputProps {
   placeholder?: string;
   value: string;
   onChange: (value: string) => void;
+  onSelect?: (value: string) => void;
   required?: boolean;
   theme?: "light" | "glassDark";
   className?: string;
@@ -29,6 +30,7 @@ export default function LocationAutocompleteInput({
   placeholder = "Enter pickup or dropoff location in Singapore",
   value,
   onChange,
+  onSelect,
   required = false,
   theme = "light",
   className = "",
@@ -146,6 +148,7 @@ export default function LocationAutocompleteInput({
     isSelectingRef.current = true;
     setInputValue(fullText);
     onChange(fullText);
+    if (onSelect) onSelect(fullText);
     setIsOpen(false);
     setSelectedIndex(-1);
   };
