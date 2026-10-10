@@ -262,7 +262,7 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
     return () => {
       isCancelled = true;
     };
-  }, [bookingData.passengers, bookingData.luggage]);
+  }, [bookingData.passengers, bookingData.luggage, bookingData.pickup, bookingData.dropoff]);
 
   const openModal = (options?: BookingModalOptions) => {
     if (options) {
