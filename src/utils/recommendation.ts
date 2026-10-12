@@ -1,5 +1,4 @@
-import { VehicleCard } from "@/services/api";
-import fleetData from "@/data/fleet.json";
+import { VehicleCard } from "@/types/api";
 
 export interface RecommendedFleetResult {
   vehicleId: number;

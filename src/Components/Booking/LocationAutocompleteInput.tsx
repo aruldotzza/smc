@@ -36,6 +36,14 @@ export default function LocationAutocompleteInput({
   className = "",
 }: LocationAutocompleteInputProps) {
   const [inputValue, setInputValue] = useState(value || "");
+  const [prevValue, setPrevValue] = useState(value);
+
+  // Sync external value changes during render per React guidelines
+  if (value !== prevValue) {
+    setPrevValue(value);
+    setInputValue(value || "");
+  }
+
   const [suggestions, setSuggestions] = useState<GooglePlaceSuggestion[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -46,11 +54,6 @@ export default function LocationAutocompleteInput({
   const abortControllerRef = useRef<AbortController | null>(null);
   const lastFetchedQueryRef = useRef<string | null>(null);
   const isSelectingRef = useRef<boolean>(false);
-
-  // Sync external value changes
-  useEffect(() => {
-    setInputValue(value || "");
-  }, [value]);
 
   // Click outside listener
   useEffect(() => {

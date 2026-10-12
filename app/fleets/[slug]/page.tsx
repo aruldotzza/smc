@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Navbar from "@/Components/Header/Navbar";
-import FleetDetailTemplate from "@/Components/Fleet/FleetDetailTemplate";
+import FleetDetailTemplate, { VehicleDetail } from "@/Components/Fleet/FleetDetailTemplate";
 import Footer from "@/Components/Footer/Footer";
 import fleetData from "@/data/fleet.json";
 
@@ -47,7 +47,7 @@ export default async function FleetDetailPage({ params }: FleetPageProps) {
       <Navbar />
 
       {/* 2. Reusable Fleet Detail Template */}
-      <FleetDetailTemplate vehicle={vehicle as any} />
+      <FleetDetailTemplate vehicle={vehicle as unknown as VehicleDetail} />
 
       {/* 3. Footer */}
       <Footer />

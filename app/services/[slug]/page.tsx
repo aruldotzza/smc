@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Navbar from "@/Components/Header/Navbar";
-import ServiceDetailTemplate from "@/Components/Services/ServiceDetailTemplate";
+import ServiceDetailTemplate, { ServiceDetail } from "@/Components/Services/ServiceDetailTemplate";
 import Footer from "@/Components/Footer/Footer";
 import servicesData from "@/data/services.json";
 
@@ -47,7 +47,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
       <Navbar />
 
       {/* 2. Reusable Service Detail Template */}
-      <ServiceDetailTemplate service={service as any} />
+      <ServiceDetailTemplate service={service as unknown as ServiceDetail} />
 
       {/* 3. Footer */}
       <Footer />

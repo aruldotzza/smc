@@ -14,9 +14,9 @@ import {
   Smartphone,
   Layers,
   ArrowRight,
-  MessageCircle,
   Mail,
 } from "lucide-react";
+import WhatsAppIcon from "@/Components/Shared/WhatsAppIcon";
 import { useBookingModal } from "@/context/BookingContext";
 
 export default function CorporatePage() {
@@ -255,7 +255,7 @@ export default function CorporatePage() {
               rel="noopener noreferrer"
               className="px-8 py-3.5 rounded-xl border border-[#C6A45A] hover:bg-[#C6A45A]/10 active:scale-[0.98] text-[#C6A45A] text-sm sm:text-base font-semibold flex items-center justify-center gap-2.5 transition-all min-h-[48px]"
             >
-              <MessageCircle className="w-4 h-4 fill-current" />
+              <WhatsAppIcon className="w-4 h-4 text-[#C6A45A]" />
               <span>WhatsApp Us</span>
             </a>
           </div>
@@ -346,7 +346,7 @@ export default function CorporatePage() {
               rel="noopener noreferrer"
               className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-[0.98] text-white text-sm sm:text-base font-semibold flex items-center justify-center gap-3 transition-all shadow-md hover:shadow-lg cursor-pointer min-h-[48px]"
             >
-              <MessageCircle className="w-4 h-4 fill-current" />
+              <WhatsAppIcon className="w-4 h-4 text-white" />
               <span>{corporateData.cta.whatsappLabel}</span>
             </a>
 

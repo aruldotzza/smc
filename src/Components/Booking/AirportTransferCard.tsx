@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useBookingModal } from "@/context/BookingContext";
-import { ArrowRight, ChevronDown, Info, MapPin, X } from "lucide-react";
+import { ArrowRight, ChevronDown, Info, X } from "lucide-react";
 import fleetData from "@/data/fleet.json";
 import LocationAutocompleteInput from "./LocationAutocompleteInput";
 import { getRecommendedFleet } from "@/utils/recommendation";

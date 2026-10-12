@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import Navbar from "@/Components/Header/Navbar";
 import Footer from "@/Components/Footer/Footer";
 import contactData from "@/data/contact.json";
-import { MessageCircle, Phone, Mail, MapPin, Send, CheckCircle2, ChevronDown } from "lucide-react";
+import { Phone, Mail, MapPin, Send, CheckCircle2, ChevronDown } from "lucide-react";
+import WhatsAppIcon from "@/Components/Shared/WhatsAppIcon";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -47,7 +48,7 @@ export default function ContactPage() {
   const getContactIcon = (iconName: string) => {
     switch (iconName) {
       case "whatsapp":
-        return <MessageCircle className="w-5 h-5 text-[#C6A45A] fill-current" />;
+        return <WhatsAppIcon className="w-5 h-5 text-[#C6A45A]" />;
       case "phone":
         return <Phone className="w-5 h-5 text-[#C6A45A]" />;
       case "mail":
@@ -267,7 +268,7 @@ export default function ContactPage() {
             <div className="p-6 bg-[#ECFDF3] rounded-xl border border-[#16803C]/30 flex flex-col gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0">
-                  <MessageCircle className="w-6 h-6 text-[#16803C] fill-current" />
+                  <WhatsAppIcon className="w-6 h-6 text-[#16803C]" />
                 </div>
                 <h3 className="text-xl font-semibold text-[#071E3B] font-manrope">
                   WhatsApp is Fastest
@@ -282,7 +283,7 @@ export default function ContactPage() {
                 rel="noopener noreferrer"
                 className="h-10 px-5 py-2.5 bg-[#16803C] hover:bg-[#126931] rounded-lg inline-flex items-center justify-center gap-2 text-white text-sm font-semibold font-manrope transition-all w-fit cursor-pointer"
               >
-                <MessageCircle className="w-4 h-4 fill-current" />
+                <WhatsAppIcon className="w-4 h-4 text-white" />
                 <span>Open WhatsApp Chat</span>
               </a>
             </div>

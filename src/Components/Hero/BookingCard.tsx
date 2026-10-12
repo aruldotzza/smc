@@ -3,7 +3,7 @@
 import React from "react";
 import heroData from "@/data/hero.json";
 import fleetData from "@/data/fleet.json";
-import { MapPin, ArrowRight, Check, ChevronDown, ChevronRight } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useBookingModal } from "@/context/BookingContext";
 import LocationAutocompleteInput from "@/Components/Booking/LocationAutocompleteInput";
