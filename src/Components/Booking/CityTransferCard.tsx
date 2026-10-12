@@ -5,6 +5,7 @@ import { useBookingModal } from "@/context/BookingContext";
 import { ArrowRight, ChevronDown, MapPin, X } from "lucide-react";
 import fleetData from "@/data/fleet.json";
 import LocationAutocompleteInput from "./LocationAutocompleteInput";
+import { getRecommendedFleet } from "@/utils/recommendation";
 
 interface CityTransferCardProps {
   isModal?: boolean;
@@ -55,6 +56,24 @@ export default function CityTransferCard({ isModal = true }: CityTransferCardPro
           model: v.model,
           fare: parseInt(v.price.replace(/[^0-9]/g, "")) || 65,
         }));
+
+  const handlePaxChange = (newPax: number) => {
+    const val = Math.max(1, Math.min(13, newPax));
+    const rec = getRecommendedFleet(val, bookingData.luggage, "City Transfer", vehicles);
+    updateBookingData({
+      passengers: val,
+      ...rec,
+    });
+  };
+
+  const handleLuggageChange = (newLug: number) => {
+    const val = Math.max(0, Math.min(15, newLug));
+    const rec = getRecommendedFleet(bookingData.passengers, val, "City Transfer", vehicles);
+    updateBookingData({
+      luggage: val,
+      ...rec,
+    });
+  };
 
   const handleFleetChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = fleetOptions.find(
@@ -144,11 +163,7 @@ export default function CityTransferCard({ isModal = true }: CityTransferCardPro
             <div className="flex items-center gap-1.5 sm:gap-2">
               <button
                 type="button"
-                onClick={() =>
-                  updateBookingData({
-                    passengers: Math.max(1, bookingData.passengers - 1),
-                  })
-                }
+                onClick={() => handlePaxChange(bookingData.passengers - 1)}
                 className="w-6 h-6 bg-white rounded-sm shadow-[0px_0px_0px_1px_rgba(0,0,0,0.09)] flex justify-center items-center text-[#5F6B7A] text-xs font-bold font-manrope hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
                 aria-label="Decrease passengers"
               >
@@ -159,11 +174,7 @@ export default function CityTransferCard({ isModal = true }: CityTransferCardPro
               </span>
               <button
                 type="button"
-                onClick={() =>
-                  updateBookingData({
-                    passengers: Math.min(13, bookingData.passengers + 1),
-                  })
-                }
+                onClick={() => handlePaxChange(bookingData.passengers + 1)}
                 className="w-6 h-6 bg-white rounded-sm shadow-[0px_0px_0px_1px_rgba(0,0,0,0.09)] flex justify-center items-center text-[#5F6B7A] text-xs font-bold font-manrope hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
                 aria-label="Increase passengers"
               >
@@ -180,11 +191,7 @@ export default function CityTransferCard({ isModal = true }: CityTransferCardPro
             <div className="flex items-center gap-1.5 sm:gap-2">
               <button
                 type="button"
-                onClick={() =>
-                  updateBookingData({
-                    luggage: Math.max(0, bookingData.luggage - 1),
-                  })
-                }
+                onClick={() => handleLuggageChange(bookingData.luggage - 1)}
                 className="w-6 h-6 bg-white rounded-sm shadow-[0px_0px_0px_1px_rgba(0,0,0,0.09)] flex justify-center items-center text-[#5F6B7A] text-xs font-bold font-manrope hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
                 aria-label="Decrease luggage"
               >
@@ -195,11 +202,7 @@ export default function CityTransferCard({ isModal = true }: CityTransferCardPro
               </span>
               <button
                 type="button"
-                onClick={() =>
-                  updateBookingData({
-                    luggage: Math.min(15, bookingData.luggage + 1),
-                  })
-                }
+                onClick={() => handleLuggageChange(bookingData.luggage + 1)}
                 className="w-6 h-6 bg-white rounded-sm shadow-[0px_0px_0px_1px_rgba(0,0,0,0.09)] flex justify-center items-center text-[#5F6B7A] text-xs font-bold font-manrope hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
                 aria-label="Increase luggage"
               >

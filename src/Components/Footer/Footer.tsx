@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { MessageCircle, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
+import WhatsAppIcon from "@/Components/Shared/WhatsAppIcon";
 
 export default function Footer() {
   const footerData = {
@@ -86,7 +87,7 @@ export default function Footer() {
                 className="px-3.5 py-2 bg-[#ECFDF3] rounded-xl border border-[#16803C]/40 inline-flex items-center gap-2 text-[#16803C] text-xs sm:text-sm font-bold font-manrope hover:bg-emerald-100 transition-colors active:scale-95"
               >
                 <div className="w-4 h-4 rounded-full bg-gradient-to-tr from-green-600 to-green-400 flex items-center justify-center text-white">
-                  <MessageCircle className="w-2.5 h-2.5 fill-current" />
+                  <WhatsAppIcon className="w-2.5 h-2.5" />
                 </div>
                 <span>WhatsApp Booking</span>
               </a>

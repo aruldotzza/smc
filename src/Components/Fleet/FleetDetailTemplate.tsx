@@ -3,8 +3,9 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, Check, MessageCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { useBookingModal } from "@/context/BookingContext";
+import WhatsAppIcon from "@/Components/Shared/WhatsAppIcon";
 
 export interface VehicleDetail {
   id: string;
@@ -31,7 +32,7 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
 
   const handleBookNow = () => {
     openModal({
-      initialStep: 1,
+      initialStep: 0,
       selectedFleet: vehicle.name,
       selectedFleetSlug: vehicle.slug,
       baseFare: parseInt(vehicle.price.replace(/[^0-9]/g, "")) || 65,
@@ -202,7 +203,7 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-8 py-3 rounded-lg border border-[#C6A45A] hover:bg-[#C6A45A]/10 active:scale-[0.98] text-[#C6A45A] text-base font-semibold font-manrope flex items-center justify-center gap-4 transition-all"
               >
-                <MessageCircle className="w-4 h-4 fill-current" />
+                <WhatsAppIcon className="w-4 h-4" />
                 <span>WhatsApp Us</span>
               </a>
             </div>

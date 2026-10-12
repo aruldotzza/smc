@@ -1,0 +1,398 @@
+"use client";
+
+import React, { useState } from "react";
+import { useBookingModal } from "@/context/BookingContext";
+import LocationAutocompleteInput from "./LocationAutocompleteInput";
+import fleetData from "@/data/fleet.json";
+import { ChevronDown, ArrowRight, X } from "lucide-react";
+
+interface CityTourCardProps {
+  isModal?: boolean;
+}
+
+export default function CityTourCard({ isModal = true }: CityTourCardProps) {
+  const { bookingData, updateBookingData, setStep, closeModal, vehicles } = useBookingModal();
+
+  const [tourDays, setTourDays] = useState(2);
+  const dayPills = [2, 3, 5, 7, 10];
+
+  // Derive fleet options from live API or fallback to fleet.json
+  const fleetOptions =
+    vehicles && vehicles.length > 0
+      ? vehicles.map((v) => {
+          const slug =
+            v.passengerCapacity === 6
+              ? "6-seater"
+              : v.passengerCapacity === 7
+              ? "7-seater"
+              : v.passengerCapacity === 9
+              ? "9-seater"
+              : v.passengerCapacity === 13
+              ? "13-seater"
+              : `vehicle-${v.id}`;
+          const fare =
+            v.prices?.arrival?.amount ||
+            v.prices?.departure_transfer?.amount ||
+            70;
+          return {
+            id: String(v.id),
+            numericId: v.id,
+            slug,
+            name: v.name,
+            model: v.description || v.vehicleType || "Executive Maxi Cab",
+            fare,
+          };
+        })
+      : fleetData.vehicles.map((v) => ({
+          id: v.id,
+          numericId:
+            v.id === "6-seater"
+              ? 1
+              : v.id === "7-seater"
+              ? 3
+              : v.id === "9-seater"
+              ? 4
+              : 5,
+          slug: v.slug || v.id,
+          name: v.name,
+          model: v.model,
+          fare: parseInt(v.price.replace(/[^0-9]/g, "")) || 70,
+        }));
+
+  // Automatic recommendation based on pax and bags
+  const calculateRecommendation = (p: number, l: number) => {
+    let slug = "7-seater";
+    let name = "7 Seater Maxi Cab";
+    let vId = 3;
+    let fare = 70;
+
+    if (p <= 6 && l <= 4) {
+      slug = "6-seater";
+      name = "6 Seater Maxi Cab";
+      vId = 1;
+      fare = 65;
+    } else if (p <= 7 && l <= 5) {
+      slug = "7-seater";
+      name = "7 Seater Maxi Cab";
+      vId = 3;
+      fare = 70;
+    } else if (p <= 9 && l <= 8) {
+      slug = "9-seater";
+      name = "9 Seater Maxi Cab";
+      vId = 4;
+      fare = 75;
+    } else {
+      slug = "13-seater";
+      name = "13 Seater Minibus";
+      vId = 5;
+      fare = 80;
+    }
+
+    const matched = fleetOptions.find((f) => f.slug === slug);
+    if (matched) {
+      name = matched.name;
+      fare = matched.fare;
+      vId = matched.numericId;
+    }
+
+    return { slug, name, fare, vId };
+  };
+
+  const handlePaxChange = (delta: number) => {
+    const currentPax = bookingData.passengers ?? 1;
+    const newPax = Math.max(1, Math.min(13, currentPax + delta));
+    const currentLug = bookingData.luggage ?? 0;
+    const rec = calculateRecommendation(newPax, currentLug);
+
+    updateBookingData({
+      passengers: newPax,
+      selectedFleet: rec.name,
+      selectedFleetSlug: rec.slug,
+      vehicleId: rec.vId,
+      baseFare: rec.fare,
+    });
+  };
+
+  const handleLuggageChange = (delta: number) => {
+    const currentLug = bookingData.luggage ?? 0;
+    const newLug = Math.max(0, Math.min(15, currentLug + delta));
+    const currentPax = bookingData.passengers ?? 1;
+    const rec = calculateRecommendation(currentPax, newLug);
+
+    updateBookingData({
+      luggage: newLug,
+      selectedFleet: rec.name,
+      selectedFleetSlug: rec.slug,
+      vehicleId: rec.vId,
+      baseFare: rec.fare,
+    });
+  };
+
+  const handleFleetChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selected = fleetOptions.find(
+      (v) => v.id === e.target.value || v.slug === e.target.value
+    );
+    if (selected) {
+      updateBookingData({
+        vehicleId: selected.numericId,
+        selectedFleet: selected.name,
+        selectedFleetSlug: selected.slug,
+        baseFare: selected.fare,
+      });
+    }
+  };
+
+  const handleDaysChange = (newDays: number) => {
+    const validDays = Math.max(1, Math.min(30, newDays));
+    setTourDays(validDays);
+    updateBookingData({
+      durationHours: validDays * 10,
+    });
+  };
+
+  const handleContinue = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateBookingData({
+      serviceType: "City Tour",
+      durationHours: tourDays * 10,
+      dropoff: "Singapore Island Tour (Free & Easy)",
+    });
+    setStep(2);
+  };
+
+  return (
+    <div className="w-full max-w-[620px] mx-auto p-5 sm:p-9 bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-2xl flex flex-col justify-start items-start gap-4 sm:gap-5 relative max-h-[92vh] overflow-y-auto">
+      {/* Close button if in modal */}
+      {isModal && closeModal && (
+        <button
+          type="button"
+          onClick={closeModal}
+          className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 p-2 rounded-full text-[#667085] hover:text-[#071E3B] hover:bg-slate-100 active:scale-95 transition-all z-20 cursor-pointer"
+          aria-label="Close modal"
+        >
+          <X className="w-4 h-4 sm:w-5 sm:h-5" />
+        </button>
+      )}
+
+      {/* Header */}
+      <div className="self-stretch flex flex-col justify-start items-start gap-1 pr-8 sm:pr-0">
+        <span className="text-[#C6A45A] text-xs font-semibold font-manrope leading-4 tracking-wider uppercase">
+          City Tour
+        </span>
+        <h2 className="text-[#071E3B] text-base sm:text-lg font-bold font-manrope uppercase leading-6 tracking-wide">
+          FIXED ALL-INCLUSIVE FARE
+        </h2>
+      </div>
+
+      <form onSubmit={handleContinue} className="self-stretch flex flex-col justify-start items-start gap-4">
+        {/* Pickup Location */}
+        <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+          <label className="text-[#071E3B] text-xs sm:text-sm font-medium font-inter leading-5">
+            Pickup Location
+          </label>
+          <LocationAutocompleteInput
+            value={bookingData.pickup}
+            onChange={(val) => updateBookingData({ pickup: val })}
+            placeholder="e.g. Singapore Changi Airport (T1-T4) or Hotel"
+            className="w-full"
+          />
+        </div>
+
+        {/* Number of days */}
+        <div className="self-stretch flex flex-col justify-start items-start gap-2">
+          <div className="self-stretch flex items-center justify-between">
+            <span className="text-[#071E3B] text-xs sm:text-sm font-medium font-inter leading-5">
+              Number of days
+            </span>
+            <div className="px-3 py-1 bg-[#FBF7EC] rounded-full border border-[#C6A45A] flex items-center">
+              <span className="text-[#B58E45] text-xs font-bold font-manrope leading-4">
+                10% OFF — EVERY TOUR
+              </span>
+            </div>
+          </div>
+
+          {/* Quick Days Pills */}
+          <div className="self-stretch flex items-center gap-2">
+            {dayPills.map((d) => (
+              <button
+                key={d}
+                type="button"
+                onClick={() => handleDaysChange(d)}
+                className={`flex-1 py-2 rounded-lg border text-xs font-semibold font-manrope transition-all cursor-pointer ${
+                  tourDays === d
+                    ? "bg-[#C6A45A] text-white border-[#C6A45A] shadow-xs"
+                    : "bg-white text-[#5F6B7A] border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                }`}
+              >
+                {d}d
+              </button>
+            ))}
+          </div>
+
+          {/* Days Stepper */}
+          <div className="self-stretch px-3 py-2 bg-[#F8F7F4] rounded-lg border border-slate-200/90 flex justify-between items-center">
+            <span className="text-[#5F6B7A] text-xs font-semibold font-manrope leading-4">
+              Days
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => handleDaysChange(tourDays - 1)}
+                className="w-6 h-6 bg-white rounded-sm shadow-[0px_0px_0px_1px_rgba(0,0,0,0.09)] flex justify-center items-center text-[#5F6B7A] text-xs font-bold font-manrope hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
+                aria-label="Decrease days"
+              >
+                -
+              </button>
+              <span className="w-6 text-center text-xs font-medium font-manrope text-[#071E3B]">
+                {tourDays}
+              </span>
+              <button
+                type="button"
+                onClick={() => handleDaysChange(tourDays + 1)}
+                className="w-6 h-6 bg-white rounded-sm shadow-[0px_0px_0px_1px_rgba(0,0,0,0.09)] flex justify-center items-center text-[#5F6B7A] text-xs font-bold font-manrope hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
+                aria-label="Increase days"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          <p className="text-[#98A2B3] text-xs font-normal font-manrope leading-5">
+            Free &amp; easy — no fixed itinerary or tour guide. Your driver is on call for 10 hours each day; where you go and when is entirely up to you. Schedule and stops can be discussed with your driver directly.
+          </p>
+        </div>
+
+        {/* Passengers & Luggage Steppers */}
+        <div className="self-stretch grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 items-center">
+          {/* Passengers */}
+          <div className="px-2.5 sm:px-3 py-2 sm:py-2.5 bg-[#F8F7F4] rounded-lg border border-slate-200/90 flex justify-between items-center">
+            <span className="text-[#5F6B7A] text-xs font-semibold font-manrope leading-4">
+              Passengers
+            </span>
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <button
+                type="button"
+                onClick={() => handlePaxChange(-1)}
+                className="w-6 h-6 bg-white rounded-sm shadow-[0px_0px_0px_1px_rgba(0,0,0,0.09)] flex justify-center items-center text-[#5F6B7A] text-xs font-bold font-manrope hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
+                aria-label="Decrease passengers"
+              >
+                -
+              </button>
+              <span className="w-4 text-center text-xs font-medium font-manrope text-[#071E3B]">
+                {bookingData.passengers ?? 1}
+              </span>
+              <button
+                type="button"
+                onClick={() => handlePaxChange(1)}
+                className="w-6 h-6 bg-white rounded-sm shadow-[0px_0px_0px_1px_rgba(0,0,0,0.09)] flex justify-center items-center text-[#5F6B7A] text-xs font-bold font-manrope hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
+                aria-label="Increase passengers"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          {/* Luggage */}
+          <div className="px-2.5 sm:px-3 py-2 sm:py-2.5 bg-[#F8F7F4] rounded-lg border border-slate-200/90 flex justify-between items-center">
+            <span className="text-[#5F6B7A] text-xs font-semibold font-manrope leading-4">
+              Luggage
+            </span>
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <button
+                type="button"
+                onClick={() => handleLuggageChange(-1)}
+                className="w-6 h-6 bg-white rounded-sm shadow-[0px_0px_0px_1px_rgba(0,0,0,0.09)] flex justify-center items-center text-[#5F6B7A] text-xs font-bold font-manrope hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
+                aria-label="Decrease luggage"
+              >
+                -
+              </button>
+              <span className="w-4 text-center text-xs font-medium font-manrope text-[#071E3B]">
+                {bookingData.luggage ?? 0}
+              </span>
+              <button
+                type="button"
+                onClick={() => handleLuggageChange(1)}
+                className="w-6 h-6 bg-white rounded-sm shadow-[0px_0px_0px_1px_rgba(0,0,0,0.09)] flex justify-center items-center text-[#5F6B7A] text-xs font-bold font-manrope hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
+                aria-label="Increase luggage"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Recommended fleet dropdown */}
+        <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+          <label className="text-[#071E3B] text-xs sm:text-sm font-medium font-inter leading-5">
+            Recommended fleet for your trip
+          </label>
+          <div className="self-stretch relative px-3 py-2.5 bg-[#F8F7F4] rounded-lg border border-slate-200/90 flex justify-between items-center">
+            <select
+              value={bookingData.selectedFleetSlug || String(bookingData.vehicleId)}
+              onChange={handleFleetChange}
+              className="w-full appearance-none bg-transparent text-xs sm:text-sm font-normal font-manrope text-[#071E3B] pr-20 outline-none cursor-pointer"
+            >
+              {fleetOptions.map((v) => (
+                <option key={v.id} value={v.slug} className="text-[#071E3B] bg-white">
+                  {v.name} ({v.model})
+                </option>
+              ))}
+            </select>
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none flex items-center gap-2">
+              <span className="text-right text-[#071E3B] text-base sm:text-lg font-bold font-manrope leading-7">
+                ${bookingData.baseFare}
+              </span>
+              <ChevronDown className="w-4 h-4 text-[#667085]" />
+            </div>
+          </div>
+        </div>
+
+        {/* Special Request */}
+        <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+          <label className="text-[#071E3B] text-xs sm:text-sm font-medium font-inter leading-5">
+            Special Request
+          </label>
+          <div className="self-stretch p-3.5 sm:p-4 bg-[#F8F7F4] rounded-lg border border-slate-200/90 flex justify-start items-center overflow-hidden focus-within:border-[#C6A45A] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#C6A45A] transition-all">
+            <textarea
+              rows={2}
+              placeholder="Eg. Need anything extra? Add a stop, set your temperature preference, or request a company invoice."
+              value={bookingData.specialRequests}
+              onChange={(e) => updateBookingData({ specialRequests: e.target.value })}
+              className="w-full text-xs font-normal font-manrope text-[#071E3B] placeholder:text-[#98A2B3] outline-none bg-transparent resize-none leading-relaxed"
+            />
+          </div>
+        </div>
+
+        {/* Booking Notice & CTA */}
+        <div className="self-stretch flex flex-col justify-start items-start gap-2 pt-1">
+          <div className="self-stretch flex justify-center items-center text-center">
+            <span className="text-[#98A2B3] text-xs font-normal font-manrope leading-4">
+              Singapore trips only — cross-border rides to Malaysia not available.
+            </span>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-3.5 px-8 bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-[0.98] text-white rounded-lg flex justify-center items-center gap-4 transition-all shadow-md cursor-pointer"
+          >
+            <span className="text-center text-white text-base font-semibold font-manrope leading-6">
+              Book Now
+            </span>
+            <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+          </button>
+        </div>
+
+        {/* Value Props Footer */}
+        <div className="self-stretch pt-2 flex flex-col justify-center items-center border-t border-slate-100">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs text-[#071E3B] font-manrope">
+            <span>All-inclusive transparent rates</span>
+            <span className="text-[#C6A45A] font-bold">·</span>
+            <span>Fixed Price Guarantee</span>
+            <span className="text-[#C6A45A] font-bold">·</span>
+            <span className="font-semibold">24/7 (+65) 8800 6006</span>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}

@@ -8,7 +8,6 @@ import {
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
-  MessageCircle,
   X,
   ShieldCheck,
   Star,
@@ -19,6 +18,7 @@ import {
   CreditCard,
   AlertCircle,
 } from "lucide-react";
+import WhatsAppIcon from "@/Components/Shared/WhatsAppIcon";
 import Link from "next/link";
 
 interface Step3CardProps {
@@ -177,7 +177,7 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
             rel="noopener noreferrer"
             className="w-full py-3.5 px-6 bg-[#E8F8EE] hover:bg-[#d5f4e0] border border-[#16803C] text-[#16803C] rounded-lg text-base font-semibold font-manrope transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
           >
-            <MessageCircle className="w-5 h-5 fill-current" />
+            <WhatsAppIcon className="w-5 h-5" />
             <span>Chat with us on WhatsApp</span>
           </a>
           <button
@@ -521,7 +521,7 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
               ) : isContactSupport ? (
                 <>
                   <span>Chat on WhatsApp</span>
-                  <MessageCircle className="w-4 h-4 stroke-[2.5]" />
+                  <WhatsAppIcon className="w-4 h-4" />
                 </>
               ) : (
                 <>

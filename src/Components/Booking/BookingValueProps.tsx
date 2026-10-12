@@ -2,7 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import { Clock, ShieldCheck, Users, MessageCircle, ArrowRight } from "lucide-react";
+import { Clock, ShieldCheck, Users, ArrowRight } from "lucide-react";
+import WhatsAppIcon from "@/Components/Shared/WhatsAppIcon";
 
 interface BookingValuePropsComponentProps {
   className?: string;
@@ -28,7 +29,7 @@ export default function BookingValueProps({
       description: "Perfect for families, groups, and corporate teams.",
     },
     {
-      icon: <MessageCircle className="w-5 h-5 text-[#C6A45A]" />,
+      icon: <WhatsAppIcon className="w-5 h-5 text-[#C6A45A]" />,
       title: "24/7 WhatsApp Support",
       description: "Real people respond fast via WhatsApp, day or night.",
     },

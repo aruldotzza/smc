@@ -2,8 +2,9 @@
 
 import React from "react";
 import Link from "next/link";
-import { MessageCircle, RefreshCw, X, AlertTriangle } from "lucide-react";
+import { RefreshCw, X, AlertTriangle } from "lucide-react";
 import { useBookingModal } from "@/context/BookingContext";
+import WhatsAppIcon from "@/Components/Shared/WhatsAppIcon";
 
 interface PaymentFailedCardProps {
   title?: string;
@@ -107,7 +108,7 @@ export default function PaymentFailedCard({
           >
             {/* WhatsApp Brand Badge Icon */}
             <div className="w-5 h-5 rounded-full bg-[#25D366] flex items-center justify-center text-white shrink-0 shadow-xs">
-              <MessageCircle className="w-3.5 h-3.5 fill-current" />
+              <WhatsAppIcon className="w-3.5 h-3.5" />
             </div>
             <span>Contact Support on WhatsApp</span>
           </a>

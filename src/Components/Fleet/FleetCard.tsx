@@ -39,7 +39,7 @@ export default function FleetCard({ vehicle }: { vehicle: Vehicle }) {
 
   const handleReserve = () => {
     openModal({
-      initialStep: 1,
+      initialStep: 0,
       selectedFleet: vehicle.name,
       selectedFleetSlug: slug,
       baseFare: parseInt(vehicle.price.replace(/[^0-9]/g, "")) || 70,

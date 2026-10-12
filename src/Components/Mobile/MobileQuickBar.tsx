@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import { Phone, MessageCircle, ArrowRight } from "lucide-react";
+import { Phone, ArrowRight } from "lucide-react";
 import { useBookingModal } from "@/context/BookingContext";
+import WhatsAppIcon from "@/Components/Shared/WhatsAppIcon";
 
 export default function MobileQuickBar() {
   const { openModal, isModalOpen } = useBookingModal();
@@ -31,7 +32,7 @@ export default function MobileQuickBar() {
           className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white rounded-xl text-xs font-semibold font-manrope transition-all shadow-sm"
           aria-label="WhatsApp Singapore Maxi Cab"
         >
-          <MessageCircle className="w-3.5 h-3.5 fill-current" />
+          <WhatsAppIcon className="w-3.5 h-3.5" />
           <span>WhatsApp</span>
         </a>
 

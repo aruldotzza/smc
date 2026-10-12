@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, Check, MessageCircle, ChevronDown, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ShieldCheck } from "lucide-react";
 import { useBookingModal } from "@/context/BookingContext";
+import WhatsAppIcon from "@/Components/Shared/WhatsAppIcon";
 
 export interface ServiceDetail {
   id: string;
@@ -22,17 +23,12 @@ export interface ServiceDetail {
 
 export default function ServiceDetailTemplate({ service }: { service: ServiceDetail }) {
   const { openModal } = useBookingModal();
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const handleBookNow = () => {
     openModal({
-      initialStep: 1,
+      initialStep: 0,
       serviceType: service.title,
     });
-  };
-
-  const toggleFaq = (idx: number) => {
-    setOpenFaq(openFaq === idx ? null : idx);
   };
 
   return (
@@ -161,7 +157,7 @@ export default function ServiceDetailTemplate({ service }: { service: ServiceDet
           </div>
         </div>
 
-        {/* 3. Frequently Asked Questions */}
+        {/* 3. Frequently Asked Questions (Permanently Open) */}
         {service.faqs && service.faqs.length > 0 && (
           <div className="flex flex-col gap-4 sm:gap-6 pt-2 sm:pt-4">
             <h2 className="text-2xl sm:text-3xl font-bold text-[#071E3B]">
@@ -172,28 +168,15 @@ export default function ServiceDetailTemplate({ service }: { service: ServiceDet
               {service.faqs.map((faq, idx) => (
                 <div
                   key={idx}
-                  className="rounded-xl border border-[#E9ECEF] bg-white p-4 sm:p-6 shadow-2xs hover:border-slate-300 transition-colors"
+                  className="rounded-xl border border-[#E9ECEF] bg-white p-4 sm:p-6 shadow-2xs transition-colors"
                 >
-                  <button
-                    type="button"
-                    onClick={() => toggleFaq(idx)}
-                    className="w-full flex items-center justify-between gap-3 text-left font-bold text-sm sm:text-lg text-[#071E3B] cursor-pointer min-h-[44px]"
-                  >
-                    <span>{faq.question}</span>
-                    <ChevronDown
-                      className={`w-4 h-4 sm:w-5 sm:h-5 text-[#667085] transition-transform duration-200 shrink-0 ${
-                        openFaq === idx ? "rotate-180 text-[#C6A45A]" : ""
-                      }`}
-                    />
-                  </button>
+                  <h3 className="font-bold text-sm sm:text-lg text-[#071E3B] font-manrope">
+                    {faq.question}
+                  </h3>
 
-                  <div
-                    className={`pt-2 sm:pt-3 text-xs sm:text-base text-[#667085] leading-relaxed ${
-                      openFaq === idx || openFaq === null ? "block" : "hidden sm:block"
-                    }`}
-                  >
+                  <p className="pt-2 sm:pt-2.5 text-xs sm:text-base text-[#667085] leading-relaxed font-manrope">
                     {faq.answer}
-                  </div>
+                  </p>
                 </div>
               ))}
             </div>
@@ -227,7 +210,7 @@ export default function ServiceDetailTemplate({ service }: { service: ServiceDet
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-8 py-3.5 rounded-lg border border-[#C6A45A] hover:bg-[#C6A45A]/10 active:scale-[0.98] text-[#C6A45A] text-sm sm:text-base font-semibold flex items-center justify-center gap-3 transition-all min-h-[48px]"
               >
-                <MessageCircle className="w-4 h-4 fill-current" />
+                <WhatsAppIcon className="w-4 h-4" />
                 <span>WhatsApp Us</span>
               </a>
             </div>

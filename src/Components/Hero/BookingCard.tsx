@@ -7,6 +7,7 @@ import { MapPin, ArrowRight, Check, ChevronDown, ChevronRight } from "lucide-rea
 import Link from "next/link";
 import { useBookingModal } from "@/context/BookingContext";
 import LocationAutocompleteInput from "@/Components/Booking/LocationAutocompleteInput";
+import { getRecommendedFleet } from "@/utils/recommendation";
 
 export default function BookingCard() {
   const { bookingData, updateBookingData, openModal, vehicles } = useBookingModal();
@@ -53,6 +54,24 @@ export default function BookingCard() {
           model: v.model,
           fare: parseInt(v.price.replace(/[^0-9]/g, "")) || 70,
         }));
+
+  const handlePaxChange = (newPax: number) => {
+    const val = Math.max(1, Math.min(13, newPax));
+    const rec = getRecommendedFleet(val, bookingData.luggage, bookingData.serviceType, vehicles);
+    updateBookingData({
+      passengers: val,
+      ...rec,
+    });
+  };
+
+  const handleLuggageChange = (newLug: number) => {
+    const val = Math.max(0, Math.min(15, newLug));
+    const rec = getRecommendedFleet(bookingData.passengers, val, bookingData.serviceType, vehicles);
+    updateBookingData({
+      luggage: val,
+      ...rec,
+    });
+  };
 
   const handleFleetChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = fleetOptions.find(
@@ -116,11 +135,7 @@ export default function BookingCard() {
             <div className="flex items-center gap-1.5 sm:gap-2">
               <button
                 type="button"
-                onClick={() =>
-                  updateBookingData({
-                    passengers: Math.max(1, bookingData.passengers - 1),
-                  })
-                }
+                onClick={() => handlePaxChange(bookingData.passengers - 1)}
                 className="w-7 h-7 sm:w-8 sm:h-8 bg-[#F8F7F4] hover:bg-slate-200 active:bg-slate-300 rounded-lg flex items-center justify-center text-[#071E3B] text-base font-bold font-manrope transition-colors cursor-pointer"
                 aria-label="Decrease passengers"
               >
@@ -131,11 +146,7 @@ export default function BookingCard() {
               </span>
               <button
                 type="button"
-                onClick={() =>
-                  updateBookingData({
-                    passengers: Math.min(13, bookingData.passengers + 1),
-                  })
-                }
+                onClick={() => handlePaxChange(bookingData.passengers + 1)}
                 className="w-7 h-7 sm:w-8 sm:h-8 bg-[#F8F7F4] hover:bg-slate-200 active:bg-slate-300 rounded-lg flex items-center justify-center text-[#071E3B] text-base font-bold font-manrope transition-colors cursor-pointer"
                 aria-label="Increase passengers"
               >
@@ -152,11 +163,7 @@ export default function BookingCard() {
             <div className="flex items-center gap-1.5 sm:gap-2">
               <button
                 type="button"
-                onClick={() =>
-                  updateBookingData({
-                    luggage: Math.max(0, bookingData.luggage - 1),
-                  })
-                }
+                onClick={() => handleLuggageChange(bookingData.luggage - 1)}
                 className="w-7 h-7 sm:w-8 sm:h-8 bg-[#F8F7F4] hover:bg-slate-200 active:bg-slate-300 rounded-lg flex items-center justify-center text-[#071E3B] text-base font-bold font-manrope transition-colors cursor-pointer"
                 aria-label="Decrease luggage"
               >
@@ -167,11 +174,7 @@ export default function BookingCard() {
               </span>
               <button
                 type="button"
-                onClick={() =>
-                  updateBookingData({
-                    luggage: Math.min(15, bookingData.luggage + 1),
-                  })
-                }
+                onClick={() => handleLuggageChange(bookingData.luggage + 1)}
                 className="w-7 h-7 sm:w-8 sm:h-8 bg-[#F8F7F4] hover:bg-slate-200 active:bg-slate-300 rounded-lg flex items-center justify-center text-[#071E3B] text-base font-bold font-manrope transition-colors cursor-pointer"
                 aria-label="Increase luggage"
               >

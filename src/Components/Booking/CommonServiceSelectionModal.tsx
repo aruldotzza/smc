@@ -80,7 +80,7 @@ export default function CommonServiceSelectionModal() {
     },
     {
       id: "tour",
-      title: "Sightseeing & Island Tour",
+      title: "City Tour",
       displayTitle: "City Tour",
       discount: "10% OFF",
       fromPrice: "From $75",

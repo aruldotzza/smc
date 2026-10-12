@@ -2,8 +2,9 @@
 
 import React from "react";
 import pricingData from "@/data/pricing.json";
-import { ShieldCheck, Clock, Plane, ArrowRight, MessageCircle } from "lucide-react";
+import { ShieldCheck, Clock, Plane, ArrowRight } from "lucide-react";
 import { useBookingModal } from "@/context/BookingContext";
+import WhatsAppIcon from "@/Components/Shared/WhatsAppIcon";
 import Link from "next/link";
 
 export default function PricingSection() {
@@ -12,7 +13,7 @@ export default function PricingSection() {
   const handleBookVehicle = (slug: string, name: string, fareStr: string) => {
     const fare = parseInt(fareStr.replace(/[^0-9]/g, "")) || 65;
     openModal({
-      initialStep: 1,
+      initialStep: 0,
       selectedFleet: name,
       selectedFleetSlug: slug,
       baseFare: fare,
@@ -209,7 +210,7 @@ export default function PricingSection() {
                     key={row.id}
                     className={`${
                       idx % 2 === 0 ? "bg-white" : "bg-[#F7F5EF]"
-                    } hover:bg-[#EEF5FB] transition-colors`}
+                    } hover:bg-[#FBF7EC] transition-colors`}
                   >
                     <td className="py-4 px-6">
                       <Link
@@ -294,7 +295,7 @@ export default function PricingSection() {
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-8 py-3 rounded-lg border border-[#C6A45A] hover:bg-[#C6A45A]/10 active:scale-[0.98] text-[#C6A45A] text-base font-semibold font-manrope flex items-center justify-center gap-4 transition-all"
               >
-                <MessageCircle className="w-4 h-4 fill-current" />
+                <WhatsAppIcon className="w-4 h-4" />
                 <span>WhatsApp Us</span>
               </a>
             </div>

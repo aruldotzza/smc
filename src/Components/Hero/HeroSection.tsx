@@ -4,8 +4,8 @@ import React from "react";
 import Image from "next/image";
 import heroData from "@/data/hero.json";
 import BookingCard from "./BookingCard";
-import Link from "next/link";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import WhatsAppIcon from "@/Components/Shared/WhatsAppIcon";
 
 export default function HeroSection() {
   return (
@@ -75,7 +75,7 @@ export default function HeroSection() {
               rel="noopener noreferrer"
               className="w-full sm:w-auto px-6 sm:px-8 py-3.5 rounded-xl border border-[#C6A45A] hover:bg-[#C6A45A]/10 text-[#C6A45A] text-sm sm:text-base font-bold flex items-center justify-center gap-3 transition-all active:scale-98 bg-black/20 backdrop-blur-xs"
             >
-              <MessageCircle className="w-4 h-4 fill-current" />
+              <WhatsAppIcon className="w-4 h-4" />
               <span>Book via WhatsApp</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
             </a>

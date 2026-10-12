@@ -1,9 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useBookingModal } from "@/context/BookingContext";
-import { ArrowRight, ArrowLeft, ChevronDown, MessageCircle, X } from "lucide-react";
+import { ArrowRight, ArrowLeft, ChevronDown, X } from "lucide-react";
 import Link from "next/link";
+import WhatsAppIcon from "@/Components/Shared/WhatsAppIcon";
+import AddOnDropdown from "./AddOns/AddOnDropdown";
+import MeetAndGreetField from "./AddOns/MeetAndGreetField";
+import ChildSeatField from "./AddOns/ChildSeatField";
+import AdditionalStopField from "./AddOns/AdditionalStopField";
+import WheelchairField from "./AddOns/WheelchairField";
 
 interface Step2CardProps {
   isModal?: boolean;
@@ -11,6 +17,29 @@ interface Step2CardProps {
 
 export default function Step2Card({ isModal = true }: Step2CardProps) {
   const { bookingData, updateBookingData, setStep, closeModal } = useBookingModal();
+  const [isAddOnDropdownOpen, setIsAddOnDropdownOpen] = useState(false);
+  const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>(
+    bookingData.babySeat ? ["baby-seat"] : []
+  );
+
+  const handleToggleAddOn = (id: string) => {
+    if (selectedAddOnIds.includes(id)) {
+      handleRemoveAddOn(id);
+    } else {
+      setSelectedAddOnIds((prev) => [...prev, id]);
+      if (id === "baby-seat") {
+        updateBookingData({ babySeat: true });
+      }
+      setIsAddOnDropdownOpen(false);
+    }
+  };
+
+  const handleRemoveAddOn = (id: string) => {
+    setSelectedAddOnIds((prev) => prev.filter((item) => item !== id));
+    if (id === "baby-seat") {
+      updateBookingData({ babySeat: false });
+    }
+  };
 
   const handleContinue = (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,52 +138,69 @@ export default function Step2Card({ isModal = true }: Step2CardProps) {
           </div>
         </div>
 
-        {/* Add Ons */}
-        <div className="self-stretch flex flex-col justify-start items-start gap-1">
+        {/* Add Ons Dropdown & Dynamic Input Fields */}
+        <div className="self-stretch flex flex-col justify-start items-start gap-2 relative">
           <label className="text-[#071E3B] text-xs sm:text-sm font-medium font-inter leading-5">
             Add Ons
           </label>
+
+          {/* Dropdown Toggle Header */}
           <div
-            onClick={() => updateBookingData({ babySeat: !bookingData.babySeat })}
-            className="self-stretch px-3.5 py-2.5 bg-white rounded-xl border border-[#7A8593] flex justify-between items-center cursor-pointer hover:border-[#C6A45A] active:scale-98 transition-all"
+            onClick={() => setIsAddOnDropdownOpen(!isAddOnDropdownOpen)}
+            className="self-stretch px-3.5 py-3 bg-white rounded-xl border border-[#7A8593] flex justify-between items-center cursor-pointer hover:border-[#C6A45A] active:scale-[0.99] transition-all select-none"
           >
             <div className="flex items-center gap-2">
-              <div
-                className={`w-4 h-4 rounded-md flex items-center justify-center transition-colors ${
-                  bookingData.babySeat ? "bg-[#C6A45A]" : "border border-[#7A8593] bg-white"
-                }`}
-              >
-                {bookingData.babySeat && (
-                  <svg
-                    className="w-2.5 h-2 text-[#071E3B]"
-                    viewBox="0 0 10 8"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M1.5 4L3.8 6.5L8.5 1.5"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                )}
-              </div>
               <span className="text-[#071E3B] text-xs sm:text-sm font-semibold font-manrope">
-                Child / Baby Safety Seat
+                Select Add Ons {selectedAddOnIds.length > 0 ? `(${selectedAddOnIds.length} added)` : ""}
               </span>
             </div>
-            <div className="flex justify-start items-center gap-2.5">
-              <span className="text-right text-[#071E3B] text-base sm:text-lg font-bold font-manrope">
-                +$20 SGD
+            <div className="flex justify-start items-center gap-2">
+              <span className="text-xs text-[#C6A45A] font-bold font-manrope">
+                {isAddOnDropdownOpen ? "Close Menu" : "+ Add Option"}
               </span>
               <ChevronDown
                 className={`w-4 h-4 text-[#667085] transition-transform ${
-                  bookingData.babySeat ? "rotate-180" : ""
+                  isAddOnDropdownOpen ? "rotate-180" : ""
                 }`}
               />
             </div>
+          </div>
+
+          {/* Add-on dropdown options */}
+          {isAddOnDropdownOpen && (
+            <div className="w-full">
+              <AddOnDropdown
+                activeIds={selectedAddOnIds}
+                onSelect={handleToggleAddOn}
+              />
+            </div>
+          )}
+
+          {/* Render selected add-on input fields */}
+          <div className="w-full flex flex-col gap-3 pt-1">
+            {selectedAddOnIds.includes("meet-greet") && (
+              <MeetAndGreetField
+                onRemove={() => handleRemoveAddOn("meet-greet")}
+              />
+            )}
+            {selectedAddOnIds.includes("baby-seat") && (
+              <ChildSeatField
+                onRemove={() => handleRemoveAddOn("baby-seat")}
+                onChange={() => {
+                  updateBookingData({ babySeat: true });
+                }}
+              />
+            )}
+            {selectedAddOnIds.includes("additional-stops") && (
+              <AdditionalStopField
+                onRemove={() => handleRemoveAddOn("additional-stops")}
+              />
+            )}
+            {selectedAddOnIds.includes("wheelchair") && (
+              <WheelchairField
+                onRemove={() => handleRemoveAddOn("wheelchair")}
+              />
+            )}
           </div>
         </div>
 
@@ -291,7 +337,7 @@ export default function Step2Card({ isModal = true }: Step2CardProps) {
             <span className="text-[#16803C] group-hover:text-emerald-700 text-xs sm:text-sm font-bold font-manrope leading-5">
               WhatsApp Us
             </span>
-            <MessageCircle className="w-3.5 h-3.5 text-[#16803C] fill-current" />
+            <WhatsAppIcon className="w-3.5 h-3.5 text-[#16803C]" />
           </a>
         </div>
       </form>
