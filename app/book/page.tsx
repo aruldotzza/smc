@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/Components/Header/Navbar";
 import Footer from "@/Components/Footer/Footer";
@@ -9,6 +9,7 @@ import Step2Card from "@/Components/Booking/Step2Card";
 import Step3Card from "@/Components/Booking/Step3Card";
 import BookingValueProps from "@/Components/Booking/BookingValueProps";
 import PaymentFailedCard from "@/Components/Booking/PaymentFailedCard";
+import PaymentSuccessCard from "@/Components/Booking/PaymentSuccessCard";
 import { useBookingModal } from "@/context/BookingContext";
 
 function BookPageContent() {
@@ -18,8 +19,11 @@ function BookPageContent() {
   const statusParam = searchParams.get("status");
   const errorParam = searchParams.get("error");
   const nameParam = searchParams.get("name");
+  const bookingIdParam = searchParams.get("booking_id") || searchParams.get("session_id");
+  const amountParam = searchParams.get("amount");
 
   const isQueryFailed = statusParam === "failed" || Boolean(errorParam);
+  const isQuerySuccess = statusParam === "success" || statusParam === "paid";
   const [manualError, setManualError] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
 
@@ -48,6 +52,15 @@ function BookPageContent() {
                 setManualError(false);
                 setStep(1);
               }}
+            />
+          </div>
+        ) : isQuerySuccess ? (
+          /* Success State from Stripe redirect */
+          <div className="flex justify-center lg:justify-start">
+            <PaymentSuccessCard
+              customerName={nameParam || bookingData?.name}
+              bookingId={bookingIdParam || undefined}
+              amount={amountParam || undefined}
             />
           </div>
         ) : (

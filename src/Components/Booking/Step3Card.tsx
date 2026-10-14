@@ -41,6 +41,7 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
   } = useBookingModal();
 
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const router = useRouter();
 
   // Fetch live backend quotation when Step 3 mounts
@@ -61,12 +62,7 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
   const isContactSupport = quote?.quote_status === "CONTACT_SUPPORT";
 
   const handleProceed = async () => {
-    if (isModal) {
-      if (closeModal) closeModal();
-      setStep(3);
-      router.push("/book");
-      return;
-    }
+    // Direct checkout whether in modal or full page
 
     if (isContactSupport) {
       // Direct to WhatsApp for customized quotation
@@ -85,37 +81,16 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
       return;
     }
 
-    // Try Live Checkout via Stripe
-    const checkoutRes = await submitLiveCheckout();
-    if (checkoutRes && "stripe_checkout_url" in checkoutRes && checkoutRes.stripe_checkout_url) {
-      // Browser redirected to Stripe by submitLiveCheckout()
-      return;
+    try {
+      // Initiate live Stripe checkout and redirect to Stripe Checkout URL
+      const checkoutRes = await submitLiveCheckout();
+      if (checkoutRes && "stripe_checkout_url" in checkoutRes && checkoutRes.stripe_checkout_url) {
+        setIsRedirecting(true);
+        return;
+      }
+    } catch (e) {
+      console.error("Stripe checkout error:", e);
     }
-
-    // Fallback if backend checkout is not running or returns error: WhatsApp confirmation
-    const text =
-      `*New Singapore Maxi Cab Booking Request*%0A` +
-      `--------------------------------%0A` +
-      `*Service:* ${bookingData.serviceType}%0A` +
-      (isHourly ? `*Duration:* ${duration} Hours%0A` : "") +
-      `*Vehicle:* ${bookingData.selectedFleet || "7-Seater Maxi Cab"}%0A` +
-      `*Pickup:* ${bookingData.pickup || "Singapore Changi Airport (SIN)"}%0A` +
-      (!isHourly
-        ? `*Dropoff:* ${bookingData.dropoff || "Marina Bay Sands Hotel"}%0A`
-        : `*Dropoff / Scope:* ${bookingData.dropoff || "As-Directed City Tour"}%0A`) +
-      `*Date & Time:* ${bookingData.pickupDate || "24 Oct 2024"} at ${bookingData.pickupTime || "17:15"} SGT%0A` +
-      `*Passengers:* ${bookingData.passengers || 7} Pax | *Luggage:* ${bookingData.luggage || 5} Bags%0A` +
-      `*Passenger Name:* ${bookingData.name || "Alexander Wright"}%0A` +
-      `*Phone/WhatsApp:* ${bookingData.countryCode} ${bookingData.phone || "88006006"}%0A` +
-      `*Email:* ${bookingData.email || "booking@singaporemaxicabs.com.sg"}%0A` +
-      (bookingData.flightNumber ? `*Flight Number:* ${bookingData.flightNumber}%0A` : "") +
-      (bookingData.signboardName ? `*Signboard Name:* ${bookingData.signboardName}%0A` : "") +
-      `*Final Tariff:* $${totalFare}.00 SGD NETT%0A` +
-      `--------------------------------%0A` +
-      `Please confirm driver dispatch availability. Thank you!`;
-
-    window.open(`https://wa.me/6588006006?text=${text}`, "_blank");
-    setIsSuccess(true);
   };
 
   if (isSuccess) {
@@ -380,6 +355,39 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
           </div>
         )}
 
+        {/* Live Checkout Error Alert */}
+        {checkoutError && (
+          <div className="self-stretch p-4 bg-rose-50 rounded-xl border border-rose-200 flex items-start gap-3 text-rose-800 animate-in fade-in">
+            <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+            <div className="flex flex-col gap-1.5 flex-1">
+              <span className="text-sm font-bold font-manrope text-rose-900">
+                Payment Session Could Not Be Started
+              </span>
+              <p className="text-xs font-manrope leading-relaxed text-rose-700">
+                {checkoutError}
+              </p>
+              <div className="flex items-center gap-3 pt-1 text-xs font-manrope">
+                <button
+                  type="button"
+                  onClick={handleProceed}
+                  className="px-3 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded font-semibold transition-colors cursor-pointer"
+                >
+                  Retry Stripe Payment
+                </button>
+                <a
+                  href="https://wa.me/6588006006"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-emerald-700 hover:text-emerald-900 underline inline-flex items-center gap-1"
+                >
+                  <WhatsAppIcon className="w-3 h-3 text-[#16803C]" />
+                  <span>Book via WhatsApp</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Tariff Breakdown Section */}
         <div className="self-stretch bg-white rounded-2xl flex flex-col justify-start items-start gap-4">
           {/* Header */}
@@ -510,13 +518,18 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
             <button
               type="button"
               onClick={handleProceed}
-              disabled={isCheckingOut}
+              disabled={isCheckingOut || isRedirecting}
               className="flex-1 px-8 py-3 bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-[0.98] text-white rounded-lg flex justify-center items-center gap-4 transition-all shadow-md hover:shadow-lg cursor-pointer text-base font-semibold font-manrope leading-6 disabled:opacity-75"
             >
               {isCheckingOut ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin text-[#C6A45A]" />
                   <span>Connecting to Stripe...</span>
+                </>
+              ) : isRedirecting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-[#C6A45A]" />
+                  <span>Redirecting to Stripe...</span>
                 </>
               ) : isContactSupport ? (
                 <>

@@ -424,10 +424,10 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
 
     // Format phone to E.164 (+ followed by 7-15 digits)
     const cleanCountry = (bookingData.countryCode || "+65").replace(/[^\d+]/g, "");
-    const cleanDigits = (bookingData.phone || "88006006").replace(/\D/g, "");
-    const formattedPhone = cleanCountry.startsWith("+")
-      ? `${cleanCountry}${cleanDigits}`
-      : `+${cleanCountry}${cleanDigits}`;
+    const rawCountry = cleanCountry.startsWith("+") ? cleanCountry : `+${cleanCountry}`;
+    const rawDigits = (bookingData.phone || "91234567").replace(/\D/g, "");
+    const cleanDigits = rawDigits.startsWith("0") ? rawDigits.replace(/^0+/, "") : rawDigits;
+    const formattedPhone = `${rawCountry}${cleanDigits}`;
 
     const payload: CheckoutRequest = {
       customer: {
@@ -449,7 +449,15 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
     try {
       const response = await createBookingCheckout(payload, { idempotencyKey });
       if (response && "stripe_checkout_url" in response && response.stripe_checkout_url) {
-        window.location.href = response.stripe_checkout_url;
+        if (typeof window !== "undefined") {
+          try {
+            sessionStorage.setItem("last_booking_id", response.booking_id || "");
+            sessionStorage.setItem("last_booking_amount", String(response.amount || ""));
+            sessionStorage.setItem("last_booking_currency", response.currency || "SGD");
+          } catch {}
+          // Navigate to Stripe checkout URL
+          window.location.href = response.stripe_checkout_url;
+        }
       }
       return response;
     } catch (err: unknown) {
