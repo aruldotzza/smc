@@ -201,6 +201,108 @@
       ],
       "buttonText": "Reserve Wheelchair Cab",
       "image": "/images/Cab.png"
+    },
+    {
+      "id": "mercedes-e-class",
+      "slug": "mercedes-e-class",
+      "name": "Mercedes-Benz E-Class",
+      "model": "Mercedes-Benz E-Class Sedan",
+      "price": "$85",
+      "currency": "SGD",
+      "description": "Executive luxury sedan with leather seating, quiet cabin, and discreet chauffeur etiquette.",
+      "heroDescription": "The Mercedes-Benz E-Class represents the gold standard of business executive travel in Singapore. Ideal for corporate VIP transfers, financial roadshows, and airport transfers with uncompromised comfort.",
+      "pax": "4 Pax",
+      "paxCount": 4,
+      "bags": "2 Bags",
+      "luggageCount": 2,
+      "badge": "Executive Sedan",
+      "pointToPoint": "$85 SGD",
+      "meetAndGreet": "$95 SGD",
+      "charter3h": "$210 SGD",
+      "charter8h": "$560 SGD",
+      "vehicleType": "Mercedes-Benz E-Class Sedan",
+      "inclusions": [
+        "Fixed flat-rate pricing",
+        "Licensed executive chauffeur in formal attire",
+        "Changi flight tracking with delay absorption",
+        "Plush leather seating and silent cabin",
+        "Complimentary bottled water and phone chargers",
+        "WhatsApp chauffeur contact"
+      ],
+      "extras": [
+        { "label": "Changi Meet & Greet", "price": "$95" },
+        { "label": "3-Hour Charter", "price": "$210" }
+      ],
+      "buttonText": "Reserve E-Class",
+      "image": "/images/Cab.png"
+    },
+    {
+      "id": "mercedes-s-class",
+      "slug": "mercedes-s-class",
+      "name": "Mercedes-Benz S-Class",
+      "model": "Mercedes-Benz S-Class Flagship",
+      "price": "$160",
+      "currency": "SGD",
+      "description": "Flagship first-class prestige with reclining executive seating, acoustic glazing, and VIP buffer.",
+      "heroDescription": "First-class luxury on Singapore roads. The Mercedes-Benz S-Class delivers state-of-the-art prestige, acoustic glazing, ventilated rear seating, and white-glove chauffeur service for high-profile dignitaries.",
+      "pax": "4 Pax",
+      "paxCount": 4,
+      "bags": "2 Bags",
+      "luggageCount": 2,
+      "badge": "VIP Flagship",
+      "pointToPoint": "$160 SGD",
+      "meetAndGreet": "$180 SGD",
+      "charter3h": "$380 SGD",
+      "charter8h": "$1000 SGD",
+      "vehicleType": "Mercedes-Benz S-Class Flagship",
+      "inclusions": [
+        "Fixed flat-rate VIP pricing",
+        "Master chauffeur with white-glove protocol",
+        "Priority VIP flight monitoring & tarmac buffer",
+        "Reclining rear executive lounge seats",
+        "High-grade acoustic cabin isolation",
+        "Discreet, non-intrusive protocol"
+      ],
+      "extras": [
+        { "label": "Changi Meet & Greet", "price": "$180" },
+        { "label": "3-Hour Charter", "price": "$380" }
+      ],
+      "buttonText": "Reserve S-Class",
+      "image": "/images/Cab.png"
+    },
+    {
+      "id": "23-seater-coach",
+      "slug": "23-seater-coach",
+      "name": "23-Seater Executive Coach",
+      "model": "Mitsubishi Rosa / Toyota Coaster",
+      "price": "$130",
+      "currency": "SGD",
+      "description": "Premium coach transportation for corporate conferences, school delegations, and tourist groups.",
+      "heroDescription": "Our 23-Seater Executive Coach is designed for medium-to-large group transport across Singapore. Equipped with high-deck panoramic windows, individual air-conditioning vents, and a generous dedicated luggage compartment.",
+      "pax": "23 Pax",
+      "paxCount": 23,
+      "bags": "20 Bags",
+      "luggageCount": 20,
+      "badge": "Corporate Coach",
+      "pointToPoint": "$130 SGD",
+      "meetAndGreet": "$150 SGD",
+      "charter3h": "$330 SGD",
+      "charter8h": "$850 SGD",
+      "vehicleType": "Mitsubishi Rosa / Toyota Coaster",
+      "inclusions": [
+        "Fixed flat-rate charter pricing",
+        "Experienced group transit bus captain",
+        "Large undercarriage luggage storage",
+        "High-capacity overhead cabin cooling",
+        "Microphone system for tour guides",
+        "Direct dispatch coordinator contact"
+      ],
+      "extras": [
+        { "label": "Changi Meet & Greet", "price": "$150" },
+        { "label": "3-Hour Charter", "price": "$330" }
+      ],
+      "buttonText": "Reserve 23-Seater",
+      "image": "/images/Cab.png"
     }
   ],
   "bottomBanner": {

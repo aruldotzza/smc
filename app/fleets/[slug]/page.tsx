@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Navbar from "@/Components/Header/Navbar";
-import FleetDetailTemplate, { VehicleDetail } from "@/Components/Fleet/FleetDetailTemplate";
+import FleetDetailTemplate from "@/Components/Fleet/FleetDetailTemplate";
 import Footer from "@/Components/Footer/Footer";
 import fleetData from "@/data/fleet.json";
+import { resolveVehicle } from "@/lib/fleetResolver";
+
+export const dynamicParams = true;
+export const revalidate = 60;
 
 interface FleetPageProps {
   params: Promise<{
@@ -12,30 +16,43 @@ interface FleetPageProps {
 }
 
 export async function generateStaticParams() {
-  return fleetData.vehicles.map((v) => ({
+  const staticSlugs = fleetData.vehicles.map((v) => ({
     slug: v.slug || v.id,
   }));
+
+  // Include known API vehicle IDs
+  const apiIdSlugs = Array.from({ length: 12 }, (_, i) => ({
+    slug: String(i + 1),
+  }));
+
+  return [...staticSlugs, ...apiIdSlugs];
 }
 
 export async function generateMetadata({ params }: FleetPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const vehicle = fleetData.vehicles.find((v) => (v.slug || v.id) === slug);
+  const vehicle = await resolveVehicle(slug);
 
   if (!vehicle) {
     return {
       title: "Vehicle Not Found | Singapore Maxicabs",
+      description: "The requested vehicle details could not be found.",
     };
   }
 
   return {
-    title: `${vehicle.name} | Singapore Maxicabs Rates & Specs`,
+    title: `${vehicle.name} | Singapore Maxicabs Flat Rates & Specs`,
     description: vehicle.heroDescription || vehicle.description,
+    openGraph: {
+      title: `${vehicle.name} | Fixed Flat Rates Singapore Maxicabs`,
+      description: vehicle.heroDescription || vehicle.description,
+      images: [vehicle.image || "/images/Cab.png"],
+    },
   };
 }
 
 export default async function FleetDetailPage({ params }: FleetPageProps) {
   const { slug } = await params;
-  const vehicle = fleetData.vehicles.find((v) => (v.slug || v.id) === slug);
+  const vehicle = await resolveVehicle(slug);
 
   if (!vehicle) {
     notFound();
@@ -46,8 +63,8 @@ export default async function FleetDetailPage({ params }: FleetPageProps) {
       {/* 1. Navbar */}
       <Navbar />
 
-      {/* 2. Reusable Fleet Detail Template */}
-      <FleetDetailTemplate vehicle={vehicle as unknown as VehicleDetail} />
+      {/* 2. Single Fleet Details Section matching singleFleetPage.html */}
+      <FleetDetailTemplate vehicle={vehicle} />
 
       {/* 3. Footer */}
       <Footer />

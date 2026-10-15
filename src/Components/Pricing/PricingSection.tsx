@@ -151,20 +151,16 @@ export default function PricingSection() {
                   </div>
 
                   {/* Rates Breakdown */}
-                  <div className="mt-4 grid grid-cols-2 gap-2 bg-[#F8F7F4] p-3 rounded-xl border border-slate-100 text-center">
+                  <div className="mt-4 grid grid-cols-3 gap-2 bg-[#F8F7F4] p-3 rounded-xl border border-slate-100 text-center">
                     <div className="flex flex-col">
                       <span className="text-[10px] text-[#667085] uppercase font-bold font-inter">Point-to-Point</span>
                       <span className="text-base font-bold text-[#C6A45A] font-manrope">{row.pointToPoint}</span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[10px] text-[#667085] uppercase font-bold font-inter">Meet &amp; Greet</span>
-                      <span className="text-sm font-semibold text-[#A77E3C] font-manrope">{row.meetAndGreet}</span>
-                    </div>
-                    <div className="flex flex-col border-t border-slate-200 pt-2 mt-1">
                       <span className="text-[10px] text-[#667085] uppercase font-bold font-inter">3h Charter</span>
                       <span className="text-sm font-semibold text-[#A77E3C] font-manrope">{row.charter3h}</span>
                     </div>
-                    <div className="flex flex-col border-t border-slate-200 pt-2 mt-1">
+                    <div className="flex flex-col">
                       <span className="text-[10px] text-[#667085] uppercase font-bold font-inter">8h Charter</span>
                       <span className="text-sm font-semibold text-[#A77E3C] font-manrope">{row.charter8h}</span>
                     </div>
@@ -199,7 +195,6 @@ export default function PricingSection() {
                   <th className="py-4 px-6">Vehicle</th>
                   <th className="py-4 px-4 text-center">Pax</th>
                   <th className="py-4 px-4 text-center">Point-to-Point</th>
-                  <th className="py-4 px-4 text-center">Meet &amp; Greet</th>
                   <th className="py-4 px-4 text-center">3h Charter</th>
                   <th className="py-4 px-4 text-center">8h Charter</th>
                 </tr>
@@ -230,9 +225,6 @@ export default function PricingSection() {
                     </td>
                     <td className="py-4 px-4 text-center font-bold text-base text-[#C6A45A] font-manrope leading-6">
                       {row.pointToPoint}
-                    </td>
-                    <td className="py-4 px-4 text-center text-sm font-semibold text-[#A77E3C] font-manrope leading-5">
-                      {row.meetAndGreet}
                     </td>
                     <td className="py-4 px-4 text-center text-sm font-semibold text-[#A77E3C] font-manrope leading-5">
                       {row.charter3h}

@@ -25,6 +25,8 @@ export interface VehiclePriceItem {
   unit: ServiceUnit;
   serviceName: string;
   minimumHours: number | null;
+  threeHourAmount?: number | null;
+  eightHourAmount?: number | null;
 }
 
 export interface VehiclePrices {

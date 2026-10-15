@@ -156,15 +156,21 @@ export default function FleetCard({ vehicle }: { vehicle: Vehicle }) {
         </div>
       </div>
 
-      {/* Card Footer Button */}
-      <div className="px-5 sm:px-7 pt-0 pb-5 sm:pb-7">
+      {/* Card Footer Buttons */}
+      <div className="px-5 sm:px-7 pt-0 pb-5 sm:pb-7 flex items-center gap-2.5 sm:gap-3">
+        <Link
+          href={`/fleets/${slug}`}
+          className="flex-1 py-3 px-3 text-center rounded-xl border border-[#C6A45A]/50 hover:border-[#C6A45A] hover:bg-[#C6A45A]/10 text-white text-xs sm:text-sm font-bold font-manrope transition-all flex items-center justify-center min-h-[44px]"
+        >
+          <span>View Details</span>
+        </Link>
         <button
           type="button"
           onClick={handleReserve}
-          className="w-full px-6 py-3.5 bg-[#C6A45A] hover:bg-[#B58E45] active:scale-98 rounded-xl flex items-center justify-center gap-3 text-[#071E3B] text-sm sm:text-base font-extrabold font-manrope transition-all shadow-md group-hover:shadow-lg cursor-pointer"
+          className="flex-1 px-4 py-3 bg-[#C6A45A] hover:bg-[#B58E45] active:scale-[0.98] rounded-xl flex items-center justify-center gap-2 text-[#071E3B] text-xs sm:text-sm font-extrabold font-manrope transition-all shadow-md group-hover:shadow-lg cursor-pointer min-h-[44px]"
         >
-          <span>{vehicle.buttonText}</span>
-          <ArrowRight className="w-4 h-4 stroke-[3]" />
+          <span>Book Now</span>
+          <ArrowRight className="w-3.5 h-3.5 stroke-[3]" />
         </button>
       </div>
     </div>

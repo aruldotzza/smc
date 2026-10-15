@@ -1,15 +1,16 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Zap } from "lucide-react";
 import { useBookingModal } from "@/context/BookingContext";
 import WhatsAppIcon from "@/Components/Shared/WhatsAppIcon";
 
 export interface VehicleDetail {
   id: string;
   slug: string;
+  apiVehicleId?: number;
   name: string;
   model: string;
   price: string;
@@ -25,17 +26,37 @@ export interface VehicleDetail {
   vehicleType: string;
   inclusions: string[];
   image?: string;
+  isApiConnected?: boolean;
 }
 
 export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetail }) {
-  const { openModal } = useBookingModal();
+  const { openModal, vehicles: liveVehicles } = useBookingModal();
+  const [imgSrc, setImgSrc] = useState(vehicle.image || "/images/Cab.png");
+
+  useEffect(() => {
+    setImgSrc(vehicle.image || "/images/Cab.png");
+  }, [vehicle.image]);
+
+  // If live vehicles loaded in BookingContext, check for live pricing synchronization
+  const matchedLiveVehicle = liveVehicles.find(
+    (lv) =>
+      lv.id === vehicle.apiVehicleId ||
+      lv.name.toLowerCase() === vehicle.name.toLowerCase()
+  );
+
+  const displayPrice = matchedLiveVehicle?.prices?.departure_transfer?.amount
+    ? `$${matchedLiveVehicle.prices.departure_transfer.amount}`
+    : vehicle.price;
+
+  const baseFareNum = parseInt(displayPrice.replace(/[^0-9]/g, ""), 10) || 65;
 
   const handleBookNow = () => {
     openModal({
       initialStep: 0,
+      vehicleId: matchedLiveVehicle?.id || vehicle.apiVehicleId,
       selectedFleet: vehicle.name,
       selectedFleetSlug: vehicle.slug,
-      baseFare: parseInt(vehicle.price.replace(/[^0-9]/g, "")) || 65,
+      baseFare: baseFareNum,
     });
   };
 
@@ -50,7 +71,7 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
 
   return (
     <div className="w-full flex flex-col bg-white selection:bg-[#C6A45A] selection:text-[#071E3B]">
-      {/* 1. Hero Banner matching 6seaterpagedeign.html */}
+      {/* 1. Hero Banner matching singleFleetPage.html */}
       <section className="w-full bg-gradient-to-r from-[#071E3B] to-slate-900/90 text-white py-12 sm:py-16 px-6 sm:px-12 lg:px-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#C6A45A]/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -58,24 +79,35 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
           {/* Breadcrumb Back */}
           <Link
             href="/fleets"
-            className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors font-manrope"
+            className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors font-manrope group"
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back to All Fleets</span>
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            <span>← Back to All Fleets</span>
           </Link>
 
           {/* Hero Content Header */}
           <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 sm:gap-8">
             <div className="flex flex-col items-start gap-3 sm:gap-4 max-w-3xl">
-              <span className="text-base sm:text-lg font-bold text-[#C6A45A] tracking-wide font-manrope">
-                Our Fleet
-              </span>
+              <div className="flex items-center gap-3">
+                <span className="text-base sm:text-lg font-bold text-[#C6A45A] tracking-wide font-manrope">
+                  Our Fleet
+                </span>
+                {vehicle.isApiConnected && (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#16803C]/20 text-[#60D669] border border-[#16803C]/40">
+                    <Zap className="w-3 h-3" />
+                    <span>Live API Rates</span>
+                  </span>
+                )}
+              </div>
+
               <h1 className="text-4xl sm:text-6xl font-bold text-white tracking-tight leading-[1.15] font-manrope">
                 {vehicle.name}
               </h1>
+
               <span className="text-base sm:text-lg font-bold text-[#C6A45A] tracking-wide font-manrope">
                 {vehicle.model}
               </span>
+
               <p className="text-base sm:text-lg text-white/90 leading-relaxed max-w-[500px] font-medium font-manrope">
                 {vehicle.heroDescription || vehicle.description}
               </p>
@@ -104,35 +136,37 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
             {/* Starting Price Display */}
             <div className="flex flex-col lg:items-end bg-white/10 lg:bg-transparent p-4 sm:p-5 lg:p-0 rounded-2xl border border-white/10 lg:border-none w-full sm:w-auto">
               <span className="text-5xl sm:text-7xl font-bold text-[#C6A45A] leading-none font-manrope">
-                {vehicle.price}
+                {displayPrice}
               </span>
-              <span className="text-base sm:text-lg font-medium text-[#667085] lg:text-white/70 mt-2 font-manrope">
-                Starting from ({vehicle.currency})
+              <span className="text-base sm:text-lg font-medium text-white/70 mt-2 font-manrope">
+                Starting from ({vehicle.currency || "SGD"})
               </span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. Specs & Image Row */}
+      {/* 2. Specs & Image Row matching singleFleetPage.html */}
       <section className="py-12 sm:py-16 px-4 sm:px-12 lg:px-28 max-w-[1440px] mx-auto w-full flex flex-col gap-12 sm:gap-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
           {/* Vehicle Showcase Card */}
           <div className="w-full h-72 sm:h-96 lg:h-[404px] rounded-2xl overflow-hidden bg-[#071E3B] border border-slate-800 shadow-xl relative group">
+            {/* Gold Accent Line */}
             <div className="absolute top-0 left-0 w-full h-1 bg-[#C6A45A] z-20" />
             <Image
-              src={vehicle.image || "/images/Cab.png"}
+              src={imgSrc}
               alt={vehicle.name}
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
               priority
+              onError={() => setImgSrc("/images/Cab.png")}
             />
           </div>
 
           {/* Pricing & Specs Table */}
           <div className="flex flex-col gap-6">
-            <h2 className="text-3xl font-bold text-[#071E3B] font-manrope leading-10">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#071E3B] font-manrope leading-10">
               Pricing &amp; Specs
             </h2>
 
@@ -144,8 +178,12 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
                     idx % 2 === 0 ? "bg-white" : "bg-[#F7F5EF]"
                   }`}
                 >
-                  <span className="text-base font-normal text-[#071E3B] font-manrope leading-6">{item.label}</span>
-                  <span className="text-sm font-semibold text-[#A77E3C] font-manrope leading-5">{item.value}</span>
+                  <span className="text-base font-normal text-[#071E3B] font-manrope leading-6">
+                    {item.label}
+                  </span>
+                  <span className="text-sm font-semibold text-[#A77E3C] font-manrope leading-5">
+                    {item.value}
+                  </span>
                 </div>
               ))}
             </div>
@@ -160,10 +198,7 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {vehicle.inclusions.map((item, idx) => (
-              <div
-                key={idx}
-                className="flex items-center gap-3"
-              >
+              <div key={idx} className="flex items-center gap-3">
                 <div className="w-5 h-5 rounded-full bg-[#ECFDF3] border border-[#16803C] flex items-center justify-center shrink-0">
                   <Check className="w-3 h-3 text-[#16803C] stroke-[3]" />
                 </div>
@@ -175,7 +210,7 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
           </div>
         </div>
 
-        {/* 4. Ready to Book High-Impact CTA */}
+        {/* 4. Ready to Book CTA Card matching singleFleetPage.html */}
         <div className="w-full rounded-[32px] bg-[#071E3B] text-white px-6 sm:px-16 lg:px-48 py-12 sm:py-16 text-center flex flex-col items-center gap-8 relative overflow-hidden shadow-xl">
           <div className="absolute inset-0 bg-gradient-to-r from-[#071E3B] via-[#0B2A4A] to-[#071E3B] pointer-events-none" />
           <div className="relative z-10 flex flex-col items-center gap-4 max-w-3xl">
@@ -183,7 +218,8 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
               Ready to Book Your Ride?
             </h3>
             <p className="text-sm sm:text-base text-white font-normal font-manrope leading-6">
-              Call us at (+65) 8800 6006 or book online in just a few clicks —<br className="hidden sm:inline" />
+              Call us at (+65) 8800 6006 or book online in just a few clicks —
+              <br className="hidden sm:inline" />
               it&apos;s quick and easy.
             </p>
 
@@ -221,4 +257,3 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
     </div>
   );
 }
-
