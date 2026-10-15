@@ -152,7 +152,7 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
           {/* Vehicle Showcase Card */}
           <div className="w-full h-72 sm:h-96 lg:h-[404px] rounded-2xl overflow-hidden bg-[#071E3B] border border-slate-800 shadow-xl relative group">
             {/* Gold Accent Line */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-[#C6A45A] z-20" />
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-[#C6A45A] z-30 shadow-sm" />
             <Image
               src={imgSrc}
               alt={vehicle.name}

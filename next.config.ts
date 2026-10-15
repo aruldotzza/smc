@@ -13,6 +13,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/fleet",
+        destination: "/fleets",
+        permanent: true,
+      },
+      {
+        source: "/fleet/:slug",
+        destination: "/fleets/:slug",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
