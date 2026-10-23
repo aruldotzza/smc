@@ -33,6 +33,10 @@ import {
   DistancePricingRuleSingleResponse,
   GooglePlacesAutocompleteRequest,
   GooglePlacesAutocompleteResponse,
+  AdminManualBookingRequest,
+  AdminManualBookingResponse,
+  Status,
+  UppercaseStatus,
 } from "@/types/api";
 
 // ==========================================
@@ -449,5 +453,68 @@ export const adminApi = {
       method: "PATCH",
       adminApiKey,
       body: JSON.stringify(data),
+    }),
+
+  // Manual booking from admin (POST /api/v1/bookings)
+  createManualBooking: (
+    data: AdminManualBookingRequest,
+    adminApiKey: string,
+    idempotencyKey?: string
+  ) =>
+    apiFetch<AdminManualBookingResponse>(ENDPOINTS.ADMIN_BOOKINGS, {
+      method: "POST",
+      adminApiKey,
+      idempotencyKey,
+      body: JSON.stringify(data),
+    }),
+
+  // Delete a booking (DELETE /api/v1/bookings/:id)
+  deleteBooking: (bookingId: string | number, adminApiKey: string) =>
+    apiFetch<void>(ENDPOINTS.ADMIN_BOOKING_DETAIL(bookingId), {
+      method: "DELETE",
+      adminApiKey,
+    }),
+
+  // Delete an add-on (DELETE /api/v1/add-ons/:id)
+  deleteAddOn: (id: number | string, adminApiKey: string) =>
+    apiFetch<void>(ENDPOINTS.ADMIN_ADD_ON_DETAIL(id), {
+      method: "DELETE",
+      adminApiKey,
+    }),
+
+  // Deactivate or activate an add-on (PATCH /api/v1/add-ons/:id with uppercase status)
+  setAddOnStatus: (
+    id: number | string,
+    status: UppercaseStatus,
+    adminApiKey: string
+  ) =>
+    apiFetch<{ success: true; add_on: unknown }>(ENDPOINTS.ADMIN_ADD_ON_DETAIL(id), {
+      method: "PATCH",
+      adminApiKey,
+      body: JSON.stringify({ status }),
+    }),
+
+  // Deactivate or activate a vehicle (PATCH /api/v1/vehicles/:id with lowercase status)
+  setVehicleStatus: (
+    id: number | string,
+    status: Status,
+    adminApiKey: string
+  ) =>
+    apiFetch<SingleVehicleResponse>(ENDPOINTS.ADMIN_VEHICLE_DETAIL(id), {
+      method: "PATCH",
+      adminApiKey,
+      body: JSON.stringify({ status }),
+    }),
+
+  // Update vehicle description (PATCH /api/v1/vehicles/:id with description)
+  updateVehicleDescription: (
+    id: number | string,
+    description: string,
+    adminApiKey: string
+  ) =>
+    apiFetch<SingleVehicleResponse>(ENDPOINTS.ADMIN_VEHICLE_DETAIL(id), {
+      method: "PATCH",
+      adminApiKey,
+      body: JSON.stringify({ description }),
     }),
 };

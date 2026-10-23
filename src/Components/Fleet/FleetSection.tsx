@@ -55,7 +55,9 @@ export default function FleetSection() {
             badge: v.recommendation ? "Recommended" : localMatch?.badge,
             image: v.imageUrl || localMatch?.image || "/images/Cab.png",
             meetAndGreet: `$${meetAndGreet} SGD`,
-            charter3h: `$${hourlyRate * 3} SGD`,
+            charter3h: v.prices?.hourly?.threeHourAmount
+              ? `$${v.prices.hourly.threeHourAmount} SGD`
+              : `$${hourlyRate * 3} SGD`,
             buttonText: `Reserve ${v.name.split(" ")[0]}`,
           };
         })

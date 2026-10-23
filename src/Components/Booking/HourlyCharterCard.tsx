@@ -43,6 +43,8 @@ export default function HourlyCharterCard({ isModal = true }: HourlyCharterCardP
             name: v.name,
             model: v.description || v.vehicleType || "Executive Maxi Cab",
             hourlyRate: hourly,
+            threeHourAmount: v.prices?.hourly?.threeHourAmount,
+            eightHourAmount: v.prices?.hourly?.eightHourAmount,
           };
         })
       : fleetData.vehicles.map((v) => ({
@@ -59,6 +61,8 @@ export default function HourlyCharterCard({ isModal = true }: HourlyCharterCardP
           name: v.name,
           model: v.model,
           hourlyRate: 65,
+          threeHourAmount: 180,
+          eightHourAmount: 480,
         }));
 
   const handlePaxChange = (newPax: number) => {
@@ -113,9 +117,18 @@ export default function HourlyCharterCard({ isModal = true }: HourlyCharterCardP
     window.open(`https://wa.me/6588006006?text=${text}`, "_blank");
   };
 
-  // Calculate rate based on duration
-  const hourlyRate = bookingData.baseFare >= 50 && bookingData.baseFare <= 120 ? bookingData.baseFare : 65;
-  const estimatedFare = hourlyRate * currentDuration;
+  // Calculate rate based on duration with 8-hour and 3-hour package amount support
+  const selectedVehicleObj = vehicles?.find(
+    (v) => v.id === bookingData.vehicleId
+  );
+  const hourlyRate =
+    bookingData.baseFare >= 50 && bookingData.baseFare <= 120 ? bookingData.baseFare : 65;
+  const estimatedFare =
+    currentDuration === 8 && selectedVehicleObj?.prices?.hourly?.eightHourAmount
+      ? selectedVehicleObj.prices.hourly.eightHourAmount
+      : currentDuration === 3 && selectedVehicleObj?.prices?.hourly?.threeHourAmount
+      ? selectedVehicleObj.prices.hourly.threeHourAmount
+      : hourlyRate * currentDuration;
 
   // Percentage for progress slider
   const minHour = 3;
@@ -213,7 +226,17 @@ export default function HourlyCharterCard({ isModal = true }: HourlyCharterCardP
           {/* Subtext Row */}
           <div className="self-stretch pt-2 border-t border-slate-200/60 flex justify-between items-center text-xs">
             <span className="text-[#667085] font-manrope font-normal">
-              ${hourlyRate}/hr · 3 hr minimum
+              {currentDuration === 8 && selectedVehicleObj?.prices?.hourly?.eightHourAmount ? (
+                <span className="font-semibold text-[#071E3B]">
+                  8-Hour Charter Package: ${selectedVehicleObj.prices.hourly.eightHourAmount} SGD
+                </span>
+              ) : currentDuration === 3 && selectedVehicleObj?.prices?.hourly?.threeHourAmount ? (
+                <span className="font-semibold text-[#071E3B]">
+                  3-Hour Charter Package: ${selectedVehicleObj.prices.hourly.threeHourAmount} SGD
+                </span>
+              ) : (
+                `$${hourlyRate}/hr · 3 hr minimum (Est. $${estimatedFare} SGD)`
+              )}
             </span>
             <button
               type="button"

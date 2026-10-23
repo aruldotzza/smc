@@ -50,6 +50,21 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
 
   const baseFareNum = parseInt(displayPrice.replace(/[^0-9]/g, ""), 10) || 65;
 
+  const liveCharter8h = matchedLiveVehicle?.prices?.hourly?.eightHourAmount
+    ? `$${matchedLiveVehicle.prices.hourly.eightHourAmount} SGD`
+    : matchedLiveVehicle?.prices?.hourly?.amount
+    ? `$${matchedLiveVehicle.prices.hourly.amount * 8} SGD`
+    : vehicle.charter8h;
+
+  const liveCharter3h = matchedLiveVehicle?.prices?.hourly?.threeHourAmount
+    ? `$${matchedLiveVehicle.prices.hourly.threeHourAmount} SGD`
+    : matchedLiveVehicle?.prices?.hourly?.amount
+    ? `$${matchedLiveVehicle.prices.hourly.amount * 3} SGD`
+    : vehicle.charter3h;
+
+  const displayDescription =
+    matchedLiveVehicle?.description || vehicle.heroDescription || vehicle.description;
+
   const handleBookNow = () => {
     openModal({
       initialStep: 0,
@@ -64,8 +79,8 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
     { label: "Passengers", value: vehicle.pax },
     { label: "Luggage", value: vehicle.bags },
     { label: "Changi Meet & Greet", value: vehicle.meetAndGreet },
-    { label: "3-Hour Charter", value: vehicle.charter3h },
-    { label: "8-Hour Charter", value: vehicle.charter8h },
+    { label: "3-Hour Charter", value: liveCharter3h },
+    { label: "8-Hour Charter", value: liveCharter8h },
     { label: "Vehicle Type", value: vehicle.vehicleType },
   ];
 
@@ -109,7 +124,7 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
               </span>
 
               <p className="text-base sm:text-lg text-white/90 leading-relaxed max-w-[500px] font-medium font-manrope">
-                {vehicle.heroDescription || vehicle.description}
+                {displayDescription}
               </p>
 
               {/* Action Buttons */}

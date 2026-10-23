@@ -54,8 +54,14 @@ export default function PricingSection() {
             pax: `${v.passengerCapacity || 7}`,
             pointToPoint: `$${pointToPoint} SGD`,
             meetAndGreet: `$${meetAndGreet} SGD`,
-            charter3h: `$${hourlyRate * 3} SGD`,
-            charter8h: `$${hourlyRate * 8} SGD`,
+            charter3h:
+              v.prices?.hourly?.threeHourAmount != null
+                ? `$${v.prices.hourly.threeHourAmount} SGD`
+                : `$${hourlyRate * 3} SGD`,
+            charter8h:
+              v.prices?.hourly?.eightHourAmount != null
+                ? `$${v.prices.hourly.eightHourAmount} SGD`
+                : `$${hourlyRate * 8} SGD`,
           };
         })
       : pricingData.matrix;

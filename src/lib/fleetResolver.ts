@@ -195,8 +195,8 @@ export async function resolveVehicle(rawSlug: string): Promise<VehicleDetail | n
       staticMatch?.description ||
       "Comfortable luxury maxi cab with air-conditioned cabin and professional chauffeur.",
     heroDescription:
-      staticMatch?.heroDescription ||
       apiMatch?.description ||
+      staticMatch?.heroDescription ||
       staticMatch?.description ||
       "The premier choice for corporate transfers, family travel, and reliable point-to-point journeys across Singapore.",
     pax: paxStr,

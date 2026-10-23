@@ -48,6 +48,9 @@ export const ENDPOINTS = {
   PLACES_AUTOCOMPLETE: "/api/places/autocomplete",
 
   // --- Admin Endpoints ---
+  // Admin Bookings (Manual Booking & Deletion)
+  ADMIN_BOOKINGS: "/api/v1/bookings",
+  ADMIN_BOOKING_DETAIL: (id: string | number) => `/api/v1/bookings/${id}`,
   // 10 & 11. Vehicle Types CRUD
   ADMIN_VEHICLE_TYPES: "/api/vehicle-types",
   ADMIN_VEHICLE_TYPE_DETAIL: (id: number | string) => `/api/vehicle-types/${id}`,

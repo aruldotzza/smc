@@ -250,6 +250,37 @@ export interface CheckoutSuccessResponse {
 
 export type CheckoutResponse = CheckoutSuccessResponse | ContactSupportQuoteResponse;
 
+export interface AdminManualBookingRequest {
+  customer: {
+    name: string;
+    email: string;
+    phone: string;
+  };
+  vehicle_id: number;
+  service_id: number;
+  pickup: AddressPayload;
+  drop: AddressPayload;
+  add_ons: AddOnSelectionPayload[];
+  driver_name?: string;
+  driver_phone?: string;
+  hours?: number;
+}
+
+export interface AdminManualBookingResponse {
+  booking: {
+    id: string;
+    booking_number: string;
+    payment_method: string;
+    booking_status: string;
+    status: string;
+    total_amount_minor: string;
+    currency: string;
+    driver_name?: string | null;
+    driver_phone?: string | null;
+    stripe_checkout_url?: string | null;
+  };
+}
+
 // ==========================================
 // 5. Distance Pricing Rules (Admin)
 // ==========================================

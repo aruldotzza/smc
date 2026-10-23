@@ -488,7 +488,15 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
         bookingData.baseFare >= 50 && bookingData.baseFare <= 120
           ? bookingData.baseFare
           : 65;
-      total = ratePerHour * hours;
+
+      const selectedVehicleObj = vehicles.find((v) => v.id === bookingData.vehicleId);
+      if (hours === 8 && selectedVehicleObj?.prices?.hourly?.eightHourAmount) {
+        total = selectedVehicleObj.prices.hourly.eightHourAmount;
+      } else if (hours === 3 && selectedVehicleObj?.prices?.hourly?.threeHourAmount) {
+        total = selectedVehicleObj.prices.hourly.threeHourAmount;
+      } else {
+        total = ratePerHour * hours;
+      }
     } else if (isAirport && bookingData.meetAndGreet) {
       total += 25;
     }
