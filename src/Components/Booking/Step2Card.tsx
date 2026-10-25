@@ -43,7 +43,7 @@ export default function Step2Card({ isModal = true }: Step2CardProps) {
 
   const handleContinue = (e: React.FormEvent) => {
     e.preventDefault();
-    setStep(3);
+    setStep(4);
   };
 
   const countryCodes = [
@@ -299,7 +299,7 @@ export default function Step2Card({ isModal = true }: Step2CardProps) {
         <div className="self-stretch flex justify-start items-center gap-3">
           <button
             type="button"
-            onClick={() => setStep(1)}
+            onClick={() => setStep(2)}
             className="px-5 sm:px-8 py-3.5 bg-[#E9ECEF] hover:bg-slate-200 active:scale-95 rounded-xl flex justify-center items-center gap-2 transition-colors cursor-pointer text-[#5F6B7A] text-sm sm:text-base font-bold font-manrope"
           >
             <ArrowLeft className="w-4 h-4 text-[#5F6B7A]" />

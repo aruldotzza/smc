@@ -158,7 +158,7 @@ export default function CityTransferCard({ isModal = true }: CityTransferCardPro
           {/* Passengers */}
           <div className="px-2.5 sm:px-3 py-2 sm:py-2.5 bg-[#F8F7F4] rounded-lg border border-slate-200/90 flex justify-between items-center">
             <span className="text-[#5F6B7A] text-xs font-semibold font-manrope leading-4">
-              Passengers
+              Pax
             </span>
             <div className="flex items-center gap-1.5 sm:gap-2">
               <button
@@ -212,49 +212,16 @@ export default function CityTransferCard({ isModal = true }: CityTransferCardPro
           </div>
         </div>
 
-        {/* Recommended fleet dropdown */}
-        <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
-          <label className="text-[#071E3B] text-xs sm:text-sm font-medium font-inter leading-5">
-            Recommended fleet for your trip
-          </label>
-          <div className="self-stretch relative px-3 py-2.5 bg-[#F8F7F4] rounded-lg border border-slate-200/90 flex justify-between items-center">
-            <select
-              value={bookingData.selectedFleetSlug || String(bookingData.vehicleId)}
-              onChange={handleFleetChange}
-              className="w-full appearance-none bg-transparent text-xs sm:text-sm font-normal font-manrope text-[#071E3B] pr-20 outline-none cursor-pointer"
-            >
-              {fleetOptions.map((v) => (
-                <option key={v.id} value={v.slug} className="text-[#071E3B] bg-white">
-                  {v.name} ({v.model})
-                </option>
-              ))}
-            </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none flex items-center gap-2">
-              <span className="text-right text-[#071E3B] text-base sm:text-lg font-bold font-manrope leading-7">
-                ${bookingData.baseFare}
-              </span>
-              <ChevronDown className="w-4 h-4 text-[#667085]" />
-            </div>
+        {/* Next Step Preview */}
+        <div className="self-stretch px-3.5 py-2.5 bg-[#F8F7F4] rounded-lg border border-slate-200/90 flex justify-between items-center text-xs font-manrope">
+          <div className="flex items-center gap-2">
+            <span className="text-[#C6A45A] font-bold">Next Step:</span>
+            <span className="text-[#071E3B] font-medium">Choose vehicle to suit your group</span>
           </div>
+          <span className="text-[#071E3B] font-bold text-sm">From ${bookingData.baseFare || 65}</span>
         </div>
 
-        {/* Special Request */}
-        <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
-          <label className="text-[#071E3B] text-xs sm:text-sm font-medium font-inter leading-5">
-            Special Request
-          </label>
-          <div className="self-stretch p-3.5 sm:p-4 bg-[#F8F7F4] rounded-lg border border-slate-200/90 flex justify-start items-center overflow-hidden focus-within:border-[#C6A45A] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#C6A45A] transition-all">
-            <textarea
-              rows={2}
-              placeholder="Eg. Need anything extra? Add a stop, set your temperature preference, or request a company invoice."
-              value={bookingData.specialRequests}
-              onChange={(e) => updateBookingData({ specialRequests: e.target.value })}
-              className="flex-1 text-xs font-normal font-manrope leading-relaxed text-[#071E3B] placeholder:text-[#667085] outline-none bg-transparent resize-none"
-            />
-          </div>
-        </div>
-
-        {/* Disclaimer & Book Now Button */}
+        {/* Disclaimer & Choose Vehicle Button */}
         <div className="self-stretch flex flex-col justify-start items-start gap-2 pt-1">
           <div className="self-stretch rounded-sm text-center text-[#667085] text-xs font-normal font-manrope leading-4">
             Singapore trips only — cross-border rides to Malaysia not available.
@@ -263,7 +230,7 @@ export default function CityTransferCard({ isModal = true }: CityTransferCardPro
             type="submit"
             className="self-stretch px-8 py-3.5 bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-[0.98] text-white rounded-lg flex justify-center items-center gap-3 font-semibold font-manrope text-base leading-6 transition-all shadow-md hover:shadow-lg cursor-pointer group"
           >
-            <span>Book Now</span>
+            <span>Choose Vehicle</span>
             <ArrowRight className="w-4 h-4 stroke-[2.5] group-hover:translate-x-1 transition-transform" />
           </button>
         </div>

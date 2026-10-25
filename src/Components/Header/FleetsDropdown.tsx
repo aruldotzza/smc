@@ -15,13 +15,13 @@ const fleets: FleetItem[] = [
   {
     name: "Mercedes E-Class",
     capacity: "4 Pax | 2 Bags",
-    slug: "6-seater",
+    slug: "mercedes-e-class",
     image: "/images/Cab.png",
   },
   {
     name: "Mercedes S-Class",
     capacity: "4 Pax | 2 Bags",
-    slug: "vip-lounge",
+    slug: "mercedes-s-class",
     image: "/images/Cab.png",
   },
   {

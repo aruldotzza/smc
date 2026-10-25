@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Navbar from "@/Components/Header/Navbar";
 import Footer from "@/Components/Footer/Footer";
 import Step1Card from "@/Components/Booking/Step1Card";
+import VehicleSelectionCard from "@/Components/Booking/VehicleSelectionCard";
 import Step2Card from "@/Components/Booking/Step2Card";
 import Step3Card from "@/Components/Booking/Step3Card";
 import BookingValueProps from "@/Components/Booking/BookingValueProps";
@@ -68,7 +69,7 @@ function BookPageContent() {
           <div className="w-full">
             {/* Step Indicator Header */}
             <div className="mb-4 flex items-center justify-between px-2 text-xs font-bold font-manrope text-[#5F6B7A]">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <span
                   className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${
                     currentStep >= 1 ? "bg-[#071E3B] text-white" : "bg-slate-200 text-slate-600"
@@ -78,8 +79,8 @@ function BookPageContent() {
                 </span>
                 <span className={currentStep >= 1 ? "text-[#071E3B]" : ""}>Locations</span>
               </div>
-              <div className="w-8 h-0.5 bg-slate-200" />
-              <div className="flex items-center gap-2">
+              <div className="w-4 sm:w-8 h-0.5 bg-slate-200" />
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <span
                   className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${
                     currentStep >= 2 ? "bg-[#071E3B] text-white" : "bg-slate-200 text-slate-600"
@@ -87,10 +88,10 @@ function BookPageContent() {
                 >
                   2
                 </span>
-                <span className={currentStep >= 2 ? "text-[#071E3B]" : ""}>Details</span>
+                <span className={currentStep >= 2 ? "text-[#071E3B]" : ""}>Vehicle</span>
               </div>
-              <div className="w-8 h-0.5 bg-slate-200" />
-              <div className="flex items-center gap-2">
+              <div className="w-4 sm:w-8 h-0.5 bg-slate-200" />
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <span
                   className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${
                     currentStep >= 3 ? "bg-[#071E3B] text-white" : "bg-slate-200 text-slate-600"
@@ -98,13 +99,25 @@ function BookPageContent() {
                 >
                   3
                 </span>
-                <span className={currentStep >= 3 ? "text-[#071E3B]" : ""}>Review</span>
+                <span className={currentStep >= 3 ? "text-[#071E3B]" : ""}>Details</span>
+              </div>
+              <div className="w-4 sm:w-8 h-0.5 bg-slate-200" />
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span
+                  className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${
+                    currentStep >= 4 ? "bg-[#071E3B] text-white" : "bg-slate-200 text-slate-600"
+                  }`}
+                >
+                  4
+                </span>
+                <span className={currentStep >= 4 ? "text-[#071E3B]" : ""}>Review</span>
               </div>
             </div>
 
             {currentStep === 1 && <Step1Card isModal={false} />}
-            {currentStep === 2 && <Step2Card isModal={false} />}
-            {currentStep === 3 && <Step3Card isModal={false} />}
+            {currentStep === 2 && <VehicleSelectionCard isModal={false} />}
+            {currentStep === 3 && <Step2Card isModal={false} />}
+            {currentStep === 4 && <Step3Card isModal={false} />}
           </div>
         )}
       </div>

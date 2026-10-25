@@ -73,7 +73,7 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
         `*Pickup:* ${bookingData.pickup}%0A` +
         `*Dropoff:* ${bookingData.dropoff}%0A` +
         `*Vehicle:* ${bookingData.selectedFleet || "7-Seater Maxi Cab"}%0A` +
-        `*Passengers:* ${bookingData.passengers} | *Luggage:* ${bookingData.luggage}%0A` +
+        `*Pax:* ${bookingData.passengers} | *Luggage:* ${bookingData.luggage}%0A` +
         `*Contact:* ${bookingData.name} (${bookingData.countryCode} ${bookingData.phone})%0A` +
         `--------------------------------%0A` +
         `Please provide a custom quotation for this route.`;
@@ -91,6 +91,30 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
     } catch (e) {
       console.error("Stripe checkout error:", e);
     }
+    // Fallback if backend checkout is not running or returns error: WhatsApp confirmation
+    const text =
+      `*New Singapore Maxi Cab Booking Request*%0A` +
+      `--------------------------------%0A` +
+      `*Service:* ${bookingData.serviceType}%0A` +
+      (isHourly ? `*Duration:* ${duration} Hours%0A` : "") +
+      `*Vehicle:* ${bookingData.selectedFleet || "7-Seater Maxi Cab"}%0A` +
+      `*Pickup:* ${bookingData.pickup || "Singapore Changi Airport (SIN)"}%0A` +
+      (!isHourly
+        ? `*Dropoff:* ${bookingData.dropoff || "Marina Bay Sands Hotel"}%0A`
+        : `*Dropoff / Scope:* ${bookingData.dropoff || "As-Directed City Tour"}%0A`) +
+      `*Date & Time:* ${bookingData.pickupDate || "24 Oct 2024"} at ${bookingData.pickupTime || "17:15"} SGT%0A` +
+      `*Pax:* ${bookingData.passengers || 7} | *Luggage:* ${bookingData.luggage || 5} Bags%0A` +
+      `*Passenger Name:* ${bookingData.name || "Alexander Wright"}%0A` +
+      `*Phone/WhatsApp:* ${bookingData.countryCode} ${bookingData.phone || "88006006"}%0A` +
+      `*Email:* ${bookingData.email || "booking@singaporemaxicabs.com.sg"}%0A` +
+      (bookingData.flightNumber ? `*Flight Number:* ${bookingData.flightNumber}%0A` : "") +
+      (bookingData.signboardName ? `*Signboard Name:* ${bookingData.signboardName}%0A` : "") +
+      `*Final Tariff:* $${totalFare}.00 SGD NETT%0A` +
+      `--------------------------------%0A` +
+      `Please confirm driver dispatch availability. Thank you!`;
+
+    window.open(`https://wa.me/6588006006?text=${text}`, "_blank");
+    setIsSuccess(true);
   };
 
   if (isSuccess) {
@@ -232,7 +256,7 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
             </span>
             <div className="px-2.5 py-1 bg-[#071E3B]/80 rounded-md border border-white/20 backdrop-blur-md flex items-center gap-1.5 text-white text-[11px] sm:text-xs font-semibold font-manrope shadow-sm">
               <Users className="w-3.5 h-3.5 text-[#C6A45A]" />
-              <span>Max {bookingData.passengers || 7} Passengers</span>
+              <span>Max {bookingData.passengers || 7} Pax</span>
               <span className="text-white/60 font-normal">•</span>
               <Briefcase className="w-3.5 h-3.5 text-[#C6A45A]" />
               <span>{bookingData.luggage || 5} Luggage&apos;s</span>
@@ -265,7 +289,16 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
                 Pick Up
               </span>
               <span className="px-2 py-0.5 bg-[#123F6B] rounded-sm text-white text-xs font-normal font-manrope leading-4">
-                {bookingData.terminal || "Terminal 3"}
+                {bookingData.terminal ||
+                  (bookingData.pickup?.toLowerCase().includes("terminal 1")
+                    ? "Terminal 1"
+                    : bookingData.pickup?.toLowerCase().includes("terminal 2")
+                    ? "Terminal 2"
+                    : bookingData.pickup?.toLowerCase().includes("terminal 3")
+                    ? "Terminal 3"
+                    : bookingData.pickup?.toLowerCase().includes("terminal 4")
+                    ? "Terminal 4"
+                    : "Terminal (TBA)")}
               </span>
             </div>
             <div className="text-[#071E3B] text-base font-bold font-manrope leading-7">
@@ -509,7 +542,7 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
           <div className="self-stretch inline-flex justify-start items-start gap-4">
             <button
               type="button"
-              onClick={() => setStep(2)}
+              onClick={() => setStep(3)}
               className="px-8 py-3 bg-[#E9ECEF] hover:bg-slate-200 active:scale-95 rounded-lg flex justify-center items-center gap-4 transition-colors cursor-pointer text-[#5F6B7A] text-base font-semibold font-manrope leading-6"
             >
               <ArrowLeft className="w-4 h-4 text-[#5F6B7A]" />

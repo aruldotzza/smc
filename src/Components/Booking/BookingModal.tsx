@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { useBookingModal } from "@/context/BookingContext";
 import CommonServiceSelectionModal from "./CommonServiceSelectionModal";
 import Step1Card from "./Step1Card";
+import VehicleSelectionCard from "./VehicleSelectionCard";
 import Step2Card from "./Step2Card";
 import Step3Card from "./Step3Card";
 
@@ -40,8 +41,9 @@ export default function BookingModal() {
       >
         {step === 0 && <CommonServiceSelectionModal />}
         {step === 1 && <Step1Card isModal={true} />}
-        {step === 2 && <Step2Card isModal={true} />}
-        {step === 3 && <Step3Card isModal={true} />}
+        {step === 2 && <VehicleSelectionCard isModal={true} />}
+        {step === 3 && <Step2Card isModal={true} />}
+        {step === 4 && <Step3Card isModal={true} />}
       </div>
     </div>
   );

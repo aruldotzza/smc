@@ -4,6 +4,74 @@
   "subtitle": "Well-maintained Mercedes-Benz, Toyota Vellfire, and HiAce minibuses driven by experienced, licensed chauffeurs.",
   "vehicles": [
     {
+      "id": "mercedes-e-class",
+      "slug": "mercedes-e-class",
+      "name": "Mercedes-Benz E-Class",
+      "model": "Mercedes-Benz E-Class Sedan",
+      "price": "$85",
+      "currency": "SGD",
+      "description": "Executive luxury sedan with leather seating, quiet cabin, and discreet chauffeur etiquette.",
+      "heroDescription": "The Mercedes-Benz E-Class is Singapore's premier executive limousine. Designed for business leaders, airport arrivals, and corporate hospitality, featuring plush leather seating and whisper-quiet cabin refinement.",
+      "pax": "4 Pax",
+      "paxCount": 4,
+      "bags": "2 Bags",
+      "luggageCount": 2,
+      "pointToPoint": "$85 SGD",
+      "meetAndGreet": "$95 SGD",
+      "charter3h": "$210 SGD",
+      "charter8h": "$560 SGD",
+      "vehicleType": "Mercedes-Benz E-Class Sedan",
+      "badge": "Executive Sedan",
+      "inclusions": [
+        "Fixed flat-rate pricing",
+        "Licensed executive chauffeur",
+        "Flight tracking with 60-min airport buffer",
+        "Pristine leather interior & bottled water",
+        "Onboard mobile phone charging",
+        "WhatsApp driver direct line"
+      ],
+      "extras": [
+        { "label": "Changi Meet & Greet", "price": "$95" },
+        { "label": "3-Hour Charter", "price": "$210" }
+      ],
+      "buttonText": "Reserve E-Class",
+      "image": "/images/Cab.png"
+    },
+    {
+      "id": "mercedes-s-class",
+      "slug": "mercedes-s-class",
+      "name": "Mercedes-Benz S-Class",
+      "model": "Mercedes-Benz S-Class Flagship",
+      "price": "$160",
+      "currency": "SGD",
+      "description": "Flagship first-class prestige with reclining executive seating, acoustic glazing, and VIP buffer.",
+      "heroDescription": "The undisputed gold standard of VIP chauffeur travel. The Mercedes-Benz S-Class Flagship offers reclining rear captain seats, panoramic glass roof, acoustic glazing, and white-glove chauffeur protocol for dignitary visits and milestones.",
+      "pax": "4 Pax",
+      "paxCount": 4,
+      "bags": "2 Bags",
+      "luggageCount": 2,
+      "pointToPoint": "$160 SGD",
+      "meetAndGreet": "$180 SGD",
+      "charter3h": "$380 SGD",
+      "charter8h": "$980 SGD",
+      "vehicleType": "Mercedes-Benz S-Class Flagship",
+      "badge": "VIP Flagship",
+      "inclusions": [
+        "Fixed flat-rate pricing",
+        "First-class uniformed VIP chauffeur",
+        "Flight tracking with 60-min complimentary wait",
+        "Acoustic double glazing & ambient lighting",
+        "Bottled mineral water & onboard Wi-Fi / chargers",
+        "Discreet, non-intrusive diplomatic service"
+      ],
+      "extras": [
+        { "label": "Changi Meet & Greet", "price": "$180" },
+        { "label": "3-Hour Charter", "price": "$380" }
+      ],
+      "buttonText": "Reserve S-Class",
+      "image": "/images/Cab.png"
+    },
+    {
       "id": "6-seater",
       "slug": "6-seater",
       "name": "6 Seater Maxi Cab",

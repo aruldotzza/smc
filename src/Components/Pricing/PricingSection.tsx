@@ -2,7 +2,7 @@
 
 import React from "react";
 import pricingData from "@/data/pricing.json";
-import { ShieldCheck, Clock, Plane, ArrowRight } from "lucide-react";
+import { ShieldCheck, Clock, Plane, ArrowRight, Users, Luggage } from "lucide-react";
 import { useBookingModal } from "@/context/BookingContext";
 import WhatsAppIcon from "@/Components/Shared/WhatsAppIcon";
 import Link from "next/link";
@@ -20,51 +20,99 @@ export default function PricingSection() {
     });
   };
 
-  // Derive matrix rows from live API vehicles or fallback to pricingData.matrix
-  const matrixRows =
-    liveVehicles && liveVehicles.length > 0
-      ? liveVehicles.map((v) => {
-          const slug =
-            v.passengerCapacity === 6
-              ? "6-seater"
-              : v.passengerCapacity === 7
-              ? "7-seater"
-              : v.passengerCapacity === 9
-              ? "9-seater"
-              : v.passengerCapacity === 13
-              ? "13-seater"
-              : `vehicle-${v.id}`;
-          const localMatch = pricingData.matrix.find(
-            (m) => m.slug === slug || m.id === slug
-          );
+  // Derive matrix rows from pricingData.matrix, enriching with live API rates where available
+  const matrixRows = (() => {
+    // 1. Map all canonical vehicles from pricing matrix
+    const rows = pricingData.matrix.map((item) => {
+      // Find matching vehicle from live API by apiId or exact/close name match
+      const liveMatch = liveVehicles?.find(
+        (v) =>
+          v.id === item.apiId ||
+          v.name.toLowerCase().trim() === item.name.toLowerCase().trim() ||
+          (item.id === "mercedes-e-class" && v.name.toLowerCase().includes("e class")) ||
+          (item.id === "mercedes-s-class" && v.name.toLowerCase().includes("s class")) ||
+          (item.id === "6-seater" && (v.passengerCapacity === 6 || v.name.toLowerCase().includes("alphard"))) ||
+          (item.id === "7-seater" && (v.name.toLowerCase().includes("vito") || v.name.toLowerCase().includes("viano"))) ||
+          (item.id === "mercedes-v-class" && v.name.toLowerCase().includes("v-class")) ||
+          (item.id === "9-seater" && v.passengerCapacity === 9) ||
+          (item.id === "13-seater" && v.name.toLowerCase().includes("13") && !v.name.toLowerCase().includes("vip")) ||
+          (item.id === "vip-lounge" && (v.name.toLowerCase().includes("vip") || v.name.toLowerCase().includes("executive"))) ||
+          (item.id === "wheelchair-cab" && v.name.toLowerCase().includes("wheelchair")) ||
+          (item.id === "23-seater" && v.passengerCapacity === 23)
+      );
 
+      const pointToPoint = liveMatch?.prices?.departure_transfer?.amount
+        ? `$${liveMatch.prices.departure_transfer.amount} SGD`
+        : item.pointToPoint;
+
+      const meetAndGreet = liveMatch?.prices?.arrival?.amount
+        ? `$${liveMatch.prices.arrival.amount} SGD`
+        : item.meetAndGreet;
+
+      const hourlyRate = liveMatch?.prices?.hourly?.amount;
+      const charter3h = liveMatch?.prices?.hourly?.threeHourAmount
+        ? `$${liveMatch.prices.hourly.threeHourAmount} SGD`
+        : hourlyRate
+        ? `$${hourlyRate * 3} SGD`
+        : item.charter3h;
+
+      const charter8h = liveMatch?.prices?.hourly?.eightHourAmount
+        ? `$${liveMatch.prices.hourly.eightHourAmount} SGD`
+        : hourlyRate
+        ? `$${hourlyRate * 8} SGD`
+        : item.charter8h;
+
+      const pax = liveMatch?.passengerCapacity ? String(liveMatch.passengerCapacity) : item.pax;
+      const luggage = liveMatch?.luggageCapacity ? String(liveMatch.luggageCapacity) : item.luggage;
+
+      return {
+        id: String(liveMatch?.id ?? item.id),
+        slug: item.slug,
+        name: item.name,
+        model: item.model,
+        pax,
+        luggage,
+        pointToPoint,
+        meetAndGreet,
+        charter3h,
+        charter8h,
+      };
+    });
+
+    // 2. Append any live API vehicles that might not be in the static matrix
+    if (liveVehicles && liveVehicles.length > 0) {
+      liveVehicles.forEach((v) => {
+        const alreadyIncluded = rows.some(
+          (r) =>
+            r.id === String(v.id) ||
+            r.name.toLowerCase().trim() === v.name.toLowerCase().trim()
+        );
+        if (!alreadyIncluded) {
           const pointToPoint =
             v.prices?.departure_transfer?.amount ||
             v.prices?.arrival?.amount ||
-            (localMatch ? parseInt(localMatch.pointToPoint.replace(/[^0-9]/g, "")) : 70);
+            70;
           const meetAndGreet =
             v.prices?.arrival?.amount || pointToPoint + 10;
           const hourlyRate = v.prices?.hourly?.amount || 65;
-
-          return {
+          rows.push({
             id: String(v.id),
-            slug,
+            slug: `vehicle-${v.id}`,
             name: v.name,
-            model: v.description || v.vehicleType || localMatch?.model || "Executive Maxi Cab",
+            model: v.description || v.vehicleType || "Executive Maxi Cab",
             pax: `${v.passengerCapacity || 7}`,
+            luggage: `${v.luggageCapacity || 5}`,
             pointToPoint: `$${pointToPoint} SGD`,
             meetAndGreet: `$${meetAndGreet} SGD`,
-            charter3h:
-              v.prices?.hourly?.threeHourAmount != null
-                ? `$${v.prices.hourly.threeHourAmount} SGD`
-                : `$${hourlyRate * 3} SGD`,
-            charter8h:
-              v.prices?.hourly?.eightHourAmount != null
-                ? `$${v.prices.hourly.eightHourAmount} SGD`
-                : `$${hourlyRate * 8} SGD`,
-          };
-        })
-      : pricingData.matrix;
+            charter3h: `$${hourlyRate * 3} SGD`,
+            charter8h: `$${hourlyRate * 8} SGD`,
+          });
+        }
+      });
+    }
+
+    return rows;
+  })();
 
   const getGuaranteeIcon = (iconName: string) => {
     switch (iconName) {
@@ -73,6 +121,7 @@ export default function PricingSection() {
       case "clock":
         return <Clock className="w-8 h-8 text-[#C6A45A]" />;
       case "hourglass":
+      case "plane":
         return <Plane className="w-8 h-8 text-[#C6A45A]" />;
       default:
         return <ShieldCheck className="w-8 h-8 text-[#C6A45A]" />;
@@ -140,20 +189,36 @@ export default function PricingSection() {
               >
                 <div>
                   <div className="flex items-start justify-between gap-2">
-                    <div>
+                    <div className="min-w-0 pr-1">
                       <Link
                         href={`/fleets/${row.slug}`}
-                        className="font-bold text-lg text-[#071E3B] hover:text-[#C6A45A] transition-colors font-manrope"
+                        className="font-bold text-lg text-[#071E3B] hover:text-[#C6A45A] transition-colors font-manrope block leading-snug"
                       >
                         {row.name}
                       </Link>
-                      <span className="block text-xs text-[#667085] mt-0.5 font-manrope">
+                      <span className="block text-xs text-[#667085] mt-0.5 font-manrope line-clamp-1">
                         {row.model}
                       </span>
                     </div>
-                    <span className="px-2.5 py-1 rounded-md bg-[#F7F5EF] text-[#071E3B] font-bold text-xs font-manrope">
-                      {row.pax} Pax
-                    </span>
+                    {/* Capacity icons: Pax & Luggage */}
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <span
+                        className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-[#F7F5EF] text-[#071E3B] font-bold text-xs font-manrope border border-[#E9ECEF]"
+                        title={`${row.pax} Pax`}
+                      >
+                        <Users className="w-3.5 h-3.5 text-[#C6A45A]" />
+                        <span>{row.pax}</span>
+                      </span>
+                      {row.luggage && (
+                        <span
+                          className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-[#F7F5EF] text-[#071E3B] font-bold text-xs font-manrope border border-[#E9ECEF]"
+                          title={`${row.luggage} Luggage`}
+                        >
+                          <Luggage className="w-3.5 h-3.5 text-[#C6A45A]" />
+                          <span>{row.luggage}</span>
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   {/* Rates Breakdown */}
@@ -199,7 +264,7 @@ export default function PricingSection() {
               <thead>
                 <tr className="bg-[#071E3B] text-white text-sm font-bold font-manrope">
                   <th className="py-4 px-6">Vehicle</th>
-                  <th className="py-4 px-4 text-center">Pax</th>
+                  <th className="py-4 px-4 text-center">Capacity</th>
                   <th className="py-4 px-4 text-center">Point-to-Point</th>
                   <th className="py-4 px-4 text-center">3h Charter</th>
                   <th className="py-4 px-4 text-center">8h Charter</th>
@@ -226,8 +291,25 @@ export default function PricingSection() {
                         </span>
                       </Link>
                     </td>
-                    <td className="py-4 px-4 text-center text-sm font-normal text-[#667085] font-manrope leading-5">
-                      {row.pax}
+                    <td className="py-4 px-4 text-center font-manrope">
+                      <div className="inline-flex items-center justify-center gap-1.5">
+                        <span
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white border border-[#E9ECEF] text-xs font-bold text-[#071E3B]"
+                          title={`${row.pax} Pax`}
+                        >
+                          <Users className="w-3.5 h-3.5 text-[#C6A45A]" />
+                          <span>{row.pax}</span>
+                        </span>
+                        {row.luggage && (
+                          <span
+                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white border border-[#E9ECEF] text-xs font-bold text-[#071E3B]"
+                            title={`${row.luggage} Luggage`}
+                          >
+                            <Luggage className="w-3.5 h-3.5 text-[#C6A45A]" />
+                            <span>{row.luggage}</span>
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="py-4 px-4 text-center font-bold text-base text-[#C6A45A] font-manrope leading-6">
                       {row.pointToPoint}

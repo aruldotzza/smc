@@ -208,35 +208,13 @@ export default function BookingCard() {
           </span>
         </label>
 
-        {/* Recommended fleet for trip */}
-        <div className="flex flex-col gap-1">
-          <label className="text-white text-xs sm:text-sm font-medium font-manrope leading-5">
-            Recommended fleet for your trip
-          </label>
-          <div className="relative">
-            <select
-              value={bookingData.selectedFleetSlug || String(bookingData.vehicleId)}
-              onChange={handleFleetChange}
-              className="w-full appearance-none px-3.5 py-3 bg-white rounded-xl flex items-center justify-between text-xs sm:text-sm font-semibold font-manrope text-[#071E3B] shadow-sm outline-none cursor-pointer pr-24"
-            >
-              {fleetOptions.map((v) => (
-                <option key={v.id} value={v.slug} className="text-[#071E3B]">
-                  {v.name} ({v.model})
-                </option>
-              ))}
-            </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none flex items-center gap-1.5">
-              <div className="flex flex-col items-end leading-none">
-                <span className="text-[9px] text-[#667085] font-bold font-manrope uppercase">
-                  Fixed
-                </span>
-                <span className="text-sm sm:text-base font-extrabold text-[#071E3B] font-manrope">
-                  ${bookingData.baseFare}
-                </span>
-              </div>
-              <ChevronDown className="w-4 h-4 text-[#667085]" />
-            </div>
+        {/* Next Step: Vehicle Preview */}
+        <div className="flex items-center justify-between px-3.5 py-2.5 bg-white/10 rounded-xl border border-white/15 text-xs font-manrope">
+          <div className="flex items-center gap-2">
+            <span className="text-[#C6A45A] font-bold">Recommended:</span>
+            <span className="text-white font-medium">{bookingData.selectedFleet || "7 Seater Maxi Cab"}</span>
           </div>
+          <span className="text-white font-bold text-sm">From ${bookingData.baseFare || 70}</span>
         </div>
 
         {/* Singapore Disclaimer */}
@@ -244,12 +222,12 @@ export default function BookingCard() {
           {heroData.bookingForm.disclaimer}
         </p>
 
-        {/* Book Now Button */}
+        {/* Choose Vehicle Button */}
         <button
           type="submit"
           className="w-full py-3.5 bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-98 rounded-xl flex justify-center items-center gap-2.5 text-white text-sm sm:text-base font-bold font-manrope transition-all shadow-md cursor-pointer hover:shadow-lg border border-white/10"
         >
-          <span>Book Now</span>
+          <span>Choose Vehicle</span>
           <ArrowRight className="w-4 h-4 stroke-[2.5]" />
         </button>
 

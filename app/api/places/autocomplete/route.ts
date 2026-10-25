@@ -62,6 +62,12 @@ const FALLBACK_SINGAPORE_PLACES = [
     types: ["airport", "transit_station"],
   },
   {
+    name: "Changi Airport Terminal (TBA)",
+    secondary: "Airport Boulevard, Singapore (Arrival Terminal To Be Advised)",
+    placeId: "fallback_changi_tba",
+    types: ["airport", "transit_station"],
+  },
+  {
     name: "Jewel Changi Airport",
     secondary: "78 Airport Boulevard, Singapore 819666",
     placeId: "fallback_jewel_changi",
@@ -203,6 +209,63 @@ function getFallbackSuggestions(input: string): GooglePlacesAutocompleteResponse
   return { suggestions };
 }
 
+function injectTbaSuggestionIfNeeded(
+  suggestions: GooglePlaceSuggestion[],
+  input: string
+): GooglePlaceSuggestion[] {
+  const q = (input || "").toLowerCase().trim();
+  const isAirportQuery =
+    q.includes("term") ||
+    q.includes("changi") ||
+    q.includes("airport") ||
+    q.includes("tba") ||
+    q.includes("sin");
+
+  if (!isAirportQuery && q !== "") return suggestions;
+
+  const alreadyHasTba = suggestions.some((s) => {
+    const text = (s.placePrediction?.text?.text || "").toLowerCase();
+    const main = (s.placePrediction?.structuredFormat?.mainText?.text || "").toLowerCase();
+    return text.includes("tba") || main.includes("tba");
+  });
+
+  if (alreadyHasTba) return suggestions;
+
+  const tbaSuggestion: GooglePlaceSuggestion = {
+    placePrediction: {
+      place: "places/fallback_changi_tba",
+      placeId: "fallback_changi_tba",
+      text: {
+        text: "Changi Airport Terminal (TBA), Airport Boulevard, Singapore (Arrival Terminal To Be Advised)",
+      },
+      structuredFormat: {
+        mainText: {
+          text: "Changi Airport Terminal (TBA)",
+        },
+        secondaryText: {
+          text: "Airport Boulevard, Singapore (Arrival Terminal To Be Advised)",
+        },
+      },
+      types: ["airport", "transit_station"],
+    },
+  };
+
+  const lastTerminalIdx = suggestions.reduce((acc, s, idx) => {
+    const text = (s.placePrediction?.text?.text || "").toLowerCase();
+    if (text.includes("terminal") || text.includes("changi")) return idx;
+    return acc;
+  }, -1);
+
+  const newSuggestions = [...suggestions];
+  if (lastTerminalIdx >= 0) {
+    newSuggestions.splice(lastTerminalIdx + 1, 0, tbaSuggestion);
+  } else {
+    newSuggestions.push(tbaSuggestion);
+  }
+
+  return newSuggestions;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => ({}));
@@ -261,6 +324,9 @@ export async function POST(request: NextRequest) {
 
         if (googleRes.ok) {
           const data: GooglePlacesAutocompleteResponse = await googleRes.json();
+          if (Array.isArray(data.suggestions)) {
+            data.suggestions = injectTbaSuggestionIfNeeded(data.suggestions, input);
+          }
           setCachedSuggestions(cacheKey, data);
           return NextResponse.json(data, {
             headers: {
@@ -343,6 +409,9 @@ export async function GET(request: NextRequest) {
 
       if (googleRes.ok) {
         const data: GooglePlacesAutocompleteResponse = await googleRes.json();
+        if (Array.isArray(data.suggestions)) {
+          data.suggestions = injectTbaSuggestionIfNeeded(data.suggestions, input);
+        }
         setCachedSuggestions(cacheKey, data);
         return NextResponse.json(data, {
           headers: {

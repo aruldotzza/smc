@@ -106,7 +106,7 @@ const defaultBookingData: BookingData = {
   flightNo: "SQ 321",
   flightNumber: "SQ 321",
   signboardName: "MR. ALEXANDER WRIGHT",
-  terminal: "Terminal 3",
+  terminal: "Terminal (TBA)",
   babySeat: false,
   nightTravel: false,
   extraStopsWithin2km: 0,

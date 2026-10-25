@@ -49,7 +49,7 @@ export default function MeetAndGreetField({ onRemove, onChange }: MeetAndGreetFi
       <div className="flex flex-col gap-2.5">
         <div className="px-3 py-2 bg-[#F8F7F4] rounded-lg border border-slate-200/80 flex items-center justify-between">
           <span className="text-xs font-semibold text-[#5F6B7A] font-manrope">
-            Number of Passengers
+            Pax
           </span>
           <div className="flex items-center gap-2">
             <button

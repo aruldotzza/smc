@@ -10,6 +10,9 @@
 !.yarn/releases
 !.yarn/versions
 
+/new designs/
+/old design/
+
 # testing
 /coverage
 
