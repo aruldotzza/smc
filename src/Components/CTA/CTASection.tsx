@@ -9,7 +9,7 @@ export default function CTASection() {
   const { openModal } = useBookingModal();
 
   return (
-    <section className="py-12 sm:py-16 px-4 sm:px-12 lg:px-24 bg-[#071E3B] text-white text-center flex flex-col justify-center items-center gap-6 sm:gap-8">
+    <section className="py-12 sm:py-20 px-4 sm:px-8 lg:px-12 bg-[#071E3B] text-white text-center flex flex-col justify-center items-center gap-6 sm:gap-8">
       {/* Title */}
       <div className="flex flex-col items-center">
         <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold font-manrope leading-tight sm:leading-[56px] text-white">
@@ -32,7 +32,7 @@ export default function CTASection() {
         <button
           type="button"
           onClick={() => openModal({ initialStep: 0 })}
-          className="w-full sm:w-auto px-8 py-3.5 bg-[#C6A45A] hover:bg-[#B58E45] active:scale-98 text-white text-base font-bold font-manrope rounded-xl transition-all shadow-md cursor-pointer"
+          className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3.5 bg-[#C6A45A] hover:bg-[#B58E45] active:scale-98 text-white text-base font-bold font-manrope rounded-xl transition-all shadow-md cursor-pointer flex items-center justify-center"
         >
           Book Now
         </button>
@@ -40,7 +40,7 @@ export default function CTASection() {
         {/* Explore our Fleet Button */}
         <Link
           href="/fleets"
-          className="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-[#C6A45A] hover:bg-[#C6A45A]/10 active:scale-98 text-[#C6A45A] text-base font-bold font-manrope flex items-center justify-center gap-3 transition-all"
+          className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3.5 rounded-xl border border-[#C6A45A] hover:bg-[#C6A45A]/10 active:scale-98 text-[#C6A45A] text-base font-bold font-manrope flex items-center justify-center gap-3 transition-all"
         >
           <span>Explore our Fleet</span>
           <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -49,11 +49,11 @@ export default function CTASection() {
 
       {/* Contact Details Ribbon */}
       <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-xs font-normal font-manrope text-white/80 pt-2">
-        <span className="font-semibold">SINGAPORE MAXICABS</span>
+        <span>SINGAPORE MAXICABS</span>
         <span>•</span>
         <a
           href="mailto:booking@singaporemaxicabs.com.sg"
-          className="hover:underline text-white/95"
+          className="hover:underline hover:text-white transition-colors"
         >
           booking@singaporemaxicabs.com.sg
         </a>

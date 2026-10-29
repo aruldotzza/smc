@@ -185,8 +185,8 @@ export default function FleetsPageSectionWise() {
   return (
     <div className="w-full flex flex-col items-center bg-white">
       {/* 1. Page Header (from fleetdeign.html) */}
-      <section className="w-full bg-[#071E3B] text-white py-14 sm:py-20 px-6 sm:px-12 lg:px-20 relative overflow-hidden">
-        <div className="max-w-[1360px] mx-auto flex flex-col items-start gap-4 sm:gap-6 relative z-10">
+      <section className="w-full bg-[#071E3B] text-white py-14 sm:py-20 px-4 sm:px-8 lg:px-12 relative overflow-hidden">
+        <div className="max-w-[1440px] mx-auto flex flex-col items-start gap-4 sm:gap-6 relative z-10">
           <div className="flex flex-col items-start gap-2">
             <span className="text-[#C6A45A] text-sm sm:text-base font-bold font-manrope tracking-wider uppercase">
               Our Vehicles
@@ -202,7 +202,7 @@ export default function FleetsPageSectionWise() {
       </section>
 
       {/* 2. Content Sections Container */}
-      <div className="w-full max-w-[1360px] mx-auto px-4 sm:px-8 lg:px-12 py-16 sm:py-20 flex flex-col gap-16 sm:gap-24">
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 py-16 sm:py-20 flex flex-col gap-16 sm:gap-24">
         {/* Section A: Executive Travel */}
         <section id="executive-travel" className="flex flex-col gap-8 sm:gap-10">
           <div className="flex flex-col gap-3 max-w-3xl">
@@ -284,7 +284,7 @@ export default function FleetsPageSectionWise() {
             href="https://wa.me/6588006006"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-8 py-3.5 bg-[#16803C] hover:bg-[#126b32] active:scale-95 text-white font-semibold font-manrope rounded-xl shadow-md flex items-center justify-center gap-2.5 transition-all cursor-pointer"
+            className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3.5 bg-[#16803C] hover:bg-[#126b32] active:scale-95 text-white font-semibold font-manrope rounded-xl shadow-md flex items-center justify-center gap-2.5 transition-all cursor-pointer"
           >
             <WhatsAppIcon className="w-4 h-4 text-white" />
             <span>WhatsApp Us</span>
@@ -294,7 +294,7 @@ export default function FleetsPageSectionWise() {
           <button
             type="button"
             onClick={() => openModal({ initialStep: 0 })}
-            className="px-8 py-3.5 bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-95 text-white font-semibold font-manrope rounded-xl shadow-md flex items-center justify-center gap-2.5 transition-all cursor-pointer"
+            className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3.5 bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-95 text-white font-semibold font-manrope rounded-xl shadow-md flex items-center justify-center gap-2.5 transition-all cursor-pointer"
           >
             <span>Book Now</span>
             <ArrowRight className="w-4 h-4" />

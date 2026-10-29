@@ -10,7 +10,7 @@ import WhatsAppIcon from "@/Components/Shared/WhatsAppIcon";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full bg-[#0B2A4A] overflow-hidden py-10 sm:py-20 lg:py-24 px-4 sm:px-8 lg:px-24">
+    <section className="relative w-full bg-[#0B2A4A] overflow-hidden py-10 sm:py-20 lg:py-24 px-4 sm:px-8 lg:px-12">
       {/* Background Image from Figma */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -63,7 +63,7 @@ export default function HeroSection() {
             {/* Primary Gold CTA */}
             <Link
               href="/fleets"
-              className="w-full sm:w-auto px-6 sm:px-8 py-3.5 rounded-xl bg-[#C6A45A] hover:bg-[#B58E45] text-white text-sm sm:text-base font-bold flex items-center justify-center gap-3 transition-all shadow-md hover:shadow-lg active:scale-98"
+              className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3.5 rounded-xl bg-[#C6A45A] hover:bg-[#B58E45] text-white text-sm sm:text-base font-bold flex items-center justify-center gap-3 transition-all shadow-md hover:shadow-lg active:scale-98"
             >
               <span>Explore our Fleet</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -74,7 +74,7 @@ export default function HeroSection() {
               href="https://wa.me/6588006006"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto px-6 sm:px-8 py-3.5 rounded-xl border border-[#C6A45A] hover:bg-[#C6A45A]/10 text-[#C6A45A] text-sm sm:text-base font-bold flex items-center justify-center gap-3 transition-all active:scale-98 bg-black/20 backdrop-blur-xs"
+              className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3.5 rounded-xl border border-[#C6A45A] hover:bg-[#C6A45A]/10 text-[#C6A45A] text-sm sm:text-base font-bold flex items-center justify-center gap-3 transition-all active:scale-98 bg-black/20 backdrop-blur-xs"
             >
               <WhatsAppIcon className="w-4 h-4" />
               <span>Book via WhatsApp</span>

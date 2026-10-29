@@ -88,7 +88,7 @@ export default function FleetCard({ vehicle }: { vehicle: Vehicle }) {
           {/* Header & Price */}
           <div className="flex items-start justify-between gap-3">
             <Link href={`/fleets/${slug}`}>
-              <h3 className="text-lg sm:text-xl font-bold text-white font-manrope group-hover:text-[#C6A45A] transition-colors leading-snug">
+              <h3 className="text-lg sm:text-xl font-bold text-white font-manrope group-hover:text-[#C6A45A] transition-colors leading-snug line-clamp-1">
                 {vehicle.name}
               </h3>
             </Link>
@@ -103,7 +103,7 @@ export default function FleetCard({ vehicle }: { vehicle: Vehicle }) {
           </div>
 
           {/* Description */}
-          <p className="text-xs sm:text-sm font-normal text-white/90 leading-5 font-manrope min-h-[36px] sm:min-h-[40px]">
+          <p className="text-xs sm:text-sm font-normal text-white/90 leading-5 font-manrope line-clamp-2 h-10">
             {vehicle.description}
           </p>
 

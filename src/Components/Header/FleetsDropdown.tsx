@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 
 interface FleetItem {
   name: string;
@@ -80,7 +81,9 @@ interface FleetsDropdownProps {
 
 export default function FleetsDropdown({ onItemClick }: FleetsDropdownProps) {
   return (
-    <div className="w-[360px] sm:w-[504px] max-h-[460px] overflow-y-auto p-2 sm:p-3 bg-white rounded-2xl shadow-2xl border border-slate-200/90 flex flex-col divide-y divide-slate-100 z-50">
+    <div className="w-[360px] sm:w-[504px] overflow-hidden bg-white rounded-2xl shadow-2xl border border-slate-200/90 flex flex-col z-50">
+      {/* Scrollable Vehicle List */}
+      <div className="max-h-[360px] sm:max-h-[380px] overflow-y-auto p-2 sm:p-3 flex flex-col divide-y divide-slate-100">
       {fleets.map((fleet, index) => (
         <Link
           key={index}
@@ -107,6 +110,24 @@ export default function FleetsDropdown({ onItemClick }: FleetsDropdownProps) {
           </div>
         </Link>
       ))}
+      </div>
+
+      {/* Sticky Bottom Footer: View All Fleets */}
+      <div className="p-2.5 sm:p-3 bg-[#FBF7EC] border-t border-[#C6A45A]/25 rounded-b-2xl shrink-0">
+        <Link
+          href="/fleets"
+          onClick={onItemClick}
+          className="w-full py-2.5 px-4 rounded-xl bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-[0.99] text-white flex items-center justify-between text-xs sm:text-sm font-bold font-manrope transition-all shadow-sm group"
+        >
+          <span className="flex items-center gap-2">
+            <span>View All Fleets</span>
+            <span className="text-[11px] font-normal text-[#C6A45A]">
+              • Full Pricing &amp; Specs
+            </span>
+          </span>
+          <ArrowRight className="w-4 h-4 text-[#C6A45A] group-hover:translate-x-1 transition-transform" />
+        </Link>
+      </div>
     </div>
   );
 }

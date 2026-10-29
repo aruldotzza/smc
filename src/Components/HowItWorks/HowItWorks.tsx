@@ -4,8 +4,8 @@ import { ChevronDown } from "lucide-react";
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-10 sm:py-16 px-4 sm:px-8 lg:px-16 bg-white">
-      <div className="max-w-[1312px] mx-auto flex flex-col items-center gap-8 sm:gap-14">
+    <section id="how-it-works" className="py-10 sm:py-16 px-4 sm:px-8 lg:px-12 bg-white">
+      <div className="max-w-[1440px] mx-auto flex flex-col items-center gap-8 sm:gap-14">
         {/* Section Header */}
         <div className="text-center flex flex-col items-center gap-2 sm:gap-3">
           <span className="text-xs font-bold text-[#C6A45A] uppercase tracking-wide font-manrope">
@@ -29,12 +29,12 @@ export default function HowItWorks() {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg sm:text-xl font-bold text-[#071E3B] font-manrope">
+                <h3 className="text-lg sm:text-xl font-bold text-[#071E3B] font-manrope line-clamp-1">
                   {item.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-xs sm:text-sm font-normal text-[#5F6B7A] leading-relaxed font-manrope">
+                <p className="text-xs sm:text-sm font-normal text-[#5F6B7A] leading-relaxed font-manrope line-clamp-2 h-10">
                   {item.description}
                 </p>
               </div>

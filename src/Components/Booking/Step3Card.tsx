@@ -479,31 +479,31 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
               <div className="self-stretch inline-flex justify-start items-center gap-1.5">
                 <Star className="w-3.5 h-3.5 text-[#8A5A00] fill-[#8A5A00]" />
                 <span className="text-[#5F6B7A] text-sm font-medium font-manrope leading-5 uppercase">
-                  ALL-INCLUSIVE INCLUSIONS ($0 EXTRA CHARGES)
+                  ALL-INCLUSIVE BENEFITS ($0 EXTRA CHARGES)
                 </span>
               </div>
-              <div className="self-stretch inline-flex justify-center items-start gap-4">
-                <div className="flex-1 p-2 bg-white rounded-lg border border-[#E9ECEF] flex flex-col justify-start items-start gap-1">
-                  <div className="text-[#5F6B7A] text-xs font-normal font-manrope leading-4">
+              <div className="w-full flex items-stretch justify-start gap-3 overflow-x-auto pb-1">
+                <div className="flex-1 min-w-[165px] shrink-0 p-2.5 bg-white rounded-lg border border-[#E9ECEF] flex flex-col justify-start items-start gap-1">
+                  <div className="text-[#5F6B7A] text-xs font-normal font-manrope leading-4 whitespace-nowrap">
                     ERP &amp; Tolls
                   </div>
-                  <div className="text-[#8A5A00] text-xs font-bold font-manrope leading-4">
+                  <div className="text-[#8A5A00] text-xs font-bold font-manrope leading-4 whitespace-nowrap">
                     INCLUDED ($0)
                   </div>
                 </div>
-                <div className="flex-1 p-2 bg-white rounded-lg border border-[#E9ECEF] flex flex-col justify-start items-start gap-1">
-                  <div className="text-[#5F6B7A] text-xs font-normal font-manrope leading-4">
+                <div className="flex-1 min-w-[165px] shrink-0 p-2.5 bg-white rounded-lg border border-[#E9ECEF] flex flex-col justify-start items-start gap-1">
+                  <div className="text-[#5F6B7A] text-xs font-normal font-manrope leading-4 whitespace-nowrap">
                     Meet &amp; Greet + 60m Wait
                   </div>
-                  <div className="text-[#8A5A00] text-xs font-bold font-manrope leading-4">
+                  <div className="text-[#8A5A00] text-xs font-bold font-manrope leading-4 whitespace-nowrap">
                     INCLUDED ($0)
                   </div>
                 </div>
-                <div className="flex-1 p-2 bg-white rounded-lg border border-[#E9ECEF] flex flex-col justify-start items-start gap-1">
-                  <div className="text-[#5F6B7A] text-xs font-normal font-manrope leading-4">
+                <div className="flex-1 min-w-[165px] shrink-0 p-2.5 bg-white rounded-lg border border-[#E9ECEF] flex flex-col justify-start items-start gap-1">
+                  <div className="text-[#5F6B7A] text-xs font-normal font-manrope leading-4 whitespace-nowrap">
                     Midnight / Peak Surcharge
                   </div>
-                  <div className="text-[#8A5A00] text-xs font-bold font-manrope leading-4">
+                  <div className="text-[#8A5A00] text-xs font-bold font-manrope leading-4 whitespace-nowrap">
                     WAIVED ($0)
                   </div>
                 </div>

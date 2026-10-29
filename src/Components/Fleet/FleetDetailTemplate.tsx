@@ -87,17 +87,17 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
   return (
     <div className="w-full flex flex-col bg-white selection:bg-[#C6A45A] selection:text-[#071E3B]">
       {/* 1. Hero Banner matching singleFleetPage.html */}
-      <section className="w-full bg-gradient-to-r from-[#071E3B] to-slate-900/90 text-white py-12 sm:py-16 px-6 sm:px-12 lg:px-20 relative overflow-hidden">
+      <section className="w-full bg-gradient-to-r from-[#071E3B] to-slate-900/90 text-white py-12 sm:py-16 px-4 sm:px-8 lg:px-12 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#C6A45A]/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-[1360px] mx-auto relative z-10 flex flex-col gap-6 sm:gap-8">
+        <div className="max-w-[1440px] mx-auto relative z-10 flex flex-col gap-6 sm:gap-8">
           {/* Breadcrumb Back */}
           <Link
             href="/fleets"
             className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors font-manrope group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            <span>← Back to All Fleets</span>
+            <span>Back to All Fleets</span>
           </Link>
 
           {/* Hero Content Header */}
@@ -132,7 +132,7 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
                 <button
                   type="button"
                   onClick={handleBookNow}
-                  className="w-full sm:w-auto px-8 py-3 rounded-lg bg-[#C6A45A] hover:bg-[#B58E45] active:scale-[0.98] text-white text-base font-semibold font-manrope flex items-center justify-center gap-4 transition-all shadow-md cursor-pointer"
+                  className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3 rounded-lg bg-[#C6A45A] hover:bg-[#B58E45] active:scale-[0.98] text-white text-base font-semibold font-manrope flex items-center justify-center gap-4 transition-all shadow-md cursor-pointer"
                 >
                   <span>Book Now</span>
                   <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -140,7 +140,7 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
 
                 <Link
                   href="/fleets"
-                  className="w-full sm:w-auto px-8 py-3 rounded-lg border border-[#C6A45A] hover:bg-[#C6A45A]/10 active:scale-[0.98] text-[#C6A45A] text-base font-semibold font-manrope flex items-center justify-center gap-4 transition-all"
+                  className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3 rounded-lg border border-[#C6A45A] hover:bg-[#C6A45A]/10 active:scale-[0.98] text-[#C6A45A] text-base font-semibold font-manrope flex items-center justify-center gap-4 transition-all"
                 >
                   <span>Explore our Fleet</span>
                   <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -162,7 +162,7 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
       </section>
 
       {/* 2. Specs & Image Row matching singleFleetPage.html */}
-      <section className="py-12 sm:py-16 px-4 sm:px-12 lg:px-28 max-w-[1440px] mx-auto w-full flex flex-col gap-12 sm:gap-16">
+      <section className="py-12 sm:py-16 px-4 sm:px-8 lg:px-12 max-w-[1440px] mx-auto w-full flex flex-col gap-12 sm:gap-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
           {/* Vehicle Showcase Card */}
           <div className="w-full h-72 sm:h-96 lg:h-[404px] rounded-2xl overflow-hidden bg-[#071E3B] border border-slate-800 shadow-xl relative group">
@@ -242,7 +242,7 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
               <button
                 type="button"
                 onClick={handleBookNow}
-                className="w-full sm:w-auto px-8 py-3 rounded-lg bg-[#C6A45A] hover:bg-[#B58E45] active:scale-[0.98] text-white text-base font-semibold font-manrope flex items-center justify-center gap-4 transition-all shadow-md cursor-pointer"
+                className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3 rounded-lg bg-[#C6A45A] hover:bg-[#B58E45] active:scale-[0.98] text-white text-base font-semibold font-manrope flex items-center justify-center gap-4 transition-all shadow-md cursor-pointer"
               >
                 <span>Book Now</span>
                 <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -252,7 +252,7 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
                 href="https://wa.me/6588006006"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto px-8 py-3 rounded-lg border border-[#C6A45A] hover:bg-[#C6A45A]/10 active:scale-[0.98] text-[#C6A45A] text-base font-semibold font-manrope flex items-center justify-center gap-4 transition-all"
+                className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3 rounded-lg border border-[#C6A45A] hover:bg-[#C6A45A]/10 active:scale-[0.98] text-[#C6A45A] text-base font-semibold font-manrope flex items-center justify-center gap-4 transition-all"
               >
                 <WhatsAppIcon className="w-4 h-4" />
                 <span>WhatsApp Us</span>

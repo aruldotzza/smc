@@ -212,7 +212,7 @@ export default function CorporatePage() {
       <Navbar />
 
       {/* 2. Hero Header */}
-      <section className="w-full bg-[#071E3B] text-white py-12 sm:py-20 px-4 sm:px-12 lg:px-24 relative overflow-hidden">
+      <section className="w-full bg-[#071E3B] text-white py-12 sm:py-20 px-4 sm:px-8 lg:px-12 relative overflow-hidden">
         {/* Background Image & Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -228,7 +228,7 @@ export default function CorporatePage() {
         </div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#C6A45A]/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-[1360px] mx-auto relative z-10 flex flex-col items-start gap-4 sm:gap-6">
+        <div className="max-w-[1440px] mx-auto relative z-10 flex flex-col items-start gap-4 sm:gap-6">
           <span className="text-xs sm:text-sm font-bold text-[#C6A45A] uppercase tracking-[0.5px] font-manrope">
             {corporateData.badge}
           </span>
@@ -263,7 +263,7 @@ export default function CorporatePage() {
       </section>
 
       {/* 3. Corporate Features Grid */}
-      <section className="py-12 sm:py-20 px-4 sm:px-12 lg:px-24 max-w-[1360px] mx-auto w-full flex flex-col gap-12 sm:gap-16">
+      <section className="py-12 sm:py-20 px-4 sm:px-8 lg:px-12 max-w-[1440px] mx-auto w-full flex flex-col gap-12 sm:gap-16">
         <div className="flex flex-col gap-8">
           <div className="text-center flex flex-col items-center gap-2 max-w-2xl mx-auto">
             <h2 className="text-2xl sm:text-4xl font-bold text-[#071E3B] font-manrope">
@@ -284,10 +284,10 @@ export default function CorporatePage() {
                   {renderCorporateIcon(f.icon)}
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <h3 className="text-base sm:text-lg font-bold text-[#071E3B] font-manrope">
+                  <h3 className="text-base sm:text-lg font-bold text-[#071E3B] font-manrope line-clamp-1">
                     {f.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#667085] leading-relaxed font-manrope">
+                  <p className="text-xs sm:text-sm text-[#667085] leading-relaxed font-manrope line-clamp-2 h-10">
                     {f.description}
                   </p>
                 </div>
@@ -344,7 +344,7 @@ export default function CorporatePage() {
               href="https://wa.me/6588006006?text=Hi,%20I'd%20like%20to%20open%20a%20corporate%20transport%20account."
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-[0.98] text-white text-sm sm:text-base font-semibold flex items-center justify-center gap-3 transition-all shadow-md hover:shadow-lg cursor-pointer min-h-[48px]"
+              className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3.5 rounded-xl bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-[0.98] text-white text-sm sm:text-base font-semibold flex items-center justify-center gap-3 transition-all shadow-md hover:shadow-lg cursor-pointer min-h-[48px]"
             >
               <WhatsAppIcon className="w-4 h-4 text-white" />
               <span>{corporateData.cta.whatsappLabel}</span>
@@ -352,7 +352,7 @@ export default function CorporatePage() {
 
             <Link
               href="/contact"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-[#071E3B] hover:bg-[#071E3B]/5 active:scale-[0.98] text-[#071E3B] text-sm sm:text-base font-semibold flex items-center justify-center gap-3 transition-all min-h-[48px]"
+              className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3.5 rounded-xl border border-[#071E3B] hover:bg-[#071E3B]/5 active:scale-[0.98] text-[#071E3B] text-sm sm:text-base font-semibold flex items-center justify-center gap-3 transition-all min-h-[48px]"
             >
               <span>{corporateData.cta.contactLabel}</span>
             </Link>

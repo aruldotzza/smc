@@ -59,8 +59,8 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full bg-white text-[#5F6B7A] border-t border-[#E9ECEF] py-10 sm:py-12 px-4 sm:px-8 lg:px-16">
-      <div className="max-w-[1312px] mx-auto flex flex-col gap-8 sm:gap-10">
+    <footer className="w-full bg-white text-[#5F6B7A] border-t border-[#E9ECEF] py-10 sm:py-12 px-4 sm:px-8 lg:px-12">
+      <div className="max-w-[1440px] mx-auto flex flex-col gap-8 sm:gap-10">
         {/* Top Section: Brand Info + 4 Columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 sm:gap-10">
           {/* Brand Info Column (Span 2) */}
@@ -145,7 +145,7 @@ export default function Footer() {
             <Link href="/fleets" className="hover:text-[#071E3B] transition-colors py-1">
               Fleet
             </Link>
-            <span className="hover:text-[#071E3B] cursor-pointer py-1">English ▾</span>
+
           </div>
         </div>
       </div>

@@ -34,7 +34,7 @@ export default function Home() {
       <ServicesSection />
 
       {/* 8. Customer Reviews & Testimonials */}
-      <TestimonialsSection />
+      {/* <TestimonialsSection /> */}
 
       {/* 9. Final CTA */}
       <CTASection />

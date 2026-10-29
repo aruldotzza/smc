@@ -131,11 +131,11 @@ export default function PricingSection() {
   return (
     <div className="w-full flex flex-col bg-white selection:bg-[#C6A45A] selection:text-[#071E3B]">
       {/* 1. Hero Header */}
-      <section className="w-full bg-[#071E3B] text-white py-12 sm:py-16 px-6 sm:px-12 lg:px-20 relative overflow-hidden">
+      <section className="w-full bg-[#071E3B] text-white py-12 sm:py-16 px-4 sm:px-8 lg:px-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#071E3B] via-[#0B2A4A] to-[#071E3B] pointer-events-none opacity-90" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#C6A45A]/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-[1360px] mx-auto relative z-10 flex flex-col items-start gap-2 sm:gap-3">
+        <div className="max-w-[1440px] mx-auto relative z-10 flex flex-col items-start gap-2 sm:gap-3">
           <span className="text-base sm:text-lg font-bold text-[#C6A45A] tracking-wide font-manrope">
             {pricingData.badge}
           </span>
@@ -149,7 +149,7 @@ export default function PricingSection() {
       </section>
 
       {/* 2. Main Content Area */}
-      <section className="py-12 sm:py-16 px-4 sm:px-12 lg:px-28 max-w-[1440px] mx-auto w-full flex flex-col gap-12 sm:gap-16">
+      <section className="py-12 sm:py-16 px-4 sm:px-8 lg:px-12 max-w-[1440px] mx-auto w-full flex flex-col gap-12 sm:gap-16">
         {/* 3 Guarantees Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-12 lg:gap-20">
           {pricingData.guarantees.map((item, idx) => (
@@ -160,10 +160,10 @@ export default function PricingSection() {
               <div className="w-12 h-12 flex items-center justify-center">
                 {getGuaranteeIcon(item.icon)}
               </div>
-              <h3 className="text-base font-bold text-[#071E3B] font-manrope leading-6">
+              <h3 className="text-base font-bold text-[#071E3B] font-manrope leading-6 line-clamp-1">
                 {item.title}
               </h3>
-              <p className="text-xs text-[#667085] font-normal font-manrope leading-5">
+              <p className="text-xs text-[#667085] font-normal font-manrope leading-5 line-clamp-2 h-10">
                 {item.description}
               </p>
             </div>
@@ -363,7 +363,7 @@ export default function PricingSection() {
               <button
                 type="button"
                 onClick={() => openModal({ initialStep: 0 })}
-                className="w-full sm:w-auto px-8 py-3 rounded-lg bg-[#C6A45A] hover:bg-[#B58E45] active:scale-[0.98] text-white text-base font-semibold font-manrope flex items-center justify-center gap-4 transition-all shadow-md cursor-pointer"
+                className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3 rounded-lg bg-[#C6A45A] hover:bg-[#B58E45] active:scale-[0.98] text-white text-base font-semibold font-manrope flex items-center justify-center gap-4 transition-all shadow-md cursor-pointer"
               >
                 <span>Book Now</span>
                 <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -373,7 +373,7 @@ export default function PricingSection() {
                 href="https://wa.me/6588006006"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto px-8 py-3 rounded-lg border border-[#C6A45A] hover:bg-[#C6A45A]/10 active:scale-[0.98] text-[#C6A45A] text-base font-semibold font-manrope flex items-center justify-center gap-4 transition-all"
+                className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3 rounded-lg border border-[#C6A45A] hover:bg-[#C6A45A]/10 active:scale-[0.98] text-[#C6A45A] text-base font-semibold font-manrope flex items-center justify-center gap-4 transition-all"
               >
                 <WhatsAppIcon className="w-4 h-4" />
                 <span>WhatsApp Us</span>

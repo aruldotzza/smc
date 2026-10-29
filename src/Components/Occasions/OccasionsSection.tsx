@@ -4,7 +4,7 @@ import occasionsData from "@/data/occasions.json";
 
 export default function OccasionsSection() {
   return (
-    <section id="about" className="relative w-full overflow-hidden py-12 sm:py-20 px-4 sm:px-8 lg:px-16 min-h-[500px] sm:min-h-[640px] flex flex-col justify-center">
+    <section id="about" className="relative w-full overflow-hidden py-12 sm:py-20 px-4 sm:px-8 lg:px-12 min-h-[500px] sm:min-h-[640px] flex flex-col justify-center">
       {/* Background Image from Figma */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -20,7 +20,7 @@ export default function OccasionsSection() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-transparent pointer-events-none" />
       </div>
 
-      <div className="relative z-10 max-w-[1312px] mx-auto w-full flex flex-col gap-6 sm:gap-8">
+      <div className="relative z-10 max-w-[1440px] mx-auto w-full flex flex-col gap-6 sm:gap-8">
         {/* Header */}
         <div className="max-w-[660px] flex flex-col gap-3 sm:gap-5">
           <span className="text-xs font-bold text-[#C6A45A] uppercase tracking-wider font-manrope">
@@ -46,10 +46,10 @@ export default function OccasionsSection() {
                 key={card.id}
                 className="p-4 sm:p-6 bg-white rounded-xl border border-[#E9ECEF]/60 flex flex-col gap-1.5 sm:gap-2 shadow-xs hover:shadow-md transition-shadow"
               >
-                <h3 className="text-base sm:text-lg font-bold text-[#071E3B] uppercase font-manrope leading-snug">
+                <h3 className="text-base sm:text-lg font-bold text-[#071E3B] uppercase font-manrope leading-snug line-clamp-1">
                   {card.title}
                 </h3>
-                <p className="text-xs sm:text-sm font-normal text-[#5F6B7A] leading-relaxed font-manrope">
+                <p className="text-xs sm:text-sm font-normal text-[#5F6B7A] leading-relaxed font-manrope line-clamp-2 h-10">
                   {card.description}
                 </p>
               </div>

@@ -30,7 +30,7 @@ export default function ServicesSection({ isPage = false }: ServicesSectionProps
   };
 
   return (
-    <section id="services" className="self-stretch px-4 sm:px-8 lg:px-16 py-12 sm:py-16 flex flex-col justify-start items-center gap-8 sm:gap-12 bg-white selection:bg-[#C6A45A] selection:text-[#071E3B]">
+    <section id="services" className="w-full px-4 sm:px-8 lg:px-12 py-12 sm:py-20 flex flex-col justify-start items-center gap-10 sm:gap-14 bg-white selection:bg-[#C6A45A] selection:text-[#071E3B]">
       {/* Header (shown when on homepage or not isPage) */}
       {!isPage && (
         <div className="self-stretch flex flex-col justify-start items-center gap-3 sm:gap-4">
@@ -51,7 +51,7 @@ export default function ServicesSection({ isPage = false }: ServicesSectionProps
       )}
 
       {/* 2-Column Grid matching servicepagedesign.html */}
-      <div className="w-full max-w-[1104px] grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+      <div className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-10 items-stretch">
         {servicesData.services.map((service) => (
           <Link
             key={service.id}
@@ -64,10 +64,10 @@ export default function ServicesSection({ isPage = false }: ServicesSectionProps
                 {getServiceIcon(service.icon)}
               </div>
               <div className="flex flex-col gap-1 sm:gap-2 flex-1">
-                <h3 className="text-xl font-semibold text-[#071E3B] font-manrope leading-8 group-hover:text-[#C6A45A] transition-colors">
+                <h3 className="text-xl font-semibold text-[#071E3B] font-manrope leading-8 group-hover:text-[#C6A45A] transition-colors line-clamp-1">
                   {service.title}
                 </h3>
-                <p className="text-sm font-normal text-[#667085] font-manrope leading-5">
+                <p className="text-sm font-normal text-[#667085] font-manrope leading-5 line-clamp-2 h-10">
                   {service.shortDescription}
                 </p>
               </div>

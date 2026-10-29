@@ -66,11 +66,11 @@ export default function ContactPage() {
       <Navbar />
 
       {/* 2. Hero Header */}
-      <section className="w-full bg-[#071E3B] text-white py-12 sm:py-16 px-6 sm:px-12 lg:px-20 relative overflow-hidden">
+      <section className="w-full bg-[#071E3B] text-white py-12 sm:py-16 px-4 sm:px-8 lg:px-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#071E3B] via-[#0B2A4A] to-[#071E3B] pointer-events-none opacity-90" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#C6A45A]/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-[1360px] mx-auto relative z-10 flex flex-col items-start gap-2 sm:gap-3">
+        <div className="max-w-[1440px] mx-auto relative z-10 flex flex-col items-start gap-2 sm:gap-3">
           <span className="text-base sm:text-lg font-bold text-[#C6A45A] tracking-wide font-manrope">
             {contactData.badge}
           </span>
@@ -84,7 +84,7 @@ export default function ContactPage() {
       </section>
 
       {/* 3. Main Contact Content */}
-      <section className="py-12 sm:py-16 px-4 sm:px-12 lg:px-28 max-w-[1440px] mx-auto w-full flex flex-col gap-12 sm:gap-16">
+      <section className="py-12 sm:py-16 px-4 sm:px-8 lg:px-12 max-w-[1440px] mx-auto w-full flex flex-col gap-12 sm:gap-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Left Column: Direct Contact & Hours */}
           <div className="flex flex-col gap-10 sm:gap-12">

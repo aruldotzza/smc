@@ -119,11 +119,11 @@ export default function AboutPage() {
       <Navbar />
 
       {/* 2. Hero Header */}
-      <section className="w-full bg-[#071E3B] text-white py-12 sm:py-20 px-4 sm:px-12 lg:px-24 relative overflow-hidden">
+      <section className="w-full bg-[#071E3B] text-white py-12 sm:py-20 px-4 sm:px-8 lg:px-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#071E3B] via-[#0B2A4A] to-[#071E3B] pointer-events-none opacity-90" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#C6A45A]/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-[1360px] mx-auto relative z-10 flex flex-col items-start gap-3 sm:gap-4">
+        <div className="max-w-[1440px] mx-auto relative z-10 flex flex-col items-start gap-3 sm:gap-4">
           <span className="text-xs sm:text-sm font-bold text-[#C6A45A] uppercase tracking-[0.5px] font-manrope">
             {aboutData.badge}
           </span>
@@ -137,7 +137,7 @@ export default function AboutPage() {
       </section>
 
       {/* 3. Our Story */}
-      <section className="py-12 sm:py-20 px-4 sm:px-12 lg:px-24 max-w-[1360px] mx-auto w-full flex flex-col gap-12 sm:gap-16">
+      <section className="py-12 sm:py-20 px-4 sm:px-8 lg:px-12 max-w-[1440px] mx-auto w-full flex flex-col gap-12 sm:gap-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Text Info */}
           <div className="flex flex-col items-start gap-4 sm:gap-6">
@@ -224,7 +224,7 @@ export default function AboutPage() {
             <button
               type="button"
               onClick={() => openModal({ initialStep: 0 })}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-[0.98] text-white text-sm sm:text-base font-semibold flex items-center justify-center gap-3 transition-all shadow-md hover:shadow-lg cursor-pointer min-h-[48px]"
+              className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3.5 rounded-xl bg-[#071E3B] hover:bg-[#0B2A4A] active:scale-[0.98] text-white text-sm sm:text-base font-semibold flex items-center justify-center gap-3 transition-all shadow-md hover:shadow-lg cursor-pointer min-h-[48px]"
             >
               <span>{aboutData.cta.bookBtn}</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -232,7 +232,7 @@ export default function AboutPage() {
 
             <Link
               href="/contact"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-[#071E3B] hover:bg-[#071E3B]/5 active:scale-[0.98] text-[#071E3B] text-sm sm:text-base font-semibold flex items-center justify-center gap-3 transition-all min-h-[48px]"
+              className="w-full sm:w-60 sm:min-w-[240px] px-6 sm:px-8 py-3.5 rounded-xl border border-[#071E3B] hover:bg-[#071E3B]/5 active:scale-[0.98] text-[#071E3B] text-sm sm:text-base font-semibold flex items-center justify-center gap-3 transition-all min-h-[48px]"
             >
               <span>{aboutData.cta.contactBtn}</span>
             </Link>

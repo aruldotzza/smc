@@ -63,9 +63,14 @@ export default function FleetSection() {
         })
       : fleetData.vehicles;
 
+  // Show only 3 fleets (1 row of 3 cards on desktop), route to /fleets for the rest
+  const displayedVehicles = vehiclesToDisplay.slice(0, 3);
+  const remainingCount = Math.max(0, vehiclesToDisplay.length - 3);
+  const bannerTitle = remainingCount > 0 ? `+${remainingCount} More Vehicles` : fleetData.bottomBanner.title;
+
   return (
-    <section id="fleet" className="py-10 sm:py-16 px-4 sm:px-8 lg:px-16 bg-white">
-      <div className="max-w-[1312px] mx-auto flex flex-col items-center gap-8 sm:gap-10">
+    <section id="fleet" className="py-10 sm:py-16 px-4 sm:px-8 lg:px-12 bg-white">
+      <div className="max-w-[1440px] mx-auto flex flex-col items-center gap-8 sm:gap-10">
         {/* Section Header */}
         <div className="text-center flex flex-col items-center gap-2.5 sm:gap-4 max-w-3xl">
           <div className="flex flex-col items-center gap-1.5 sm:gap-2">
@@ -84,7 +89,7 @@ export default function FleetSection() {
         {/* Fleet Grid */}
         <div className="w-full flex flex-col gap-6 sm:gap-8">
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-            {vehiclesToDisplay.map((vehicle: Vehicle) => (
+            {displayedVehicles.map((vehicle: Vehicle) => (
               <FleetCard key={vehicle.id} vehicle={vehicle} />
             ))}
           </div>
@@ -93,7 +98,7 @@ export default function FleetSection() {
           <div className="w-full bg-[#FBF7EC] border border-[#C6A45A] rounded-2xl p-5 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6 shadow-xs">
             <div className="flex flex-col gap-1.5 text-center md:text-left">
               <h4 className="text-lg sm:text-xl font-bold text-[#071E3B] font-manrope">
-                {fleetData.bottomBanner.title}
+                {bannerTitle}
               </h4>
               <p className="text-xs sm:text-sm text-[#5F6B7A] font-manrope leading-relaxed">
                 {fleetData.bottomBanner.description}
