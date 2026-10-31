@@ -13,7 +13,7 @@ export default function ServicesDropdown({ onItemClick }: ServicesDropdownProps)
   const getServiceIcon = (iconName: string) => {
     switch (iconName) {
       case "Plane":
-        return <Plane className="w-5 h-5 text-[#C6A45A]" />;
+        return <Plane className="w-5 h-5 text-[#C6A45A]" strokeWidth={1.5} />;
       case "Briefcase":
         return <Briefcase className="w-5 h-5 text-[#C6A45A]" />;
       case "Sparkles":
@@ -27,7 +27,7 @@ export default function ServicesDropdown({ onItemClick }: ServicesDropdownProps)
       case "Accessibility":
         return <Accessibility className="w-5 h-5 text-[#C6A45A]" />;
       default:
-        return <Plane className="w-5 h-5 text-[#C6A45A]" />;
+        return <Plane className="w-5 h-5 text-[#C6A45A]" strokeWidth={1.5} />;
     }
   };
 

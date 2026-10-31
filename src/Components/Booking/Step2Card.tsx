@@ -18,27 +18,65 @@ interface Step2CardProps {
 export default function Step2Card({ isModal = true }: Step2CardProps) {
   const { bookingData, updateBookingData, setStep, closeModal } = useBookingModal();
   const [isAddOnDropdownOpen, setIsAddOnDropdownOpen] = useState(false);
-  const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>(
-    bookingData.babySeat ? ["baby-seat"] : []
-  );
+  const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>(() => {
+    if (bookingData.selectedAddOnIds && bookingData.selectedAddOnIds.length > 0) {
+      return bookingData.selectedAddOnIds;
+    }
+    const list: string[] = [];
+    if (bookingData.meetAndGreet) list.push("meet-greet");
+    if (bookingData.babySeat) list.push("baby-seat");
+    if (bookingData.additionalStopsCount || bookingData.extraStopsWithin2km) list.push("additional-stops");
+    if (bookingData.wheelchairAccessible || bookingData.wheelchairCount) list.push("wheelchair");
+    return list;
+  });
 
   const handleToggleAddOn = (id: string) => {
     if (selectedAddOnIds.includes(id)) {
       handleRemoveAddOn(id);
     } else {
-      setSelectedAddOnIds((prev) => [...prev, id]);
-      if (id === "baby-seat") {
-        updateBookingData({ babySeat: true });
+      const next = [...selectedAddOnIds, id];
+      setSelectedAddOnIds(next);
+      const updates: Partial<typeof bookingData> = { selectedAddOnIds: next };
+      if (id === "meet-greet") {
+        updates.meetAndGreet = true;
+        updates.meetGreetPax = bookingData.meetGreetPax || 1;
+      } else if (id === "baby-seat") {
+        updates.babySeat = true;
+        updates.babySeatsCount = bookingData.babySeatsCount || 1;
+        updates.babySeatType = bookingData.babySeatType || "Toddler";
+      } else if (id === "additional-stops") {
+        updates.additionalStopsCount = bookingData.additionalStopsCount || 1;
+        updates.extraStopsWithin2km = bookingData.extraStopsWithin2km || 1;
+      } else if (id === "wheelchair") {
+        updates.wheelchairAccessible = true;
+        updates.wheelchairCount = bookingData.wheelchairCount || 1;
       }
+      updateBookingData(updates);
       setIsAddOnDropdownOpen(false);
     }
   };
 
   const handleRemoveAddOn = (id: string) => {
-    setSelectedAddOnIds((prev) => prev.filter((item) => item !== id));
-    if (id === "baby-seat") {
-      updateBookingData({ babySeat: false });
+    const next = selectedAddOnIds.filter((item) => item !== id);
+    setSelectedAddOnIds(next);
+    const updates: Partial<typeof bookingData> = { selectedAddOnIds: next };
+    if (id === "meet-greet") {
+      updates.meetAndGreet = false;
+      updates.meetGreetPax = 0;
+    } else if (id === "baby-seat") {
+      updates.babySeat = false;
+      updates.babySeatsCount = 0;
+    } else if (id === "additional-stops") {
+      updates.additionalStopsCount = 0;
+      updates.extraStopsWithin2km = 0;
+      updates.extraStopsOver2km = 0;
+      updates.additionalStopAddress = "";
+    } else if (id === "wheelchair") {
+      updates.wheelchairAccessible = false;
+      updates.wheelchairCount = 0;
+      updates.wheelchairRequirement = "";
     }
+    updateBookingData(updates);
   };
 
   const handleContinue = (e: React.FormEvent) => {
@@ -181,24 +219,46 @@ export default function Step2Card({ isModal = true }: Step2CardProps) {
             {selectedAddOnIds.includes("meet-greet") && (
               <MeetAndGreetField
                 onRemove={() => handleRemoveAddOn("meet-greet")}
+                onChange={(data) => {
+                  updateBookingData({ meetAndGreet: true, meetGreetPax: data.passengers });
+                }}
               />
             )}
             {selectedAddOnIds.includes("baby-seat") && (
               <ChildSeatField
                 onRemove={() => handleRemoveAddOn("baby-seat")}
-                onChange={() => {
-                  updateBookingData({ babySeat: true });
+                onChange={(data) => {
+                  updateBookingData({
+                    babySeat: true,
+                    babySeatsCount: data.seats,
+                    babySeatType: data.type,
+                    babySeatAge: data.age,
+                  });
                 }}
               />
             )}
             {selectedAddOnIds.includes("additional-stops") && (
               <AdditionalStopField
                 onRemove={() => handleRemoveAddOn("additional-stops")}
+                onChange={(data) => {
+                  updateBookingData({
+                    additionalStopsCount: data.stops,
+                    extraStopsWithin2km: data.stops,
+                    additionalStopAddress: data.address,
+                  });
+                }}
               />
             )}
             {selectedAddOnIds.includes("wheelchair") && (
               <WheelchairField
                 onRemove={() => handleRemoveAddOn("wheelchair")}
+                onChange={(data) => {
+                  updateBookingData({
+                    wheelchairAccessible: true,
+                    wheelchairCount: data.count,
+                    wheelchairRequirement: data.requirement,
+                  });
+                }}
               />
             )}
           </div>

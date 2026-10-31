@@ -30,6 +30,7 @@ export interface BookingData {
   passengers: number;
   luggage: number;
   meetAndGreet: boolean;
+  meetGreetPax?: number;
   durationHours: number;
   selectedFleet: string;
   selectedFleetSlug: string;
@@ -41,9 +42,18 @@ export interface BookingData {
   signboardName?: string;
   terminal?: string;
   babySeat: boolean;
+  babySeatsCount?: number;
+  babySeatType?: "Infant" | "Toddler";
+  babySeatAge?: string;
   nightTravel?: boolean;
   extraStopsWithin2km?: number;
   extraStopsOver2km?: number;
+  additionalStopsCount?: number;
+  additionalStopAddress?: string;
+  wheelchairAccessible?: boolean;
+  wheelchairCount?: number;
+  wheelchairRequirement?: string;
+  selectedAddOnIds?: string[];
   specialRequests: string;
   name: string;
   phone: string;
@@ -317,16 +327,17 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
     const stopOver2km = addOns.find((a) => a.code === "STOP_OVER_2KM");
 
     if (bookingData.meetAndGreet) {
-      list.push({ add_on_id: meetGreetAddOn?.id || 2, quantity: 1 });
+      list.push({ add_on_id: meetGreetAddOn?.id || 2, quantity: bookingData.meetGreetPax || 1 });
     }
     if (bookingData.babySeat) {
-      list.push({ add_on_id: babySeatAddOn?.id || 3, quantity: 1 });
+      list.push({ add_on_id: babySeatAddOn?.id || 3, quantity: bookingData.babySeatsCount || 1 });
     }
     if (bookingData.nightTravel) {
       list.push({ add_on_id: nightTravelAddOn?.id || 1, quantity: 1 });
     }
-    if (bookingData.extraStopsWithin2km && bookingData.extraStopsWithin2km > 0) {
-      list.push({ add_on_id: stopWithin2km?.id || 4, quantity: bookingData.extraStopsWithin2km });
+    const stopsCount = bookingData.additionalStopsCount || bookingData.extraStopsWithin2km || 0;
+    if (stopsCount > 0) {
+      list.push({ add_on_id: stopWithin2km?.id || 4, quantity: stopsCount });
     }
     if (bookingData.extraStopsOver2km && bookingData.extraStopsOver2km > 0) {
       list.push({ add_on_id: stopOver2km?.id || 5, quantity: bookingData.extraStopsOver2km });
@@ -497,11 +508,21 @@ export function BookingModalProvider({ children }: { children: ReactNode }) {
       } else {
         total = ratePerHour * hours;
       }
-    } else if (isAirport && bookingData.meetAndGreet) {
-      total += 25;
     }
 
-    if (bookingData.babySeat) total += 20;
+    if (bookingData.meetAndGreet) {
+      total += 20 * (bookingData.meetGreetPax || 1);
+    }
+    if (bookingData.babySeat) {
+      total += 20 * (bookingData.babySeatsCount || 1);
+    }
+    const stops = bookingData.additionalStopsCount || bookingData.extraStopsWithin2km || 0;
+    if (stops > 0) {
+      total += 10 * stops;
+    }
+    if (bookingData.extraStopsOver2km && bookingData.extraStopsOver2km > 0) {
+      total += 20 * bookingData.extraStopsOver2km;
+    }
     return total;
   };
 

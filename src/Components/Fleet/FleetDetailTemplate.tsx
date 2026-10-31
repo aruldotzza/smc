@@ -108,7 +108,7 @@ export default function FleetDetailTemplate({ vehicle }: { vehicle: VehicleDetai
                   Our Fleet
                 </span>
                 {vehicle.isApiConnected && (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#16803C]/20 text-[#60D669] border border-[#16803C]/40">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-xs font-semibold bg-[#16803C]/20 text-[#60D669] border border-[#16803C]/40">
                     <Zap className="w-3 h-3" />
                     <span>Live API Rates</span>
                   </span>

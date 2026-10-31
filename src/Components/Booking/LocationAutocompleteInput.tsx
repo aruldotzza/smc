@@ -203,7 +203,7 @@ export default function LocationAutocompleteInput({
       text.includes("changi") ||
       types.includes("airport")
     ) {
-      return <Plane className="w-4 h-4 text-[#C6A45A]" />;
+      return <Plane className="w-4 h-4 text-[#C6A45A]" strokeWidth={1.5} />;
     }
     if (
       text.includes("hotel") ||

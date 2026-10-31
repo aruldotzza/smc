@@ -94,7 +94,7 @@ export default function ChildSeatField({ onRemove, onChange }: ChildSeatFieldPro
             <button
               type="button"
               onClick={() => handleTypeSelect("Infant")}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-medium font-inter transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-md text-xs font-medium font-inter transition-all cursor-pointer ${
                 seatType === "Infant"
                   ? "bg-[#071E3B] text-white"
                   : "bg-slate-100 text-[#5F6B7A] hover:bg-slate-200"
@@ -105,7 +105,7 @@ export default function ChildSeatField({ onRemove, onChange }: ChildSeatFieldPro
             <button
               type="button"
               onClick={() => handleTypeSelect("Toddler")}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-medium font-inter transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-md text-xs font-medium font-inter transition-all cursor-pointer ${
                 seatType === "Toddler"
                   ? "bg-[#C6A45A] text-white"
                   : "bg-slate-100 text-[#5F6B7A] hover:bg-slate-200"

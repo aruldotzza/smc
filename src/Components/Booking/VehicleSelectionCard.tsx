@@ -230,11 +230,11 @@ export default function VehicleSelectionCard({ isModal = true }: VehicleSelectio
                         <span>Recommended</span>
                       </span>
                     ) : v.fitsGroup ? (
-                      <span className="px-2 py-0.5 rounded-full bg-[#E8F8EE] text-[#16803C] text-[10px] font-bold">
+                      <span className="px-2 py-0.5 rounded-md bg-[#E8F8EE] text-[#16803C] text-[10px] font-bold">
                         Fits Group
                       </span>
                     ) : !v.fitsPassengers ? (
-                      <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 text-[10px] font-medium">
+                      <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[10px] font-medium">
                         Max {v.paxCount} Pax
                       </span>
                     ) : null}
@@ -252,7 +252,11 @@ export default function VehicleSelectionCard({ isModal = true }: VehicleSelectio
                     </span>
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#F7F5EF] text-[#071E3B] font-bold text-[11px] font-manrope border border-[#E9ECEF]">
                       <Luggage className="w-3 h-3 text-[#C6A45A]" />
-                      <span>{v.luggageCount} Bags</span>
+                      <span>
+                        {v.luggageCount}{" "}
+                        <span className="hidden sm:inline">Luggage</span>
+                        <span className="sm:hidden">Lug</span>
+                      </span>
                     </span>
                   </div>
                 </div>

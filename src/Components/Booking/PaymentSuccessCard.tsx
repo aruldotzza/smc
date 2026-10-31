@@ -82,7 +82,7 @@ export default function PaymentSuccessCard({
 
           <div className="flex justify-between items-center">
             <span className="text-[#5F6B7A]">Payment Status</span>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-xs font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
               PAID (Stripe)
             </span>

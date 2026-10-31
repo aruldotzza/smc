@@ -31,7 +31,9 @@ export default function TestimonialsSection() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`px-3.5 py-2 rounded-full text-xs font-bold font-manrope transition-all shrink-0 cursor-pointer ${
+                className={`px-3.5 py-2 ${
+                  cat.toLowerCase().includes("recommended") ? "rounded-full" : "rounded-md"
+                } text-xs font-bold font-manrope transition-all shrink-0 cursor-pointer ${
                   activeCategory === cat
                     ? "bg-[#071E3B] text-white shadow-sm"
                     : "bg-[#F8F7F4] text-[#5F6B7A] hover:bg-slate-200 active:scale-95"

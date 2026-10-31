@@ -39,7 +39,7 @@ export default function CommonServiceSelectionModal() {
       description:
         "Changi Airport meet & greet with flight tracking & 60-min terminal grace period. Fixed rates from $75.",
       tags: ["Meet & Greet", "60m Grace", "Flight Monitored"],
-      icon: <Plane className="w-3.5 h-3.5 text-[#C6A45A]" />,
+      icon: <Plane className="w-3.5 h-3.5 text-[#C6A45A]" strokeWidth={1.5} />,
       pickup: "Singapore Changi Airport (SIN)",
       dropoff: "Marina Bay Sands Hotel",
       bgImage: "/images/Home/what_are_you_booking.png",
@@ -143,7 +143,7 @@ export default function CommonServiceSelectionModal() {
 
             {/* Top Bar: Left Type Badge + Right Price Badge */}
             <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10 pointer-events-none">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/20 text-white text-[10px] sm:text-[11px] font-semibold font-manrope shadow-xs">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/20 backdrop-blur-md border border-white/20 text-white text-[10px] sm:text-[11px] font-semibold font-manrope shadow-xs">
                 {item.icon}
                 <span>{item.title}</span>
               </div>
@@ -202,7 +202,7 @@ export default function CommonServiceSelectionModal() {
           <span>All-inclusive rates</span>
         </div>
         <div className="text-[#071E3B] font-bold">24/7 Dispatch (+65) 8800 6006</div>
-        <div className="px-2.5 py-0.5 rounded-full bg-[#FBF7EC] border border-[#F4EAD1] text-[#A77E3C] font-bold">
+        <div className="px-2.5 py-0.5 rounded-md bg-[#FBF7EC] border border-[#F4EAD1] text-[#A77E3C] font-bold">
           Step 1 of 3
         </div>
       </div>

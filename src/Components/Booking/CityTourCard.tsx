@@ -204,7 +204,7 @@ export default function CityTourCard({ isModal = true }: CityTourCardProps) {
             <span className="text-[#071E3B] text-xs sm:text-sm font-medium font-inter leading-5">
               Number of days
             </span>
-            <div className="px-3 py-1 bg-[#FBF7EC] rounded-full border border-[#C6A45A] flex items-center">
+            <div className="px-3 py-1 bg-[#FBF7EC] rounded-md border border-[#C6A45A] flex items-center">
               <span className="text-[#B58E45] text-xs font-bold font-manrope leading-4">
                 10% OFF — EVERY TOUR
               </span>
@@ -295,7 +295,8 @@ export default function CityTourCard({ isModal = true }: CityTourCardProps) {
           {/* Luggage */}
           <div className="px-2.5 sm:px-3 py-2 sm:py-2.5 bg-[#F8F7F4] rounded-lg border border-slate-200/90 flex justify-between items-center">
             <span className="text-[#5F6B7A] text-xs font-semibold font-manrope leading-4">
-              Luggage
+              <span className="hidden sm:inline">Luggage</span>
+              <span className="sm:hidden">Lug</span>
             </span>
             <div className="flex items-center gap-1.5 sm:gap-2">
               <button

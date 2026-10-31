@@ -122,7 +122,7 @@ export default function PricingSection() {
         return <Clock className="w-8 h-8 text-[#C6A45A]" />;
       case "hourglass":
       case "plane":
-        return <Plane className="w-8 h-8 text-[#C6A45A]" />;
+        return <Plane className="w-8 h-8 text-[#C6A45A]" strokeWidth={1.5} />;
       default:
         return <ShieldCheck className="w-8 h-8 text-[#C6A45A]" />;
     }

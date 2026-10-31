@@ -13,8 +13,12 @@ export default function Badge({
   className = "",
   icon,
 }: BadgeProps) {
+  const isRecommended =
+    typeof children === "string" && children.toLowerCase().includes("recommended");
+  const roundedClass = isRecommended ? "rounded-full" : "rounded-md";
+
   const base =
-    "inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full";
+    `inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold uppercase tracking-wider ${roundedClass}`;
 
   const variants = {
     gold: "bg-[#C49B55]/15 text-[#C49B55] border border-[#C49B55]/30",

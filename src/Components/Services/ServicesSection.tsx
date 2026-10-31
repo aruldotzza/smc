@@ -13,7 +13,7 @@ export default function ServicesSection({ isPage = false }: ServicesSectionProps
   const getServiceIcon = (iconName: string) => {
     switch (iconName) {
       case "Plane":
-        return <Plane className="w-6 h-6 text-[#123F6B]" />;
+        return <Plane className="w-6 h-6 text-[#123F6B]" strokeWidth={1.5} />;
       case "Briefcase":
         return <Briefcase className="w-6 h-6 text-[#123F6B]" />;
       case "Sparkles":
@@ -25,7 +25,7 @@ export default function ServicesSection({ isPage = false }: ServicesSectionProps
       case "HeartHandshake":
         return <HeartHandshake className="w-6 h-6 text-[#123F6B]" />;
       default:
-        return <Plane className="w-6 h-6 text-[#123F6B]" />;
+        return <Plane className="w-6 h-6 text-[#123F6B]" strokeWidth={1.5} />;
     }
   };
 
@@ -75,14 +75,19 @@ export default function ServicesSection({ isPage = false }: ServicesSectionProps
 
             {/* Middle: Tag Pills */}
             <div className="flex flex-wrap items-center gap-2 pt-1">
-              {service.tags.map((tag, tIdx) => (
-                <span
-                  key={tIdx}
-                  className="px-3 py-1 bg-white rounded-full border border-[#E9ECEF] text-xs font-normal text-[#5F6B7A] font-manrope leading-4"
-                >
-                  {tag}
-                </span>
-              ))}
+              {service.tags.map((tag, tIdx) => {
+                const isRec = tag.toLowerCase().includes("recommended");
+                return (
+                  <span
+                    key={tIdx}
+                    className={`px-3 py-1 bg-white border border-[#E9ECEF] text-xs font-normal text-[#5F6B7A] font-manrope leading-4 ${
+                      isRec ? "rounded-full" : "rounded-md"
+                    }`}
+                  >
+                    {tag}
+                  </span>
+                );
+              })}
             </div>
 
             {/* Bottom: Learn More */}

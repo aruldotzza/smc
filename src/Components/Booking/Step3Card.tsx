@@ -61,6 +61,91 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
 
   const isContactSupport = quote?.quote_status === "CONTACT_SUPPORT";
 
+  // Selected add-ons for Review and Fare Breakdown
+  const selectedAddOnsList: {
+    id: string;
+    title: string;
+    subtitle?: string;
+    amount: number;
+    amountText: string;
+  }[] = [];
+
+  if (quote && quote.quote_status === "AVAILABLE" && quote.quote.add_ons && quote.quote.add_ons.length > 0) {
+    quote.quote.add_ons.forEach((item) => {
+      let details = "";
+      if (item.code === "BABY_SEAT") {
+        details = `${item.quantity} ${bookingData.babySeatType || "Toddler"} seat${item.quantity > 1 ? "s" : ""}${bookingData.babySeatAge ? ` (${bookingData.babySeatAge})` : ""}`;
+      } else if (item.code === "MEET_GREET") {
+        details = `${bookingData.meetGreetPax || item.quantity} Pax Arrival Meet & Greet with signage`;
+      } else if (item.code.includes("STOP")) {
+        details = `${item.quantity} stop${item.quantity > 1 ? "s" : ""}${bookingData.additionalStopAddress ? ` (${bookingData.additionalStopAddress})` : ""}`;
+      } else {
+        details = `${item.quantity}x`;
+      }
+
+      selectedAddOnsList.push({
+        id: item.code,
+        title: item.name,
+        subtitle: details,
+        amount: item.amount,
+        amountText: `+$${item.amount}.00`,
+      });
+    });
+  } else {
+    if (bookingData.meetAndGreet) {
+      const pax = bookingData.meetGreetPax || 1;
+      const amt = 20 * pax;
+      selectedAddOnsList.push({
+        id: "meet-greet",
+        title: "Meet & Greet Service",
+        subtitle: `${pax} Pax arrival meetpoint greeting with signboard banner`,
+        amount: amt,
+        amountText: `+$${amt}.00`,
+      });
+    }
+
+    if (bookingData.babySeat) {
+      const seats = bookingData.babySeatsCount || 1;
+      const amt = 20 * seats;
+      const typeStr = bookingData.babySeatType || "Toddler";
+      const ageStr = bookingData.babySeatAge ? ` (${bookingData.babySeatAge})` : "";
+      selectedAddOnsList.push({
+        id: "baby-seat",
+        title: `Child Seat (${seats}x ${typeStr}${ageStr})`,
+        subtitle: "LTA compliant sanitized and secured child safety seat",
+        amount: amt,
+        amountText: `+$${amt}.00`,
+      });
+    }
+
+    const stops = bookingData.additionalStopsCount || bookingData.extraStopsWithin2km || 0;
+    if (stops > 0) {
+      const amt = 10 * stops;
+      selectedAddOnsList.push({
+        id: "additional-stops",
+        title: `Additional Stop${stops > 1 ? "s" : ""} (${stops} stop${stops > 1 ? "s" : ""})`,
+        subtitle: bookingData.additionalStopAddress
+          ? `Via: ${bookingData.additionalStopAddress}`
+          : "En-route additional passenger pick-up / drop-off",
+        amount: amt,
+        amountText: `+$${amt}.00`,
+      });
+    }
+
+    if (bookingData.wheelchairAccessible || (bookingData.wheelchairCount && bookingData.wheelchairCount > 0)) {
+      const count = bookingData.wheelchairCount || 1;
+      selectedAddOnsList.push({
+        id: "wheelchair",
+        title: "Wheelchair-Accessible Maxi Cab",
+        subtitle: bookingData.wheelchairRequirement
+          ? `${count} Wheelchair: ${bookingData.wheelchairRequirement}`
+          : `${count} Wheelchair with hydraulic ramp & safety harness`,
+        amount: 0,
+        amountText: "Included ($0)",
+      });
+    }
+  }
+
   const handleProceed = async () => {
     // Direct checkout whether in modal or full page
 
@@ -162,6 +247,14 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
               {bookingData.pickupDate || "24 Oct 2024"} {bookingData.pickupTime || "17:15"} SGT
             </span>
           </div>
+          {selectedAddOnsList.length > 0 && (
+            <div className="flex justify-between">
+              <span className="text-[#5F6B7A]">Add-Ons:</span>
+              <span className="font-semibold text-right truncate max-w-[200px]">
+                {selectedAddOnsList.map((a) => a.title).join(", ")}
+              </span>
+            </div>
+          )}
           <div className="flex justify-between font-bold pt-2 border-t border-[#C6A45A]/20 text-[#8A5A00] text-sm">
             <span>Guaranteed Final Tariff:</span>
             <span>${totalFare}.00 SGD NETT</span>
@@ -259,7 +352,11 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
               <span>Max {bookingData.passengers || 7} Pax</span>
               <span className="text-white/60 font-normal">•</span>
               <Briefcase className="w-3.5 h-3.5 text-[#C6A45A]" />
-              <span>{bookingData.luggage || 5} Luggage&apos;s</span>
+              <span>
+                {bookingData.luggage || 5}{" "}
+                <span className="hidden sm:inline">Luggage</span>
+                <span className="sm:hidden">Lug</span>
+              </span>
             </div>
           </div>
           <div className="text-white text-xl sm:text-2xl font-bold font-manrope leading-tight tracking-tight drop-shadow-sm">
@@ -367,6 +464,37 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
           </div>
         </div>
 
+        {/* Selected Add-Ons Review Section */}
+        {selectedAddOnsList.length > 0 && (
+          <div className="self-stretch flex flex-col justify-start items-start gap-2 pt-1">
+            <span className="text-[#C6A45A] text-xs font-bold font-manrope leading-4 uppercase">
+              SELECTED ADD-ONS &amp; EXTRAS ({selectedAddOnsList.length})
+            </span>
+            <div className="self-stretch flex flex-col gap-2">
+              {selectedAddOnsList.map((addon) => (
+                <div
+                  key={addon.id}
+                  className="self-stretch p-3 bg-[#F8F7F4] rounded-xl border border-slate-200/90 flex items-center justify-between gap-3"
+                >
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-[#071E3B] text-sm font-bold font-manrope">
+                      {addon.title}
+                    </span>
+                    {addon.subtitle && (
+                      <span className="text-[#5F6B7A] text-xs font-medium font-manrope truncate">
+                        {addon.subtitle}
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-xs font-bold text-[#8A5A00] font-manrope shrink-0">
+                    {addon.amountText}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Contact Support Alert if Route > 35km */}
         {isContactSupport && (
           <div className="self-stretch p-4 bg-amber-50 rounded-xl border border-amber-200 flex items-start gap-3 text-amber-800">
@@ -458,6 +586,33 @@ export default function Step3Card({ isModal = true }: Step3CardProps) {
                 </span>
               </div>
             </div>
+
+            {/* Selected Add-Ons Line Items in Tariff Breakdown */}
+            {selectedAddOnsList.map((addon) => (
+              <div
+                key={addon.id}
+                className="self-stretch py-2 inline-flex justify-between items-center border-b border-slate-100"
+              >
+                <div className="flex flex-col justify-start items-start">
+                  <span className="text-slate-900 text-sm font-medium font-inter leading-5">
+                    {addon.title}
+                  </span>
+                  {addon.subtitle && (
+                    <span className="text-zinc-700 text-xs font-normal font-manrope leading-4">
+                      {addon.subtitle}
+                    </span>
+                  )}
+                </div>
+                <div className="text-right shrink-0 flex flex-col items-end">
+                  <span className="text-slate-900 text-base font-semibold font-manrope">
+                    {addon.amountText}
+                  </span>
+                  <span className="text-slate-900 text-[10px] font-normal font-manrope">
+                    {addon.amount > 0 ? "SGD" : "Included"}
+                  </span>
+                </div>
+              </div>
+            ))}
 
             {/* Distance Charge if present from live quote */}
             {quote && quote.quote_status === "AVAILABLE" && quote.quote.distance_amount > 0 && (
